@@ -1,0 +1,49 @@
+
+  div.admonition.practice {
+    border-color: var(--pst-color-warning);
+  }
+  div.admonition.practice > .admonition-title:before {
+    background-color: var(--pst-color-warning-bg);
+  }
+  div.admonition.practice > .admonition-title:after {
+    color: var(--pst-color-warning);
+    content: "\f044"; /* fa-solid fa-tv */
+  }
+  
+  div.admonition.questions {
+    border-color: var(--pst-color-success);
+  }
+  div.admonition.questions > .admonition-title:before {
+    background-color: var(--pst-color-success-bg);
+  }
+  div.admonition.questions > .admonition-title:after {
+    color: var(--pst-color-success);
+    content: "\f059"; /* fa-solid fa-tv */
+  }
+  
+  div.admonition.objectives {
+    border-color: var(--pst-color-success);
+  }
+  div.admonition.objectives > .admonition-title:before {
+    background-color: var(--pst-color-success-bg);
+  }
+  div.admonition.objectives > .admonition-title:after {
+    color: var(--pst-color-success);
+    content: "\f140"; /* fa-solid fa-tv */
+  }
+  
+
+  div.admonition.myinfo > .admonition-title:after {
+    content: "\f05a"; /* fa-solid fa-tv */
+  }
+
+  div.admonition.setup {
+    border-color: var(--pst-color-success);
+  }
+  div.admonition.setup > .admonition-title:before {
+    background-color: var(--pst-color-success-bg);
+  }
+  div.admonition.setup > .admonition-title:after {
+    color: var(--pst-color-success);
+    content: "\f085"; /* fa-solid fa-tv */
+  }
