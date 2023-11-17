@@ -1,0 +1,1518 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>More fun with functions, dataframes and plotting &#8212; C4 More `pandas` and `plt`</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '05_fancy_data_stuff';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Combining datasets with pandas" href="04_multiple_data_sets.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4 More `pandas` and `plt`</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    More pandas and plt
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_excel_ranting.html">Why you should not open any of these data files in Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_choosing_function.html">Choosing a function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_uncertainties.html">Uncertainties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_multiple_data_sets.html">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">More fun with functions, dataframes and plotting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/05_fancy_data_stuff.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>More fun with functions, dataframes and plotting</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-distance">Finding the distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correcting-for-reddening-and-extinction">Correcting for reddening and extinction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-absolute-magnitude">Find the absolute magnitude</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-will-make-your-life-easier"><code class="docutils literal notranslate"><span class="pre">apply</span></code> will make your life easier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fancy-plotting">Fancy plotting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="more-fun-with-functions-dataframes-and-plotting">
+<h1>More fun with functions, dataframes and plotting<a class="headerlink" href="#more-fun-with-functions-dataframes-and-plotting" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Writing functions to manipulate the data</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">apply()</span></code></p></li>
+<li><p>Making some fancier plots</p></li>
+</ul>
+</div>
+<p>If you’ve completed all of the last page and come back to this one another time you’ll need to start here by reading in the <code class="docutils literal notranslate"><span class="pre">big_cepheids_table.csv</span></code> file into a dataframe. <strong>Note:</strong> This isn’t a file for you to download, you need to create it yourself.</p>
+<p>If you’ve carried straight on to this section the <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> data frame will already exist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/big_cepheids_table.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+      <td>0.5223</td>
+      <td>1.6191</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+      <td>0.5997</td>
+      <td>1.8590</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+      <td>1.4373</td>
+      <td>4.4556</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+      <td>1.2228</td>
+      <td>3.7907</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.4914</td>
+      <td>4.6233</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>U Aql</td>
+      <td>1.748</td>
+      <td>0.847</td>
+      <td>7.536</td>
+      <td>0.016</td>
+      <td>6.457</td>
+      <td>0.011</td>
+      <td>5.279</td>
+      <td>0.007</td>
+      <td>0.3334</td>
+      <td>1.0337</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>eta Aql</td>
+      <td>3.674</td>
+      <td>0.856</td>
+      <td>4.744</td>
+      <td>0.017</td>
+      <td>3.918</td>
+      <td>0.011</td>
+      <td>3.036</td>
+      <td>0.007</td>
+      <td>0.1936</td>
+      <td>0.6001</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>RT Aur</td>
+      <td>1.841</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+      <td>0.1844</td>
+      <td>0.5717</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 11 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="finding-the-distance">
+<h2>Finding the distance<a class="headerlink" href="#finding-the-distance" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> has the parallax measurement for each star. Parallax is a way to measure distance using trigonometry.</p>
+<a class="reference internal image-reference" href="_images/parallax.png"><img alt="figure showing how parallax angle relates to distance" class="align-center" src="_images/parallax.png" style="width: 800px;" /></a>
+<p><em>Gaia</em> takes measurements of each star (almost 2 billion stars actually, but I’m not making you look at all of them, not this week anyway…) at different points in the year. It measures the apparent change in position of the nearby stars compared to a background of really distant objects (the angle <span class="math notranslate nohighlight">\(\theta\)</span> in the figure). It also knows its own position in the sky, so knows the length of the base of the triangle (2 astronomical units for observations taken six months apart). Because the angles involved are <em>very</em> small, the distance to the star in question becomes</p>
+<div class="math notranslate nohighlight">
+\[ d = \dfrac{1}{\varpi}\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is in parsecs and <span class="math notranslate nohighlight">\(\varpi\)</span> is the parallax angle (<span class="math notranslate nohighlight">\(\varpi = \theta/2\)</span>) in arcseconds. The <code class="docutils literal notranslate"><span class="pre">parallax_mas</span></code> column in <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> is <span class="math notranslate nohighlight">\(\varpi\)</span> in milli-arcseconds (<span class="math notranslate nohighlight">\(10^{-3}\)</span> arcseconds).</p>
+<div class="practice admonition" id="ex-parallax-dist">
+<p class="admonition-title">Exercise: Calculate the distance to each star</p>
+<p>Using the equation for <span class="math notranslate nohighlight">\(d\)</span> above, write a function to convert parallax (in milli-arcseconds) to distance (in parsecs).</p>
+<p>Use your function to calculate the distance of each star in <code class="docutils literal notranslate"><span class="pre">cepheid_df</span></code>. Add a new column to the dataframe with a sensible column name that includes the units.</p>
+<p><a class="reference internal" href="soln_parallax_dist.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>You should end up with your dataframe looking something like this with a new <code class="docutils literal notranslate"><span class="pre">distance_pc</span></code> column:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+      <th>distance_pc</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+      <td>0.5223</td>
+      <td>1.6191</td>
+      <td>1773.049645</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+      <td>0.5997</td>
+      <td>1.8590</td>
+      <td>1364.256480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2762.430939</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+      <td>1.4373</td>
+      <td>4.4556</td>
+      <td>1661.129568</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+      <td>1.2228</td>
+      <td>3.7907</td>
+      <td>1326.259947</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.4914</td>
+      <td>4.6233</td>
+      <td>281.214848</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>U Aql</td>
+      <td>1.748</td>
+      <td>0.847</td>
+      <td>7.536</td>
+      <td>0.016</td>
+      <td>6.457</td>
+      <td>0.011</td>
+      <td>5.279</td>
+      <td>0.007</td>
+      <td>0.3334</td>
+      <td>1.0337</td>
+      <td>572.082380</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>eta Aql</td>
+      <td>3.674</td>
+      <td>0.856</td>
+      <td>4.744</td>
+      <td>0.017</td>
+      <td>3.918</td>
+      <td>0.011</td>
+      <td>3.036</td>
+      <td>0.007</td>
+      <td>0.1936</td>
+      <td>0.6001</td>
+      <td>272.182907</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>RT Aur</td>
+      <td>1.841</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+      <td>0.1844</td>
+      <td>0.5717</td>
+      <td>543.183053</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4739.336493</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 12 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="correcting-for-reddening-and-extinction">
+<h2>Correcting for reddening and extinction<a class="headerlink" href="#correcting-for-reddening-and-extinction" title="Permalink to this heading">#</a></h2>
+<p>The dataframe contains two columns that tell us about reddening and extinction:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">A_V</span></code> is the extinction, <span class="math notranslate nohighlight">\(A_V\)</span> - this is how much fainter an object appears in the <em>V</em> band</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">E_B_V</span></code> is the colour excess, <span class="math notranslate nohighlight">\(E(B-V)\)</span> - it tells us how much redder the object appears.</p></li>
+</ul>
+<p>The colour excess is defined as</p>
+<div class="math notranslate nohighlight">
+\[ E(B-V) = A_B - A_V\]</div>
+<p>Combining these two pieces of information with some information about dust behaves, we can correct for extinction at any wavelength. The information about how dust interacts with light is contained in a <em>reddening law</em>. Reddening law’s can get quite complex, but for our purposes we can approximate the reddening law at these wavelengths as</p>
+<div class="math notranslate nohighlight">
+\[ \dfrac{A_{\lambda}}{A_V} = \dfrac{0.7}{ \lambda} - 0.273 \]</div>
+<p>where <span class="math notranslate nohighlight">\(A_{\lambda}\)</span> is the extinction at wavelength <span class="math notranslate nohighlight">\(\lambda\)</span>, and <span class="math notranslate nohighlight">\(\lambda\)</span> is in microns (<span class="math notranslate nohighlight">\(10^{-6} \text{ m}\)</span>).</p>
+<p>The wavelengths of the three bands we’re looking at are</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(B = 0.445~\mu \text{m}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(V = 0.551~\mu \text{m}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(I = 0.806~\mu \text{m}\)</span></p></li>
+</ul>
+<p>To correct for extinction, all we have to do is subtract the extinction value from the corresponding magnitude, i.e.</p>
+<div class="math notranslate nohighlight">
+\[ V_0 = V_{app} - A_V \]</div>
+<p>where <span class="math notranslate nohighlight">\(V_0\)</span> is the corrected V-band magnitude and <span class="math notranslate nohighlight">\(V_{app}\)</span> is the apparent V-band magnitude (i.e., the magnitude from our dataframe). The same methodology applies for <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span>.</p>
+<p>(magnitudes go backwards, so subtracting the extinction makes the star brighter)</p>
+<div class="practice admonition" id="ex-calc-extinction">
+<p class="admonition-title">Exercise: Calculate the extinction</p>
+<p>Write a function that uses the <span class="math notranslate nohighlight">\(A_{\lambda}/ A_V\)</span> equation and the wavelengths above, along with the <span class="math notranslate nohighlight">\(A_V\)</span> values in the dataframe to calculate the extinction in the <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span> bands.</p>
+<p>Use your function to add new <span class="math notranslate nohighlight">\(A_B\)</span> and <span class="math notranslate nohighlight">\(A_I\)</span> columns to your dataframe.</p>
+<p><a class="reference internal" href="soln_calc_extinction.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>You can check your function has worked as expected by comparing your results to the table below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+      <th>distance_pc</th>
+      <th>A_B</th>
+      <th>A_I</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+      <td>0.5223</td>
+      <td>1.6191</td>
+      <td>1773.049645</td>
+      <td>2.104885</td>
+      <td>0.964152</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+      <td>0.5997</td>
+      <td>1.8590</td>
+      <td>1364.256480</td>
+      <td>2.416763</td>
+      <td>1.107009</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2762.430939</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+      <td>1.4373</td>
+      <td>4.4556</td>
+      <td>1661.129568</td>
+      <td>5.792430</td>
+      <td>2.653249</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+      <td>1.2228</td>
+      <td>3.7907</td>
+      <td>1326.259947</td>
+      <td>4.928038</td>
+      <td>2.257310</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="find-the-absolute-magnitude">
+<h2>Find the absolute magnitude<a class="headerlink" href="#find-the-absolute-magnitude" title="Permalink to this heading">#</a></h2>
+<p>We now have all the ingredients we need to find the absolute magnitude of each star.</p>
+<p>The absolute magnitude in the <span class="math notranslate nohighlight">\(V\)</span> band, <span class="math notranslate nohighlight">\(M_V\)</span>, is given by</p>
+<div class="math notranslate nohighlight">
+\[ M_V = V_{app} - A_V - \mu\]</div>
+<p>and similar for the <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span> bands.</p>
+<p><span class="math notranslate nohighlight">\(\mu\)</span> is the distance modulus, defined as</p>
+<div class="math notranslate nohighlight">
+\[\mu = 5 \log_{10} d - 5 \]</div>
+<p>First we can define a function to calculate the distance modulus:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dist_mod</span><span class="p">(</span><span class="n">distance</span><span class="p">):</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="mf">5.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span> <span class="o">-</span> <span class="mf">5.</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can define another function to calculate the absolute magnitude:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">abs_mag</span><span class="p">(</span><span class="n">app_mag</span><span class="p">,</span> <span class="n">extinction</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
+    <span class="n">absolute_mag</span> <span class="o">=</span> <span class="n">app_mag</span> <span class="o">-</span> <span class="n">extinction</span> <span class="o">-</span> <span class="n">mu</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">absolute_mag</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we’re going to use the <code class="docutils literal notranslate"><span class="pre">apply</span></code> function in <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to calcuate the absolute magnitudes.</p>
+</section>
+<section id="apply-will-make-your-life-easier">
+<h2><code class="docutils literal notranslate"><span class="pre">apply</span></code> will make your life easier<a class="headerlink" href="#apply-will-make-your-life-easier" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">apply</span></code> makes it easier to do more complex calculations on dataframes.
+One of the key parts of <code class="docutils literal notranslate"><span class="pre">apply</span></code> is the <code class="docutils literal notranslate"><span class="pre">lambda</span></code> parameter. Defining</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>means we can now refer to the dataframe just as <code class="docutils literal notranslate"><span class="pre">x</span></code>. This makes things much easier when we’ve got a lot of things to include.</p>
+<p>The other option you’ll see when we use apply is</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>This tells <code class="docutils literal notranslate"><span class="pre">apply</span></code> to work on the dataframe one row at a time. (If you’re feeling brave, try switching it to <code class="docutils literal notranslate"><span class="pre">axis=0</span></code> and see what happens.)</p>
+<p>We can now combine the functions to find the absolute magnitudes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;V_abs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cepheids_df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">abs_mag</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">mag_V</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">A_V</span><span class="p">,</span> <span class="n">dist_mod</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">distance_pc</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+      <th>distance_pc</th>
+      <th>A_B</th>
+      <th>A_I</th>
+      <th>V_abs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+      <td>0.5223</td>
+      <td>1.6191</td>
+      <td>1773.049645</td>
+      <td>2.104885</td>
+      <td>0.964152</td>
+      <td>-5.007704</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+      <td>0.5997</td>
+      <td>1.8590</td>
+      <td>1364.256480</td>
+      <td>2.416763</td>
+      <td>1.107009</td>
+      <td>-6.346480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2762.430939</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+      <td>1.4373</td>
+      <td>4.4556</td>
+      <td>1661.129568</td>
+      <td>5.792430</td>
+      <td>2.653249</td>
+      <td>-5.243618</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+      <td>1.2228</td>
+      <td>3.7907</td>
+      <td>1326.259947</td>
+      <td>4.928038</td>
+      <td>2.257310</td>
+      <td>-6.366843</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.4914</td>
+      <td>4.6233</td>
+      <td>281.214848</td>
+      <td>6.010446</td>
+      <td>2.753112</td>
+      <td>-7.878491</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>U Aql</td>
+      <td>1.748</td>
+      <td>0.847</td>
+      <td>7.536</td>
+      <td>0.016</td>
+      <td>6.457</td>
+      <td>0.011</td>
+      <td>5.279</td>
+      <td>0.007</td>
+      <td>0.3334</td>
+      <td>1.0337</td>
+      <td>572.082380</td>
+      <td>1.343845</td>
+      <td>0.615554</td>
+      <td>-3.363993</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>eta Aql</td>
+      <td>3.674</td>
+      <td>0.856</td>
+      <td>4.744</td>
+      <td>0.017</td>
+      <td>3.918</td>
+      <td>0.011</td>
+      <td>3.036</td>
+      <td>0.007</td>
+      <td>0.1936</td>
+      <td>0.6001</td>
+      <td>272.182907</td>
+      <td>0.780150</td>
+      <td>0.357351</td>
+      <td>-3.856404</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>RT Aur</td>
+      <td>1.841</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+      <td>0.1844</td>
+      <td>0.5717</td>
+      <td>543.183053</td>
+      <td>0.743229</td>
+      <td>0.340440</td>
+      <td>-3.759431</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4739.336493</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 15 columns</p>
+</div></div></div>
+</div>
+<p>Notice in the <code class="docutils literal notranslate"><span class="pre">apply</span></code> call above, we’re creating a new column not just by running a function, but calling another function within that function. Doing all that while writing out the full dataframe name every time is just asking for mistakes.</p>
+<p>There’s lots of other uses for <code class="docutils literal notranslate"><span class="pre">apply</span></code> that you can read more about <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.apply.html">here</a>. For now we’ll stick with the simple case.</p>
+<div class="practice admonition" id="ex-apply">
+<p class="admonition-title">Exercise: Use apply to find the <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span> absolute magnitudes</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">apply</span></code> method shown above to calculate the <span class="math notranslate nohighlight">\(B\)</span> and <span class="math notranslate nohighlight">\(I\)</span> absolute magnitudes for each star. Add them as new columns to the dataframe.</p>
+<p><a class="reference internal" href="soln_apply.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>Your dataframe should now have 67 rows and 17 columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Star_ID&#39;, &#39;parallax_mas&#39;, &#39;logP&#39;, &#39;mag_B&#39;, &#39;err_B&#39;, &#39;mag_V&#39;, &#39;err_V&#39;,
+       &#39;mag_I&#39;, &#39;err_I&#39;, &#39;E_B_V&#39;, &#39;A_V&#39;, &#39;distance_pc&#39;, &#39;A_B&#39;, &#39;A_I&#39;, &#39;V_abs&#39;,
+       &#39;B_abs&#39;, &#39;I_abs&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(67, 17)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fancy-plotting">
+<h2>Fancy plotting<a class="headerlink" href="#fancy-plotting" title="Permalink to this heading">#</a></h2>
+<p>Our final task is to make a nice plot of the period-luminosity relation. When we did this with the Magellanic Clouds data before we were assuming all the stars were at the same distance. This time we’ve corrected for distance, so we’ll be looking at the absolute magnitudes.</p>
+<p>We can just make a quick plot:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">],</span> <span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;B_abs&#39;</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">],</span> <span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;V_abs&#39;</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">],</span> <span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;I_abs&#39;</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;log P (days)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absolute Magnitude&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/946425e97b1ec516c5dbe7245163f207667362fae40953b8060aa1733b57349a.png" src="_images/946425e97b1ec516c5dbe7245163f207667362fae40953b8060aa1733b57349a.png" />
+</div>
+</div>
+<p>That doesn’t look very nice. It doesn’t look how I expect it to. Let’s look at just one set of data for now – the <span class="math notranslate nohighlight">\(I\)</span> band data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">],</span> <span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;I_abs&#39;</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;log P (days)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absolute Magnitude&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/494628f9d83385d3dd51dd94b80e63b96551c87ac9946986c8559bf31760805a.png" src="_images/494628f9d83385d3dd51dd94b80e63b96551c87ac9946986c8559bf31760805a.png" />
+</div>
+</div>
+<p>There’s a lot more data in our dataframe than we’re showing here. Perhaps something else is affecting the absolute magnitudes? My first guess is that it’s extinction. We can look at this by colour coding the points using <code class="docutils literal notranslate"><span class="pre">plt.scatter()</span></code>.</p>
+<p>First we need to choose a colour map - this is done with <code class="docutils literal notranslate"><span class="pre">plt.colormaps</span></code>. You can see all the available colour maps <a class="reference external" href="https://matplotlib.org/stable/tutorials/colors/colormaps.html">here</a>. I’m using the <code class="docutils literal notranslate"><span class="pre">plasma</span></code> colour map as it’s a”perceptually uniform sequential” map - this means that a colour-blind person (or someone with a black and white printer) would still be able to interpret the colour scale.</p>
+<p>We also need to have a colour bar so we can translate the colours into actual numbers when we look at the plot. We do this in two steps. First:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">....</span>
+</pre></div>
+</div>
+<p>assigns the output of <code class="docutils literal notranslate"><span class="pre">ax.scatter</span></code> to the variable <code class="docutils literal notranslate"><span class="pre">sc</span></code>.</p>
+<p>Then</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>makes the colour bar that corresponds to our data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;plasma&#39;</span><span class="p">]</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;logP&#39;</span><span class="p">],</span> <span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;I_abs&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">cepheids_df</span><span class="p">[</span><span class="s1">&#39;A_V&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;Grey&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;log P (days)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Absolute Magnitude&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">&#39;$A_V$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/975f67ac8d844966af93312ab710a013e6a891a6d60b90e84013fa5c29c7bbe4.png" src="_images/975f67ac8d844966af93312ab710a013e6a891a6d60b90e84013fa5c29c7bbe4.png" />
+</div>
+</div>
+<p>Now we can see that the stars that had a larger extinction correction (the red and yellow points) seem to lie further away from the trend than the blue points.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Make some fancy plots</p>
+<p>Make similar plots to the one above, colour coding the points according to the different extinctions, the distances, or even the colour of the star (colour is the difference between two magnitudes, like <span class="math notranslate nohighlight">\((B-V)\)</span>).</p>
+<p>Make all the combinations you can think of! Do any of them look significant?</p>
+<p>Make sure your plots have appropriate axis labels, units, etc, and write some markdown to explain what they are and any trends that they show.</p>
+<p>Save your plots with <code class="docutils literal notranslate"><span class="pre">savefig()</span></code></p>
+</div>
+<div class="practice admonition" id="ex-save-data">
+<p class="admonition-title">Exercise: Save your data!</p>
+<p>Finally, save your big dataframe. Be careful not to overwrite the original file, so give it a sensible filename so you will know what it is when you come back to it another day.</p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./data/big_cepheids_file_with_extinctions_and_distances_and_whathaveyou.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">na_rep</span><span class="o">=</span><span class="s1">&#39;NaN&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">apply</span></code> to do fancy things with dataframes</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">plt.scatter</span></code> and colourmaps to look at your data in multiple dimensions</p></li>
+<li><p><strong>Always</strong> save your data. In a sensible place. With a sensible filename</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_multiple_data_sets.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-distance">Finding the distance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correcting-for-reddening-and-extinction">Correcting for reddening and extinction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-absolute-magnitude">Find the absolute magnitude</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#apply-will-make-your-life-easier"><code class="docutils literal notranslate"><span class="pre">apply</span></code> will make your life easier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fancy-plotting">Fancy plotting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

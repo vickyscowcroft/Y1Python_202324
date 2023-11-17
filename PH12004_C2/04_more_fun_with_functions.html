@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Functions and pseudocode &#8212; C2 Fun with functions and plotting</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04_more_fun_with_functions';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Exercises" href="05_more_exercises.html" />
+    <link rel="prev" title="Functions and line fitting" href="03_functions_and_fitting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C2 Fun with functions and plotting</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    C2 Fun with functions and plotting
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_first_plot.html">Plotting with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_plotting_data.html">Plotting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_functions_and_fitting.html">Functions and line fitting</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Functions and pseudocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_more_exercises.html">Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c2_thurs_am.html">Additional examples</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/04_more_fun_with_functions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Functions and pseudocode</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-pseudocode">What is pseudocode?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fibonacci-sequence">Fibonacci sequence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm">Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turning-pseudocode-into-code">Turning pseudocode into code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formatted-print-statements">Formatted print statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-to-files">Writing to files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#put-it-all-in-a-function">Put it all in a function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#default-values">Default values</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="functions-and-pseudocode">
+<h1>Functions and pseudocode<a class="headerlink" href="#functions-and-pseudocode" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do you write pseudocode in notebooks?</p></li>
+<li><p>How do you write functions in notebooks?</p></li>
+<li><p>How do you set the default values in functions?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Write some pseudocode</p></li>
+<li><p>Write a function</p></li>
+<li><p>Set the default values for the function</p></li>
+</ul>
+</div>
+</section>
+<section id="what-is-pseudocode">
+<h2>What is pseudocode?<a class="headerlink" href="#what-is-pseudocode" title="Permalink to this heading">#</a></h2>
+<p>Pseudocode is basically just writing what you want your algorithm to do in plain english, rather than code. It’s very similar to when we wrote the “cup of tea” algorithm in the previous session.</p>
+</section>
+<section id="fibonacci-sequence">
+<h2>Fibonacci sequence<a class="headerlink" href="#fibonacci-sequence" title="Permalink to this heading">#</a></h2>
+<p>We’re going to write an algorithm to determine the first 20 values of the Fibonacci sequence. Rather than diving straight into writing code, we’re going to use pseudocode first.</p>
+<p>The first thing to do is try to write down what’s happening when we’re calculating the values of the Fibonacci sequence:</p>
+<section id="algorithm">
+<h3>Algorithm<a class="headerlink" href="#algorithm" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">first</span> <span class="n">value</span> <span class="ow">is</span> <span class="mi">1</span>
+<span class="mf">2.</span> <span class="n">second</span> <span class="n">value</span> <span class="ow">is</span> <span class="mi">1</span>
+<span class="mf">3.</span>  <span class="nb">next</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">value</span><span class="p">[</span><span class="nb">next</span><span class="p">]</span> <span class="o">+</span> <span class="n">value</span><span class="p">[</span><span class="nb">next</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+<span class="o">*</span> <span class="n">need</span> <span class="n">something</span> <span class="n">to</span> <span class="n">deal</span> <span class="k">with</span> <span class="n">the</span> <span class="n">first</span> <span class="n">value</span>
+<span class="o">*</span> <span class="n">need</span> <span class="n">something</span> <span class="n">to</span> <span class="n">count</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">values</span> 
+</pre></div>
+</div>
+<p>The pseudocode above will get us most of the way there. To get a useful function we’re going to need some way of keeping track of how many times we’ve run the code, and to deal with the start of the function (i.e. setting the first and second values to 1). This is what the last two lines in the pseudocode deal with.</p>
+<p>Remember, your pseudocode doesn’t need to be perfect. It needs to be written in a way that <em>you</em> understand, and (ideally) so that someone who may not know the programming language you’re using could interpret it.</p>
+</section>
+<section id="turning-pseudocode-into-code">
+<h3>Turning pseudocode into code<a class="headerlink" href="#turning-pseudocode-into-code" title="Permalink to this heading">#</a></h3>
+<p>Now we know what we want the code to do we can start turning it into Python code. Line 3 of the pseudocode</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.</span>  <span class="nb">next</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">value</span><span class="p">[</span><span class="nb">next</span><span class="p">]</span> <span class="o">+</span> <span class="n">value</span><span class="p">[</span><span class="nb">next</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>tells us that we’re going to need a loop in here somewhere. The first two lines tell us that we could use an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement.</p>
+<p>We want to print the first 20 values in the sequence, so the first thing to do is set up an array to hold those values. We do that with the <code class="docutils literal notranslate"><span class="pre">np.zeros()</span></code> function. This creates an array with 20 elements all set to zero.</p>
+<p>We then want to fill the array using a <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. To keep track of the number of iterations we can use</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">range</span></code> function is very useful for loops.</p>
+<div class="practice admonition" id="ex-range">
+<p class="admonition-title">Exercise: what is range doing?</p>
+<p>Check that you understand what the <code class="docutils literal notranslate"><span class="pre">range</span></code> function is doing. In an empty cell in your notebook write some code to print</p>
+<ol class="arabic simple">
+<li><p>what <code class="docutils literal notranslate"><span class="pre">range(20)</span></code> returns</p></li>
+<li><p>what <code class="docutils literal notranslate"><span class="pre">n</span></code> returns in a <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">n</span> <span class="pre">in</span> <span class="pre">range(20)</span></code> loop</p></li>
+</ol>
+<p>Write an explanation of what range is doing in one of your markdown cells.
+<a class="reference internal" href="soln_range.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>The final step is the <code class="docutils literal notranslate"><span class="pre">if</span></code> statement. We know the first two values are 1, so we should include an <code class="docutils literal notranslate"><span class="pre">if</span></code> statement to deal with those. We can use an <code class="docutils literal notranslate"><span class="pre">else</span></code> statement to deal with the rest of the values.</p>
+<div class="practice admonition" id="ex-fib">
+<p class="admonition-title">Exercise: Fibonacci function</p>
+<p>Copy the code below into a new cell in your notebook. Edit the code so that it prints the first 20 values of the Fibonacci sequence.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span>fibonacci = np.zeros(???)
+for n in range(???):
+    if n &lt; ???:
+        fibonacci[n] = 1
+    else:
+        fibonacci[n] = ???
+print(fibonacci)
+</pre></div>
+</div>
+<p>You’ll need to replace the <code class="docutils literal notranslate"><span class="pre">???</span></code>s in the code with the correct values or mathematics.</p>
+<p><a class="reference internal" href="soln_fibonacci.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>If you’ve completed the last exercise (or looked at the solution…) you’ll see that the printed output isn’t particularly pretty. When we print the <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> array we just get an array of floats printed to the screen. We can tidy that up with <strong>formatted print statements</strong>. We covered this a little on the previous page when we were making nicely formatted plot titles. We’ll now look at formatting in more detail.</p>
+</section>
+</section>
+<section id="formatted-print-statements">
+<h2>Formatted print statements<a class="headerlink" href="#formatted-print-statements" title="Permalink to this heading">#</a></h2>
+<p>Printing the <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> array like we did in the exercise above is useful for having a quick look at what the result looks like. But often we want to have the output formatted in a more readable fashion. In the <span class="xref myst">previous section</span> of this lesson we used string formatting to make the plot titles more useful. The same principles apply to any string formatting.</p>
+<p>For this particular case we know that all our values are integer values. We can change our <code class="docutils literal notranslate"><span class="pre">print</span></code> statement to print them as integers rather than floats using <code class="docutils literal notranslate"><span class="pre">astype(int)</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">fibonacci</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[   1    1    2    3    5    8   13   21   34   55   89  144  233  377
+  610  987 1597 2584 4181 6765]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can do a similar thing inside our loop to create a table of the Fibonacci values. Here we’re using the <code class="docutils literal notranslate"><span class="pre">{x:&gt;10d}</span></code> notation to tell it to print each value in a right justified column 10 characters wide.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&gt;10}</span><span class="s1"> </span><span class="si">{:&gt;10}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;Fibonacci&#39;</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0:&gt;10d}</span><span class="s2"> </span><span class="si">{1:&gt;10d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         n  Fibonacci
+         1          1
+         2          1
+         3          2
+         4          3
+         5          5
+         6          8
+         7         13
+         8         21
+         9         34
+        10         55
+        11         89
+        12        144
+        13        233
+        14        377
+        15        610
+        16        987
+        17       1597
+        18       2584
+        19       4181
+        20       6765
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we wanted to left justify our columns we can just switch the <code class="docutils literal notranslate"><span class="pre">{x:&gt;10d}</span></code> to <code class="docutils literal notranslate"><span class="pre">{x:&lt;10d}</span></code>.</p>
+<div class="myinfo admonition">
+<p class="admonition-title">Formatting documentation</p>
+<p>If you want to look at the whole variety of string formatting options available, go to the <a class="reference external" href="https://docs.python.org/3/tutorial/inputoutput.html">Python ‘Input and Output’</a> documentation.</p>
+</div>
+</section>
+<section id="writing-to-files">
+<h2>Writing to files<a class="headerlink" href="#writing-to-files" title="Permalink to this heading">#</a></h2>
+<p>One way to save your data to a file is to use <code class="docutils literal notranslate"><span class="pre">np.savetxt</span></code>. We’re going to use <code class="docutils literal notranslate"><span class="pre">np.savetxt</span></code> to save the output of your Fibonacci code to a text file. We’ll format the output so each column has a heading and the columns are separated by commas.</p>
+<p>We’ve already got our <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> array, but we also want to print the <code class="docutils literal notranslate"><span class="pre">n</span></code> values. We need to create another array for that to send to <code class="docutils literal notranslate"><span class="pre">np.savetxt</span></code> with the output. We also need with some extra arguements for the delimeter and the heading.</p>
+<p>To get the <code class="docutils literal notranslate"><span class="pre">n</span></code> values we use <code class="docutils literal notranslate"><span class="pre">np.arange(1,21,1)</span></code> This gives us a numpy array with the values 1 to 20 in steps of 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s1">&#39;fibonacci_20.csv&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%10d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{:&gt;10}</span><span class="s1">, </span><span class="si">{:&gt;10}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;Fibonacci&#39;</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>There’s a lot going on in the cell above, so we’ll break it down.</p>
+<p>The first argument for <code class="docutils literal notranslate"><span class="pre">savetxt</span></code> is the filename. This is where our data is going to be saved.</p>
+<p>The second argument is <code class="docutils literal notranslate"><span class="pre">np.column_stack([n,</span> <span class="pre">fibonacci])</span></code>. This takes our two columns, <code class="docutils literal notranslate"><span class="pre">n</span></code> and <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code> and stacks them next to each other.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">fmt</span></code> statement tells it that we want things formatted as integers (this is the <code class="docutils literal notranslate"><span class="pre">d</span></code>) and that we want each column to be 10 characters wide. The <code class="docutils literal notranslate"><span class="pre">header</span></code> argument tells it how to format the header row.</p>
+<p>Finally, the <code class="docutils literal notranslate"><span class="pre">delimiter</span></code> argument tells it what to use to separate the columns.</p>
+<p>In an upcoming session we’ll see how to use <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to do this in a different (and possibly more straight forward) way.</p>
+<p>Once you’ve saved your data to a file, use <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> to read it back in and check that it’s saved what you expected.</p>
+</section>
+<section id="put-it-all-in-a-function">
+<h2>Put it all in a function<a class="headerlink" href="#put-it-all-in-a-function" title="Permalink to this heading">#</a></h2>
+<p>Now that we have some code that we know works for calculating the Fibonacci sequence and writing the results to a file we can put it all together in a function.</p>
+<p>Here we want to define a function that will calculate the first <code class="docutils literal notranslate"><span class="pre">n</span></code> terms of the Fibonacci sequence and save them to a file.</p>
+<p>When we define a function we tell it what arguments to expect in the brackets on the <code class="docutils literal notranslate"><span class="pre">def</span></code> line. Here <code class="docutils literal notranslate"><span class="pre">n_terms</span></code> is the number of terms we want and <code class="docutils literal notranslate"><span class="pre">filename</span></code> is the filename (obvs).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_fn</span><span class="p">(</span><span class="n">n_terms</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="n">fibonacci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_terms</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_terms</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n_terms</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> 
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%10d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{:&gt;10}</span><span class="s1">, </span><span class="si">{:&gt;10}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;Fibonacci&#39;</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Take note of the last line of the function:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span>    <span class="k">return</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is a <strong>return value</strong>. Every time the function runs it will return the arrays <code class="docutils literal notranslate"><span class="pre">n</span></code> and <code class="docutils literal notranslate"><span class="pre">fibonacci</span></code>. This is useful - we can see what the result was without looking in the file, either by just running the function like below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fib_fn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;fibonacci_10.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10]),
+ array([ 1.,  1.,  2.,  3.,  5.,  8., 13., 21., 34., 55.]))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or by sending the output to some new variables (a bit like we did previously with <code class="docutils literal notranslate"><span class="pre">popt</span></code> and <code class="docutils literal notranslate"><span class="pre">pcov</span></code>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fn_n</span><span class="p">,</span> <span class="n">fn_fib</span> <span class="o">=</span> <span class="n">fib_fn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;fibonacci_10.txt&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fn_n</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fn_fib</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1  2  3  4  5  6  7  8  9 10]
+[ 1.  1.  2.  3.  5.  8. 13. 21. 34. 55.]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="default-values">
+<h3>Default values<a class="headerlink" href="#default-values" title="Permalink to this heading">#</a></h3>
+<p>The final thing we can do to make this function more useful is to set some default values for the arguments. These are the values that will be used if we don’t specify anthing. We’re not going to set a default value for <code class="docutils literal notranslate"><span class="pre">n_terms</span></code> as we always want to specify that, but we can give it a default filename.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fib_fn</span><span class="p">(</span><span class="n">n_terms</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;fibonacci_results.txt&#39;</span><span class="p">):</span>
+    <span class="n">fibonacci</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_terms</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_terms</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n_terms</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="c1">## getting our array so we can print the n values</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">n</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">]),</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%10d</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{:&gt;10}</span><span class="s1">, </span><span class="si">{:&gt;10}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;Fibonacci&#39;</span><span class="p">),</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fibonacci</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now if we run the function and only specify <code class="docutils literal notranslate"><span class="pre">n_terms</span></code>, the function will still run and it will save the results to <code class="docutils literal notranslate"><span class="pre">fibonacci_results.txt</span></code>. Be careful though! You won’t get a warning if the file exists already - it will just get overwritten.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fib_fn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([1, 2, 3, 4, 5]), array([1., 1., 2., 3., 5.]))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="key-points">
+<h2>Key Points:<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Write out your programs in pseudocode before diving straight into Python to help you figure out the logic your code needs to follow.</p></li>
+<li><p>You can (and should!) use the markdown cells in your notebook to write what your code is doing and why it’s doing it.</p></li>
+<li><p>Break your code down into individual steps before you start to put it all together in a function - it’s much easier to spot problems that way.</p></li>
+<li><p>Default values for function arguments can be set when you define your function.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_functions_and_fitting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Functions and line fitting</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_more_exercises.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exercises</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-pseudocode">What is pseudocode?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fibonacci-sequence">Fibonacci sequence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithm">Algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#turning-pseudocode-into-code">Turning pseudocode into code</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formatted-print-statements">Formatted print statements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-to-files">Writing to files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#put-it-all-in-a-function">Put it all in a function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#default-values">Default values</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

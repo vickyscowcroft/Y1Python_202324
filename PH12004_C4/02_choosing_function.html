@@ -1,0 +1,953 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Choosing a function &#8212; C4 More `pandas` and `plt`</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_choosing_function';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Uncertainties" href="03_uncertainties.html" />
+    <link rel="prev" title="Why you should not open any of these data files in Excel" href="01_excel_ranting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4 More `pandas` and `plt`</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    More pandas and plt
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_excel_ranting.html">Why you should not open any of these data files in Excel</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Choosing a function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_uncertainties.html">Uncertainties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_multiple_data_sets.html">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_fancy_data_stuff.html">More fun with functions, dataframes and plotting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_choosing_function.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Choosing a function</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refresher-on-how-to-define-and-fit-functions">Refresher on how to define and fit functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-choose-a-function-to-fit">How do I choose a function to fit?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#look-at-your-data">Look at your data!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="choosing-a-function">
+<h1>Choosing a function<a class="headerlink" href="#choosing-a-function" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do I choose a function to fit?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Choose and define a function to fit</p></li>
+</ul>
+</div>
+</section>
+<section id="refresher-on-how-to-define-and-fit-functions">
+<h2>Refresher on how to define and fit functions<a class="headerlink" href="#refresher-on-how-to-define-and-fit-functions" title="Permalink to this heading">#</a></h2>
+<p>For this exercise you’ll need the <a class="reference download internal" download="" href="_downloads/e395e9835b63111af7ac722a091dee48/BoltData.csv"><span class="xref download myst">BoltData.csv</span></a> file. Download it and save it in your <code class="docutils literal notranslate"><span class="pre">data</span></code> folder.</p>
+<p>First we want to read in the data and make a quick plot to see what it looks like:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bolt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/BoltData.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bolt_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>distance/m</th>
+      <th>Distance uncertinty / m</th>
+      <th>time/s</th>
+      <th>Time measurment uncertinty / s</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0.02</td>
+      <td>0.000000</td>
+      <td>1.004810</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>0.02</td>
+      <td>0.923422</td>
+      <td>0.637569</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20</td>
+      <td>0.02</td>
+      <td>2.178145</td>
+      <td>0.382366</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>30</td>
+      <td>0.02</td>
+      <td>2.461897</td>
+      <td>0.911785</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>40</td>
+      <td>0.02</td>
+      <td>3.387051</td>
+      <td>0.198510</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50</td>
+      <td>0.02</td>
+      <td>5.263879</td>
+      <td>1.152222</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>60</td>
+      <td>0.02</td>
+      <td>6.042705</td>
+      <td>0.161827</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>70</td>
+      <td>0.02</td>
+      <td>7.939192</td>
+      <td>0.732011</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>80</td>
+      <td>0.02</td>
+      <td>8.221779</td>
+      <td>1.267329</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>90</td>
+      <td>0.02</td>
+      <td>8.578128</td>
+      <td>0.590908</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>100</td>
+      <td>0.02</td>
+      <td>9.562874</td>
+      <td>1.022337</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">bolt_df</span><span class="p">[</span><span class="s1">&#39;distance/m&#39;</span><span class="p">],</span> <span class="n">bolt_df</span><span class="p">[</span><span class="s1">&#39;time/s&#39;</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">bolt_df</span><span class="p">[</span><span class="s1">&#39;Time measurment uncertinty / s&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Distance (m)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/97ede333bb75556c07e531e1894451c3bd4a4fa7ecda1b438e2a3866fc55c2ac.png" src="_images/97ede333bb75556c07e531e1894451c3bd4a4fa7ecda1b438e2a3866fc55c2ac.png" />
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">BoltData.csv</span></code> contains position and time measurements of Usain Bolt running 100m. To find the speed he was running we can use the equation</p>
+<div class="math notranslate nohighlight">
+\[ v = d / t\]</div>
+<p>where <span class="math notranslate nohighlight">\(v\)</span> is velocity, <span class="math notranslate nohighlight">\(d\)</span> is distance and <span class="math notranslate nohighlight">\(t\)</span> is time.</p>
+<p>We’ve got a plot of distance vs. time, so the gradient of that slope would be <span class="math notranslate nohighlight">\(\dfrac{dt}{dd}\)</span>. Therefore, the speed would be equal to the inverse of the gradient.</p>
+<p>The function we need to fit to get the gradient is</p>
+<div class="math notranslate nohighlight">
+\[y = m x + c\]</div>
+<p>where <span class="math notranslate nohighlight">\(m\)</span> is the gradient and <span class="math notranslate nohighlight">\(c\)</span> is the intercept.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">straight_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p id="printed-values">We can then use <code class="docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit</span></code> to find the values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> and their uncertainties.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">straight_line</span><span class="p">,</span><span class="n">bolt_df</span><span class="p">[</span><span class="s1">&#39;distance/m&#39;</span><span class="p">],</span> <span class="n">bolt_df</span><span class="p">[</span><span class="s1">&#39;time/s&#39;</span><span class="p">])</span>
+<span class="n">slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">err_slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">err_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Slope: </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> +- </span><span class="si">{</span><span class="n">err_slope</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Intercept: </span><span class="si">{</span><span class="n">intercept</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> +- </span><span class="si">{</span><span class="n">err_intercept</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Slope: 0.100 +- 0.005
+Intercept: -0.048 +- 0.270
+</pre></div>
+</div>
+</div>
+</div>
+<p>The final step is to calculate the velocity and its uncertainty. Remember, we use the values stored in <code class="docutils literal notranslate"><span class="pre">slope</span></code> and <code class="docutils literal notranslate"><span class="pre">err_slope</span></code>, not the rounded values that we just printed.</p>
+<div class="math notranslate nohighlight">
+\[ v = \dfrac{1}{m} \]</div>
+<div class="math notranslate nohighlight">
+\[\sigma_v = \dfrac{\sigma_m}{m^2} \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">velocity</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">slope</span>
+
+<span class="n">err_velocity</span> <span class="o">=</span> <span class="n">err_slope</span> <span class="o">/</span> <span class="p">(</span><span class="n">slope</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;velocity = </span><span class="si">{</span><span class="n">velocity</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">err_velocity</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> m s^(-1)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>velocity = 9.98 +/- 0.45 m s^(-1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="practice admonition">
+<p class="admonition-title">Excercise: Check the difference</p>
+<p>In a markdown cell or on a piece of paper, calculate the velocity and uncertainty you would find if you used the values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(\sigma_{m}\)</span> that were printed to three decimal places <a class="reference internal" href="#printed-values"><span class="std std-ref">earlier in the notebook</span></a>. Compare these to the values calculated above using the <code class="docutils literal notranslate"><span class="pre">slope</span></code> and <code class="docutils literal notranslate"><span class="pre">err_slope</span></code> variables.</p>
+</div>
+</section>
+<section id="how-do-i-choose-a-function-to-fit">
+<h2>How do I choose a function to fit?<a class="headerlink" href="#how-do-i-choose-a-function-to-fit" title="Permalink to this heading">#</a></h2>
+<p>Sometimes we already have an idea of the function that we want to fit to our data. For the BoltData we know that <span class="math notranslate nohighlight">\(t = d/v\)</span> so we know that we just want a linear relation between distance and time. But what about when we don’t already know how the variables are related?</p>
+<p>This is not unusual - this is science! Often we <strong>don’t</strong> already know how different observed variables are related because that’s what we’re trying to find out. So where do we start?</p>
+</section>
+<section id="look-at-your-data">
+<h2>Look at your data!<a class="headerlink" href="#look-at-your-data" title="Permalink to this heading">#</a></h2>
+<p>The first thing you should always do is <strong>make a plot</strong>. Have a look at your data - does it look like a linear relationship? Does it look exponential or perhaps sinusoidal?</p>
+<p>For this section we’re going to use some data on Cepheid variable stars. If you’ve not come across Cepheids before, they are stars that change in brightness over time. The dataset we’re using here is a sample of Cepheids in our nearest galaxy, the Large Magellanic Cloud.</p>
+<p>Download the <a class="reference download internal" download="" href="_downloads/b8ef83cc539a86014743106270dcfe70/LMC_Cepheids.csv"><span class="xref download myst">LMC_Cepheids.csv</span></a> file (make sure to save it in your <code class="docutils literal notranslate"><span class="pre">data</span></code> folder!) and read it in to a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframe. I’m calling mine <code class="docutils literal notranslate"><span class="pre">lmc_df</span></code>. Have a look at the data</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lmc_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/LMC_Cepheids.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lmc_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>star_ID</th>
+      <th>period</th>
+      <th>mag_1</th>
+      <th>err_mag_1</th>
+      <th>mag_2</th>
+      <th>err_mag_2</th>
+      <th>colour</th>
+      <th>err_colour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>HV00872</td>
+      <td>29.820</td>
+      <td>11.320</td>
+      <td>0.005</td>
+      <td>11.381</td>
+      <td>0.005</td>
+      <td>-0.061</td>
+      <td>0.002</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>HV00873</td>
+      <td>34.426</td>
+      <td>10.872</td>
+      <td>0.006</td>
+      <td>10.903</td>
+      <td>0.006</td>
+      <td>-0.029</td>
+      <td>0.002</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>HV00875</td>
+      <td>30.338</td>
+      <td>11.094</td>
+      <td>0.003</td>
+      <td>11.077</td>
+      <td>0.003</td>
+      <td>0.016</td>
+      <td>0.001</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>HV00876</td>
+      <td>22.716</td>
+      <td>11.558</td>
+      <td>0.006</td>
+      <td>11.592</td>
+      <td>0.007</td>
+      <td>-0.033</td>
+      <td>0.002</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>HV00877</td>
+      <td>45.155</td>
+      <td>10.701</td>
+      <td>0.004</td>
+      <td>10.790</td>
+      <td>0.004</td>
+      <td>-0.089</td>
+      <td>0.002</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You should have a dataframe with 85 rows and 8 columns. The columns are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">star_ID</span></code> - Name of the star;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">period</span></code> - the period of the star’s changes in brightness;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mag_1</span></code> and <code class="docutils literal notranslate"><span class="pre">mag_2</span></code> - the apparent magnitude of the star at two different wavelengths. Here <code class="docutils literal notranslate"><span class="pre">mag_1</span></code> corresponds to <span class="math notranslate nohighlight">\(\lambda = 3.6 \mu\text{m}\)</span> and <code class="docutils literal notranslate"><span class="pre">mag_2</span></code> is <span class="math notranslate nohighlight">\(\lambda = 4.5 \mu\text{m}\)</span>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">err_mag_1</span></code> and <code class="docutils literal notranslate"><span class="pre">err_mag_2</span></code> - uncertainties on the two magnitudes;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">colour</span></code> - the star’s colour; here it’s defined as <code class="docutils literal notranslate"><span class="pre">mag_1</span> <span class="pre">-</span> <span class="pre">mag_2</span></code>;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">err_colour</span></code> - the uncertainty on the colour;</p></li>
+</ul>
+<p>The periods are given in days. The magnitudes, colours and their respective uncertainties are all given in units of magnitudes.</p>
+<div class="myinfo admonition">
+<p class="admonition-title">Magnitudes</p>
+<p>Magnitudes are <strike>stupid</strike> a weird system that was defined by the ancient Greeks. You may have already come across them in the astrophysics unit. They’re defined such that lower numbers correspond to brighter stars, so a star with <span class="math notranslate nohighlight">\(M = -5 \text{ mag}\)</span> is brighter than a star with <span class="math notranslate nohighlight">\(M=5\text{ mag}\)</span>.</p>
+<p>Magnitudes are related to flux by the relation</p>
+<div class="math notranslate nohighlight">
+\[ M = - 2.5 \log_{10}\left(\dfrac{F}{F_0}\right) \]</div>
+<p>where <span class="math notranslate nohighlight">\(F\)</span> is the flux of the star and <span class="math notranslate nohighlight">\(F_0\)</span> is a the flux of a reference star (usually Vega).</p>
+</div>
+<p>One of the cool things about Cepheids is that they pulsate. They’re basically really big simple harmonic oscillators. The period we measure is the period of those pulsations. The really interesting thing is that their period is related to their intrinsic brightness. So let’s have a look at that.</p>
+<div class="practice admonition" id="ex-pl-1">
+<p class="admonition-title">Exercise: Make a plot of period and mag_1</p>
+<p>Make a plot of <code class="docutils literal notranslate"><span class="pre">mag_1</span></code> as a function of <code class="docutils literal notranslate"><span class="pre">period</span></code>. Make sure your plot has appropriate axis labels, units etc.</p>
+<p>What does the relation look like?</p>
+<p><a class="reference internal" href="soln_pl_1.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>You should end up with a plot that looks something like this:</p>
+<a class="reference internal image-reference" href="_images/lmc_plot_1.png"><img alt="Plot of mag_1 as a function of period" class="align-center" src="_images/lmc_plot_1.png" style="width: 800px;" /></a>
+<p>The first thing we need to do to this plot is to change the <code class="docutils literal notranslate"><span class="pre">y</span></code> axis to go in the opposite direction. As described in the information box further up this page, magnitudes are backwards.</p>
+<p>We can switch the direction of the <code class="docutils literal notranslate"><span class="pre">y</span></code> axis using <code class="docutils literal notranslate"><span class="pre">invert_yaxis</span></code>. This is where calling setting up our plot with</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>rather than just using <code class="docutils literal notranslate"><span class="pre">plt.plot</span></code> comes in handy.</p>
+<p>We don’t need to go back and edit all our code. We can just use <code class="docutils literal notranslate"><span class="pre">ax.invert_yaxis()</span></code> to flip the axis and call <code class="docutils literal notranslate"><span class="pre">fig</span></code> to display our updated figure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">fig</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8932cdbff35e553b431f4ccb226427bd214f5f6428764f0167ff4cf7432fb701.png" src="_images/8932cdbff35e553b431f4ccb226427bd214f5f6428764f0167ff4cf7432fb701.png" />
+</div>
+</div>
+<p>Now we can start to think about the type of function we should use to fit the data. The brightness is increasing as a function of period but it doesn’t look to be a linear relation.</p>
+<p>Remember the relation between magnitude and flux given earlier: <span class="math notranslate nohighlight">\(M \propto - \log_{10} F\)</span>. So that’s a good place to start. We’ll try a function of the form</p>
+<div class="math notranslate nohighlight">
+\[
+M = a \log_{10} P + b
+\]</div>
+<p>When we define our function we want it to return <span class="math notranslate nohighlight">\(M\)</span>, using <span class="math notranslate nohighlight">\(P\)</span> as the input x-values and calculate the values of <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">log_p_mag</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">mag</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now use <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> to find the best values of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">log_p_mag</span><span class="p">,</span> <span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">],</span> <span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;mag_1&#39;</span><span class="p">])</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">err_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">err_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;a = </span><span class="si">{</span><span class="n">a</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">err_a</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;b = </span><span class="si">{</span><span class="n">b</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">err_b</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = -3.145 +/- 0.052
+b = 15.817 +/- 0.069
+</pre></div>
+</div>
+</div>
+</div>
+<p>And of course we should make a plot and see how well it fits</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig2</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">],</span> <span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;mag_1&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LMC Cepheids&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">log_p_mag</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;hotpink&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best fit&#39;</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Period (days)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Mag 1 (magnitudes)&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a90b9bf3027551047c1becc4ae9f951d3beb77f6a5a3da39e0e9f58f2170c57f.png" src="_images/a90b9bf3027551047c1becc4ae9f951d3beb77f6a5a3da39e0e9f58f2170c57f.png" />
+</div>
+</div>
+<p>You may have noticed in the cell above I defined a new variable, <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">np.linspace(1,</span> <span class="pre">150,</span> <span class="pre">100)</span></code>. I can’t just use the <code class="docutils literal notranslate"><span class="pre">lmc_df['period']</span></code> values as the <code class="docutils literal notranslate"><span class="pre">x</span></code> values to plot the line as they’re not in order of increasing or decreasing period. <code class="docutils literal notranslate"><span class="pre">plt.plot</span></code> plots the data in the order it sees it, so here the line would go all over the place. By using the <code class="docutils literal notranslate"><span class="pre">p</span></code> variable as the <code class="docutils literal notranslate"><span class="pre">x</span></code> values instead we get what we want - a nice line that shows the relation.</p>
+<p>While this plot looks OK, we can change a couple of things to make it more convincing.</p>
+<p>Look at where the points fall along the x-axis. They aren’t evenly spaced, there’s lots on the left hand side and fewer as we go to longer periods. Now we know that <span class="math notranslate nohighlight">\(M \propto \log_{10} P\)</span> we can re-plot the data to take that into account</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">fig3</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]),</span> <span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;mag_1&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;LMC Cepheids&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">lmc_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">log_p_mag</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;hotpink&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;best fit&#39;</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$\log_</span><span class="si">{10}</span><span class="s1">(P)$ (days)&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Mag 1 (magnitudes)&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">invert_yaxis</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/707426ff0f69681da3b5b59d760851b4c227e10b2a15ddc68cecf946d8cb6a59.png" src="_images/707426ff0f69681da3b5b59d760851b4c227e10b2a15ddc68cecf946d8cb6a59.png" />
+</div>
+</div>
+<p>This is a much more convincing plot! We can see the details more clearly now the values are more spaced out along the x-axis.</p>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The best way to decide what kind of function you should fit is to look at your data.</p></li>
+<li><p>You don’t have to stick with the original data - if it makes more sense to fit e.g. <span class="math notranslate nohighlight">\(\log_{10} x\)</span> rather than <span class="math notranslate nohighlight">\(x\)</span> then that’s perfectly fine! Just make sure to write down what you’re doing.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_excel_ranting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Why you should not open any of these data files in Excel</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_uncertainties.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Uncertainties</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refresher-on-how-to-define-and-fit-functions">Refresher on how to define and fit functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-choose-a-function-to-fit">How do I choose a function to fit?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#look-at-your-data">Look at your data!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

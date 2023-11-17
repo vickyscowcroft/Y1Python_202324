@@ -1,0 +1,943 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Additional examples &#8212; C2 Fun with functions and plotting</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'c2_thurs_am';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Exercises" href="05_more_exercises.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C2 Fun with functions and plotting</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    C2 Fun with functions and plotting
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_first_plot.html">Plotting with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_plotting_data.html">Plotting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_functions_and_fitting.html">Functions and line fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_more_fun_with_functions.html">Functions and pseudocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_more_exercises.html">Exercises</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Additional examples</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/c2_thurs_am.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Additional examples</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-read-error-messages">How to read error messages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-you-don-t-know-how-to-fix-it">What if you don’t know how to fix it?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting-with-fstrings">Formatting with <code class="docutils literal notranslate"><span class="pre">fstrings</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-column-names">Changing column names</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reusing-code">Reusing code</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="additional-examples">
+<h1>Additional examples<a class="headerlink" href="#additional-examples" title="Permalink to this heading">#</a></h1>
+<p>This page contains the additional examples shown during the C2 sessions. Last update: 3pm, Friday 20th October 2023.</p>
+<section id="how-to-read-error-messages">
+<h2>How to read error messages<a class="headerlink" href="#how-to-read-error-messages" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">15</span><span class="p">})</span>  
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> 
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>           
+            <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+            <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="n">markerfacecolour</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>          
+            <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+            <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>              
+            <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span>             <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>           
+<span class="g g-Whitespace">      </span><span class="mi">7</span>             <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+<span class="g g-Whitespace">      </span><span class="mi">8</span>             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+<span class="g g-Whitespace">      </span><span class="mi">9</span>             <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>             <span class="n">markerfacecolour</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>          
+<span class="g g-Whitespace">     </span><span class="mi">12</span>             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+<span class="g g-Whitespace">     </span><span class="mi">13</span>             <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>              
+<span class="g g-Whitespace">     </span><span class="mi">14</span>             <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/__init__.py:1423,</span> in <span class="ni">_preprocess_data.&lt;locals&gt;.inner</span><span class="nt">(ax, data, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1420</span> <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1421</span> <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1422</span>     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1423</span>         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">*</span><span class="nb">map</span><span class="p">(</span><span class="n">sanitize_sequence</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1425</span>     <span class="n">bound</span> <span class="o">=</span> <span class="n">new_sig</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1426</span>     <span class="n">auto_label</span> <span class="o">=</span> <span class="p">(</span><span class="n">bound</span><span class="o">.</span><span class="n">arguments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label_namer</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1427</span>                   <span class="ow">or</span> <span class="n">bound</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label_namer</span><span class="p">))</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/axes/_axes.py:3502,</span> in <span class="ni">Axes.errorbar</span><span class="nt">(self, x, y, yerr, xerr, fmt, ecolor, elinewidth, capsize, barsabove, lolims, uplims, xlolims, xuplims, errorevery, capthick, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3496</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;_nolegend_&#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">3498</span> <span class="c1"># Create the main line and determine overall kwargs for child artists.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3499</span> <span class="c1"># We avoid calling self.plot() directly, or self._get_lines(), because</span>
+<span class="g g-Whitespace">   </span><span class="mi">3500</span> <span class="c1"># that would call self._process_unit_info again, and do other indirect</span>
+<span class="g g-Whitespace">   </span><span class="mi">3501</span> <span class="c1"># data processing.</span>
+<span class="ne">-&gt; </span><span class="mi">3502</span> <span class="p">(</span><span class="n">data_line</span><span class="p">,</span> <span class="n">base_style</span><span class="p">),</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lines</span><span class="o">.</span><span class="n">_plot_args</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3503</span>     <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">fmt</span><span class="p">),</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">return_kwargs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3505</span> <span class="c1"># Do this after creating `data_line` to avoid modifying `base_style`.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3506</span> <span class="k">if</span> <span class="n">barsabove</span><span class="p">:</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/axes/_base.py:542,</span> in <span class="ni">_process_plot_var_args._plot_args</span><span class="nt">(self, tup, kwargs, return_kwargs, ambiguous_fmt_datakey)</span>
+<span class="g g-Whitespace">    </span><span class="mi">537</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">make_artist</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">j</span> <span class="o">%</span> <span class="n">ncx</span><span class="p">],</span> <span class="n">y</span><span class="p">[:,</span> <span class="n">j</span> <span class="o">%</span> <span class="n">ncy</span><span class="p">],</span> <span class="n">kw</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">538</span>                       <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">})</span>
+<span class="nn">    539           for j, label</span> in <span class="ni">enumerate</span><span class="nt">(labels))</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span> <span class="k">if</span> <span class="n">return_kwargs</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">542</span>     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">544</span>     <span class="k">return</span> <span class="p">[</span><span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/axes/_base.py:537,</span> in <span class="ni">&lt;genexpr&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">535</span>     <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_datasets</span>
+<span class="ne">--&gt; </span><span class="mi">537</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">make_artist</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">j</span> <span class="o">%</span> <span class="n">ncx</span><span class="p">],</span> <span class="n">y</span><span class="p">[:,</span> <span class="n">j</span> <span class="o">%</span> <span class="n">ncy</span><span class="p">],</span> <span class="n">kw</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">538</span>                       <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">})</span>
+<span class="nn">    539           for j, label</span> in <span class="ni">enumerate</span><span class="nt">(labels))</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span> <span class="k">if</span> <span class="n">return_kwargs</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span>     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/axes/_base.py:351,</span> in <span class="ni">_process_plot_var_args._makeline</span><span class="nt">(self, x, y, kw, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">349</span> <span class="n">default_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getdefaults</span><span class="p">(</span><span class="nb">set</span><span class="p">(),</span> <span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setdefaults</span><span class="p">(</span><span class="n">default_dict</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">351</span> <span class="n">seg</span> <span class="o">=</span> <span class="n">mlines</span><span class="o">.</span><span class="n">Line2D</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="k">return</span> <span class="n">seg</span><span class="p">,</span> <span class="n">kw</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/_api/deprecation.py:454,</span> in <span class="ni">make_keyword_only.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">448</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">name_idx</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span>     <span class="n">warn_deprecated</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span>         <span class="n">since</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Passing the </span><span class="si">%(name)s</span><span class="s2"> </span><span class="si">%(obj_type)s</span><span class="s2"> &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">451</span>         <span class="s2">&quot;positionally is deprecated since Matplotlib </span><span class="si">%(since)s</span><span class="s2">; the &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">452</span>         <span class="s2">&quot;parameter will become keyword-only </span><span class="si">%(removal)s</span><span class="s2">.&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">453</span>         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">obj_type</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;parameter of </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">()&quot;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">454</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/lines.py:393,</span> in <span class="ni">Line2D.__init__</span><span class="nt">(self, xdata, ydata, linewidth, linestyle, color, gapcolor, marker, markersize, markeredgewidth, markeredgecolor, markerfacecolor, markerfacecoloralt, fillstyle, antialiased, dash_capstyle, solid_capstyle, dash_joinstyle, solid_joinstyle, pickradius, drawstyle, markevery, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">389</span> <span class="bp">self</span><span class="o">.</span><span class="n">set_markeredgewidth</span><span class="p">(</span><span class="n">markeredgewidth</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">391</span> <span class="c1"># update kwargs before updating data to give the caller a</span>
+<span class="g g-Whitespace">    </span><span class="mi">392</span> <span class="c1"># chance to init axes (and hence unit support)</span>
+<span class="ne">--&gt; </span><span class="mi">393</span> <span class="bp">self</span><span class="o">.</span><span class="n">_internal_update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">394</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pickradius</span> <span class="o">=</span> <span class="n">pickradius</span>
+<span class="g g-Whitespace">    </span><span class="mi">395</span> <span class="bp">self</span><span class="o">.</span><span class="n">ind_offset</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/artist.py:1186,</span> in <span class="ni">Artist._internal_update</span><span class="nt">(self, kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1179</span> <span class="k">def</span> <span class="nf">_internal_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1180</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1181</span><span class="sd">     Update artist properties without prenormalizing them, but generating</span>
+<span class="g g-Whitespace">   </span><span class="mi">1182</span><span class="sd">     errors as if calling `set`.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1183</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1184</span><span class="sd">     The lack of prenormalization is to maintain backcompatibility.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1185</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1186</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_props</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1187</span>         <span class="n">kwargs</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{cls.__name__}</span><span class="s2">.set() got an unexpected keyword argument &quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1188</span>         <span class="s2">&quot;</span><span class="si">{prop_name!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/matplotlib/artist.py:1160,</span> in <span class="ni">Artist._update_props</span><span class="nt">(self, props, errfmt)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1158</span>             <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;set_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1159</span>             <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1160</span>                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1161</span>                     <span class="n">errfmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">cls</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">prop_name</span><span class="o">=</span><span class="n">k</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1162</span>             <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1163</span> <span class="k">if</span> <span class="n">ret</span><span class="p">:</span>
+
+<span class="ne">AttributeError</span>: Line2D.set() got an unexpected keyword argument &#39;markerfacecolour&#39;
+</pre></div>
+</div>
+<img alt="_images/673e8612d39464cc44b6ffc53ef338d2f618590288fa4174f07d6a1a2554f6af.png" src="_images/673e8612d39464cc44b6ffc53ef338d2f618590288fa4174f07d6a1a2554f6af.png" />
+</div>
+</div>
+<p>The last line of an error message tells you what the problem is.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ne">AttributeError</span><span class="p">:</span> <span class="n">Line2D</span><span class="o">.</span><span class="n">set</span><span class="p">()</span> <span class="n">got</span> <span class="n">an</span> <span class="n">unexpected</span> <span class="n">keyword</span> <span class="n">argument</span> <span class="s1">&#39;markerfacecolour&#39;</span>
+</pre></div>
+</div>
+<p>Here the problem is that we’ve used a word that python doesn’t understand: <code class="docutils literal notranslate"><span class="pre">markerfacecolour</span></code></p>
+<p>The problem is that <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> uses American spelling, so it doesn’t understand <code class="docutils literal notranslate"><span class="pre">markerfacecolour</span></code>. What we should use instead is <code class="docutils literal notranslate"><span class="pre">markerfacecolor</span></code> (without the <code class="docutils literal notranslate"><span class="pre">u</span></code> in color).</p>
+<p>Making that change and running it again:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">15</span><span class="p">})</span>  
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> 
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>           
+            <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+            <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>          
+            <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+            <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>              
+            <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d9977657f2f640a3013b57233c204c393b9336e52a13a2a61ab61cacd721c30e.png" src="_images/d9977657f2f640a3013b57233c204c393b9336e52a13a2a61ab61cacd721c30e.png" />
+</div>
+</div>
+<p>Now it works as expected</p>
+<section id="what-if-you-don-t-know-how-to-fix-it">
+<h3>What if you don’t know how to fix it?<a class="headerlink" href="#what-if-you-don-t-know-how-to-fix-it" title="Permalink to this heading">#</a></h3>
+<p>Some errors are easy to fix, but others are not. If you find yourself stuck with an error message that you can’t solve then you should <strong>google the error message</strong>.</p>
+<a class="reference internal image-reference" href="_images/oriley_google.jpeg"><img alt="googleing the error message is an important skill" class="align-center" src="_images/oriley_google.jpeg" style="width: 400px;" /></a>
+<p>This isn’t “cheating” - this is how it’s done in the real world.</p>
+<p>When you are googling the error message, try to stick to sources that are likely to be reliable. These are things like the package documentation, Stack Exchange, or sites like Code Academy. <strong>Do not</strong> just blindly copy and paste their code. Make sure you understand what it’s doing and edit it so it’s appropriate for what you’re trying to do.</p>
+<div class="danger admonition">
+<p class="admonition-title">Do not use ChatGPT (or similar AI tools)</p>
+<p>It can be very tempting to use tools like ChatGPT to write your code. <strong>Do not do it</strong>. Why not?</p>
+<ul class="simple">
+<li><p>You’re unlikely to learn anything, and the point of the course is to learn Python;</p></li>
+<li><p>It often won’t run correctly. ChatGRT tends to miss out imports (but doesn’t tell you that);</p></li>
+<li><p>It often gives the wrong answer, but does so very confidently;</p></li>
+<li><p>For this unit, even if it gives you something that runs, <strong>it won’t give you code that will pass the coursework</strong>.</p></li>
+</ul>
+<p><strong>If you did submit code written by ChatGPT for your coursework, this would be classed as Academic Misconduct.</strong></p>
+</div>
+</section>
+</section>
+<section id="formatting-with-fstrings">
+<h2>Formatting with <code class="docutils literal notranslate"><span class="pre">fstrings</span></code><a class="headerlink" href="#formatting-with-fstrings" title="Permalink to this heading">#</a></h2>
+<p>Without <code class="docutils literal notranslate"><span class="pre">fstrings</span></code>: hard to read</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotation</span> <span class="o">=</span><span class="s1">&#39;$I = </span><span class="si">{0:.3f}</span><span class="s1"> ( \pm </span><span class="si">{1:.3f}</span><span class="s1">)V </span><span class="si">{2:+.3f}</span><span class="s1"> (\pm </span><span class="si">{3:.3f}</span><span class="s1">)$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">err_slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">err_intercept</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">fstrings</span></code> instead!</p>
+<ul class="simple">
+<li><p>Start the string with <code class="docutils literal notranslate"><span class="pre">f</span></code> before the first quotation mark</p></li>
+<li><p>Put the variable names directly in the brackets</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annotation_new</span> <span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$I = </span><span class="si">{</span><span class="n">slope</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> ( \pm </span><span class="si">{</span><span class="n">err_slope</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)V </span><span class="si">{</span><span class="n">intercept</span><span class="si">:</span><span class="s1">+.3f</span><span class="si">}</span><span class="s1"> (\pm </span><span class="si">{</span><span class="n">err_intercept</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">)$&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span>           
+             <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>              
+             <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+             <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>        
+             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>         
+             <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>        
+             <span class="n">markerfacecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+             <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>  
+             <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;C2 data&quot;</span>
+             <span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span>      
+                <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>           
+               <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">slope</span><span class="o">+</span><span class="n">intercept</span><span class="p">,</span> 
+         <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit&#39;</span><span class="p">)</span>
+
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">labels</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">annotation_new</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6ae15401eec8c8616742c53f4bcc81986a84c0a863c4f476b179fef297db84ff.png" src="_images/6ae15401eec8c8616742c53f4bcc81986a84c0a863c4f476b179fef297db84ff.png" />
+</div>
+</div>
+</section>
+<section id="changing-column-names">
+<h2>Changing column names<a class="headerlink" href="#changing-column-names" title="Permalink to this heading">#</a></h2>
+<p>For the final exercise of this worksheet you use another data file that I have provided, <a class="reference download internal" download="" href="_downloads/0fa95d35555b9ebf757ac1a7ca684c3c/data_2.csv"><span class="xref download myst">data_2.csv</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/data_2.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Time_s</th>
+      <th>Height_m</th>
+      <th>Unc_m</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>182.0</td>
+      <td>3.50</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.5</td>
+      <td>180.0</td>
+      <td>4.50</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>178.0</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.5</td>
+      <td>165.0</td>
+      <td>5.50</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>160.0</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2.5</td>
+      <td>148.0</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3.0</td>
+      <td>136.0</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3.5</td>
+      <td>120.0</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>4.0</td>
+      <td>99.0</td>
+      <td>4.00</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>4.5</td>
+      <td>83.0</td>
+      <td>2.50</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>5.0</td>
+      <td>55.0</td>
+      <td>3.60</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5.5</td>
+      <td>35.0</td>
+      <td>1.75</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>6.0</td>
+      <td>5.0</td>
+      <td>0.75</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>This all looks ok, but when we try to plot the time and height columns we get an error</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Time_s&#39;</span><span class="p">],</span> <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Height_m&#39;</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/pandas/core/indexes/base.py:3803,</span> in <span class="ni">Index.get_loc</span><span class="nt">(self, key, method, tolerance)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3802</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3803</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3804</span> <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/pandas/_libs/index.pyx:138,</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/pandas/_libs/index.pyx:165,</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
+
+<span class="nn">File pandas/_libs/hashtable_class_helper.pxi:5745,</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
+
+<span class="nn">File pandas/_libs/hashtable_class_helper.pxi:5753,</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
+
+<span class="ne">KeyError</span>: &#39;Height_m&#39;
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Time_s&#39;</span><span class="p">],</span> <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Height_m&#39;</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/pandas/core/frame.py:3805,</span> in <span class="ni">DataFrame.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3803</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3804</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem_multilevel</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3805</span> <span class="n">indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3806</span> <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">indexer</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3807</span>     <span class="n">indexer</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span><span class="p">]</span>
+
+<span class="nn">File ~/mambaforge/envs/teaching_stable/lib/python3.8/site-packages/pandas/core/indexes/base.py:3805,</span> in <span class="ni">Index.get_loc</span><span class="nt">(self, key, method, tolerance)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3803</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3804</span> <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3805</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">err</span>
+<span class="g g-Whitespace">   </span><span class="mi">3806</span> <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3807</span>     <span class="c1"># If we have a listlike key, _check_indexing_error will raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">3808</span>     <span class="c1">#  InvalidIndexError. Otherwise we fall through and re-raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">3809</span>     <span class="c1">#  the TypeError.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3810</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_check_indexing_error</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="ne">KeyError</span>: &#39;Height_m&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is because I made a mistake when I was formatting the data file. We can find the mistake by checking the names of the columns:</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">.columns</span></code> to check the names of the columns</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Time_s&#39;, &#39; Height_m&#39;, &#39; Unc_m&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we can see that there are spaces at the start of the height and uncertainty columns. This isn’t good. However, we can fix it using <code class="docutils literal notranslate"><span class="pre">.rename()</span></code></p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">.rename</span></code> to edit the column names.</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">columns=</span></code> to tell it to edit the column names</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">{'old_name'</span> <span class="pre">:</span> <span class="pre">'new_name'}</span></code> to tell it what to edit</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> to tell it to overwrite the old names</p></li>
+</ul>
+<p>The cell below renames the <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">Height_m'</span></code> and <code class="docutils literal notranslate"><span class="pre">'</span> <span class="pre">Unc_m'</span></code> columns so that they no longer contain spaces.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39; Height_m&#39;</span><span class="p">:</span> <span class="s1">&#39;Height_m&#39;</span><span class="p">,</span> <span class="s1">&#39; Unc_m&#39;</span><span class="p">:</span> <span class="s1">&#39;Unc_m&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;Time_s&#39;, &#39;Height_m&#39;, &#39;Unc_m&#39;], dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>so now when we plot the data it will work</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Time_s&#39;</span><span class="p">],</span> <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;Height_m&#39;</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x1178adaf0&gt;]
+</pre></div>
+</div>
+<img alt="_images/1d12a0fc49102357f26bd5559f0624cf91c526b1876c9e85cbc8fcbc09870b2c.png" src="_images/1d12a0fc49102357f26bd5559f0624cf91c526b1876c9e85cbc8fcbc09870b2c.png" />
+</div>
+</div>
+<p><strong>Note</strong>: The plot above is bad. See the <a class="reference internal" href="02_plotting_data.html"><span class="doc std std-doc">Plotting data</span></a> page for what should be included in a plot.</p>
+</section>
+<section id="reusing-code">
+<h2>Reusing code<a class="headerlink" href="#reusing-code" title="Permalink to this heading">#</a></h2>
+<p>It’s absolutely fine to reuse code! Use the code that you’re writing in these sessions as a <strong>starting point</strong> for things you do in the future. This means making sure that you edit things like axis labels, units, etc if you’re reusing plotting code.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_more_exercises.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Exercises</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-read-error-messages">How to read error messages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-you-don-t-know-how-to-fix-it">What if you don’t know how to fix it?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formatting-with-fstrings">Formatting with <code class="docutils literal notranslate"><span class="pre">fstrings</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-column-names">Changing column names</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reusing-code">Reusing code</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

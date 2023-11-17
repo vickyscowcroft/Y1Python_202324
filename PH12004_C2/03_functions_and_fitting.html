@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Functions and line fitting &#8212; C2 Fun with functions and plotting</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03_functions_and_fitting';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functions and pseudocode" href="04_more_fun_with_functions.html" />
+    <link rel="prev" title="Plotting data" href="02_plotting_data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C2 Fun with functions and plotting</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    C2 Fun with functions and plotting
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_first_plot.html">Plotting with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_plotting_data.html">Plotting data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Functions and line fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_more_fun_with_functions.html">Functions and pseudocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_more_exercises.html">Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c2_thurs_am.html">Additional examples</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03_functions_and_fitting.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Functions and line fitting</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-functions">Defining functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-functions">Useful functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-plot">Final plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">})</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="functions-and-line-fitting">
+<h1>Functions and line fitting<a class="headerlink" href="#functions-and-line-fitting" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do you add a best fit line?</p></li>
+<li><p>What is it actually doing?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Fit a best fit line with <code class="docutils literal notranslate"><span class="pre">scipy</span></code></p></li>
+<li><p>Add the line to the plot</p></li>
+<li><p>Adding a legend</p></li>
+</ul>
+</div>
+</section>
+<section id="defining-functions">
+<h2>Defining functions<a class="headerlink" href="#defining-functions" title="Permalink to this heading">#</a></h2>
+<p>You’ve already used lots of functions from the <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> packages. Now it’s time to write our own!</p>
+<p>A function is basically a mini-program. It’s a little bit of code that you can use again and again. We’ve already been sort of doing that by copying and pasting old bits of our code into new cells, but now we won’t even need to copy and paste.</p>
+<p>Functions can be simple things that don’t need input, like the one in the cell below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">howdy</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;howdy!&quot;</span><span class="p">)</span>
+    <span class="k">return</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">howdy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>howdy!
+</pre></div>
+</div>
+</div>
+</div>
+<p>We define a function using <code class="docutils literal notranslate"><span class="pre">def</span></code>. In the <code class="docutils literal notranslate"><span class="pre">howdy</span></code> function above, the brackets after the function name are empty, because it doesn’t need any input. We have a colon after the brackets to tell python that the next lines are part of the function.</p>
+<p>Inside the function we just have <code class="docutils literal notranslate"><span class="pre">print(&quot;howdy!&quot;)</span></code>. Every time we run the function, this is exactly what it will do.</p>
+<p>Finally, we have a <code class="docutils literal notranslate"><span class="pre">return</span></code> statement. We don’t need this function to return anything, we just want it to print <code class="docutils literal notranslate"><span class="pre">howdy!</span></code> then stop.</p>
+<p>Basically, I’ve written a pretty useless function. But we can make our functions do stuff by giving them input.</p>
+<a class="reference internal image-reference" href="_images/johnny_5.jpeg"><img alt="Jonny 5 needs input" class="align-center" src="_images/johnny_5.jpeg" style="width: 500px;" /></a>
+<p>We’re now going to change our <code class="docutils literal notranslate"><span class="pre">howdy()</span></code> function to take some input</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">howdy</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;howdy, </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>I’ve told the function to expect a some input, and to add that input to what’s printed on the screen. Change your function in the same way and run the <code class="docutils literal notranslate"><span class="pre">howdy</span></code> function in a new cell. For the input, you can either directly pass it a string (like in the cell below), or you can create a variable that contains a string and pass it that.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">howdy</span><span class="p">(</span><span class="s2">&quot;Vicky&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>howdy, Vicky!
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Johnny 5&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">howdy</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>howdy, Johnny 5!
+</pre></div>
+</div>
+</div>
+</div>
+<p>You’ll also see that there are curly brackets in the <code class="docutils literal notranslate"><span class="pre">print</span></code> function, and there’s some extra text afterwards: the <code class="docutils literal notranslate"><span class="pre">.format()</span></code> call.</p>
+<p><code class="docutils literal notranslate"><span class="pre">format()</span></code> is used to format our output. We’ll look in more detail at this later. For now, remember that if you want to put a variable in a <code class="docutils literal notranslate"><span class="pre">print</span></code> statement use the curly brackets to show where it will go, and <code class="docutils literal notranslate"><span class="pre">.format()</span></code> to tell it which variable you want.</p>
+<p>This is still a pretty useless function though. What it really needs is some output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">howdy</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;howdy, </span><span class="si">{}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">letters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;There are </span><span class="si">{}</span><span class="s2"> letters in your name&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">letters</span><span class="p">))</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">howdy</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>howdy, Johnny 5!
+There are 8 letters in your name
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here I’ve added something to count the number of letters in <code class="docutils literal notranslate"><span class="pre">name</span></code>. The function also <strong>returns</strong> that value. That’s why you see an <code class="docutils literal notranslate"><span class="pre">Out[</span> <span class="pre">]</span></code> box now too. The <code class="docutils literal notranslate"><span class="pre">8</span></code> is the value that was returned.</p>
+<p>If we really wanted to, we could save that in a variable too:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_letters</span> <span class="o">=</span> <span class="n">howdy</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>howdy, Johnny 5!
+There are 8 letters in your name
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_letters</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="useful-functions">
+<h2>Useful functions<a class="headerlink" href="#useful-functions" title="Permalink to this heading">#</a></h2>
+<p>Now we have an idea of how functions work, we can write a function that does something useful. We’re going to add a line of best fit to our plot. We can get a least-squares fit to our data using <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code>.</p>
+<p>First we set up the function that we want to fit to our data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>          
+    <span class="k">return</span> <span class="n">slope</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span>
+</pre></div>
+</div>
+<p>Here we’re giving it 3 things as input:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> is our <span class="math notranslate nohighlight">\(x\)</span> value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">slope</span></code> is the slope of the line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">intercept</span></code> is the intercept</p></li>
+</ul>
+<p>The return value (the output) is</p>
+<div class="math notranslate nohighlight">
+\[ y = m x + c \]</div>
+<p>where <span class="math notranslate nohighlight">\(m\)</span> is the slope and <span class="math notranslate nohighlight">\(c\)</span> is the intercept.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">):</span>         
+    <span class="k">return</span> <span class="n">slope</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">intercept</span>         
+</pre></div>
+</div>
+</div>
+</div>
+<p>While we could write some code to calculate the values of the slope and intercept using least-squares fitting, we don’t need to. Some kind soul has already done this for us as part of the <code class="docutils literal notranslate"><span class="pre">scipy</span></code> package. The <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> function is the one we need.</p>
+<p>To import it, run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+</pre></div>
+</div>
+<p>Next we pass our function and the x and y data to <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This will find the best fit line to our voltage and current data and send the parameters to the <code class="docutils literal notranslate"><span class="pre">popt</span></code> and <code class="docutils literal notranslate"><span class="pre">pcov</span></code> variables.</p>
+<div class="myinfo admonition">
+<p class="admonition-title">popt, pcov</p>
+<p><code class="docutils literal notranslate"><span class="pre">popt</span></code> and <code class="docutils literal notranslate"><span class="pre">pcov</span></code> are arrays that contain information about our fit.</p>
+<p>In the example here we’re fitting a line of the form</p>
+<div class="math notranslate nohighlight">
+\[ y = m x + c \]</div>
+<p><code class="docutils literal notranslate"><span class="pre">popt</span></code> is a 1-dimensional array that contains the values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">m</span></code> is the slope and <code class="docutils literal notranslate"><span class="pre">c</span></code> is the intercept. We access these values the same way we learned in C3 - by slicing the arrays:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pcov</span></code> is a 2-dimensional array that represents the <strong>covariance matrix</strong> of our fit.</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \text{cov}[m, c] = \begin{bmatrix}
+\sigma^2_m &amp; \sigma_{m,c}\\
+\sigma_{c,m} &amp; \sigma^2_c 
+\end{bmatrix}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma^2_m\)</span> and <span class="math notranslate nohighlight">\(\sigma^2_c\)</span> are the variances of the fitted parameters and <span class="math notranslate nohighlight">\(\sigma_{m,c}\)</span> and <span class="math notranslate nohighlight">\(\sigma_{c,m}\)</span> are the covariances. We’re not going to use the covariances in this course. The only parts we need are the <strong>variances</strong>.</p>
+<p>Variance is simply the standard error squared. To get the uncertainties on <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span>, we simply slice the array to get the diagonal elements and square root them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">err_slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">err_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">])</span>
+<span class="n">slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">err_slope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">err_intercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can print the parameters and their uncertainties to the screen using <code class="docutils literal notranslate"><span class="pre">print</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Slope: </span><span class="si">{0:.3f}</span><span class="s1"> +- </span><span class="si">{1:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">err_slope</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Intercept: </span><span class="si">{0:.3f}</span><span class="s1"> +- </span><span class="si">{1:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">intercept</span><span class="p">,</span> <span class="n">err_intercept</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Slope: 9.247 +- 0.297
+Intercept: 4.719 +- 1.734
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="final-plot">
+<h2>Final plot<a class="headerlink" href="#final-plot" title="Permalink to this heading">#</a></h2>
+<p>We can now add the best fit line to the plot.</p>
+<p>As this plot will have more than just the data on it we should include a legend describing what’s being shown. We can also add the equation of the line to the figure so everything is self-contained within one file.</p>
+<p>In the example below we now use the <code class="docutils literal notranslate"><span class="pre">label</span></code> keyword in <code class="docutils literal notranslate"><span class="pre">ax.errorbar</span></code>. <code class="docutils literal notranslate"><span class="pre">label</span></code> specifies the text that will be used on the legend for the things you’re plotting.</p>
+<p>The best fit line is added using <code class="docutils literal notranslate"><span class="pre">ax.plot</span></code>. The <code class="docutils literal notranslate"><span class="pre">x</span></code> values are the <code class="docutils literal notranslate"><span class="pre">x</span></code> values of the data (i.e. the distances). The <code class="docutils literal notranslate"><span class="pre">y</span></code> values are the value of the best fit line equation at each point.</p>
+<p>We add the legend using two lines of code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">labels</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first line grabs the <code class="docutils literal notranslate"><span class="pre">handles</span></code> - the plotting sybols - and the <code class="docutils literal notranslate"><span class="pre">labels</span></code> for each thing we’ve added to the plot.
+The second line adds the legend.</p>
+<p>When adding the legend, we reverse the order of the <code class="docutils literal notranslate"><span class="pre">handles</span></code> and <code class="docutils literal notranslate"><span class="pre">labels</span></code> using <code class="docutils literal notranslate"><span class="pre">handles[::-1]</span></code>. This makes it so the thing we plotted first is at the top of the legend.</p>
+<p><strong>This is why you learned how to reverse things!</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">loc=0</span></code> tells <code class="docutils literal notranslate"><span class="pre">legend</span></code> to pick the best position to draw the legend. You can read more details about legends <a class="reference external" href="https://matplotlib.org/3.1.0/api/_as_gen/matplotlib.pyplot.legend.html">here</a></p>
+<p>Finally, we add the best fit line equation to the plot using <code class="docutils literal notranslate"><span class="pre">annotate</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">annotation</span> <span class="o">=</span><span class="s1">&#39;$I = </span><span class="si">{0:.3f}</span><span class="s1"> ( \pm </span><span class="si">{1:.3f}</span><span class="s1">)V </span><span class="si">{2:+.3f}</span><span class="s1"> (\pm </span><span class="si">{3:.3f}</span><span class="s1">)$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">err_slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">err_intercept</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">70</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">annotation</span></code> line defines the text that we want to print. Here we can control the format of the text. Now we’re using more than one variable in the format statement we use numbers in the curly brackets so it’s easier to see which variable goes where. The <code class="docutils literal notranslate"><span class="pre">:.3f</span></code> inside the brackets tell python we want to print the variables as <code class="docutils literal notranslate"><span class="pre">float</span></code>s with 3 decimal places.</p>
+<p>Details of the Python formatting syntax are <a class="reference external" href="https://docs.python.org/3/library/string.html#format-specification-mini-language">here</a>. You can use latex to add maths symbols to your text.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">annotate</span></code> line specifies where and how the annotation is placed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span>           
+             <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>              
+             <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+             <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>        
+             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>         
+             <span class="n">ecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>        
+             <span class="n">markerfacecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+             <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>  
+             <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;C2 data&quot;</span>
+             <span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span>      
+                <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>           
+               <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">slope</span><span class="o">+</span><span class="n">intercept</span><span class="p">,</span> 
+         <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Best fit&#39;</span><span class="p">)</span>
+
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">labels</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">annotation</span> <span class="o">=</span><span class="s1">&#39;$I = </span><span class="si">{0:.3f}</span><span class="s1"> ( \pm </span><span class="si">{1:.3f}</span><span class="s1">)V </span><span class="si">{2:+.3f}</span><span class="s1"> (\pm </span><span class="si">{3:.3f}</span><span class="s1">)$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slope</span><span class="p">,</span> <span class="n">err_slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">err_intercept</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s2">&quot;round&quot;</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/95d7c25d457173c3d4f16c15150f0f3b3b336dc4f7f6489fe28c673e040c63bd.png" src="_images/95d7c25d457173c3d4f16c15150f0f3b3b336dc4f7f6489fe28c673e040c63bd.png" />
+</div>
+</div>
+<div class="myinfo admonition">
+<p class="admonition-title">Equations on plots</p>
+<p>When you’re making plots that could be thought of as ‘working drafts’ it’s fine to include the equation on the plot. However,  if you’re making a figure to put in a report, don’t add the equation like we have here. It’s only here to get you practice in formatting output.</p>
+</div>
+<div class="practice admonition" id="ex-ohms-law">
+<p class="admonition-title">Exercise: Ohms law</p>
+<p>Voltage, current and resistance are related by Ohms law:</p>
+<div class="math notranslate nohighlight">
+\[ V = IR\]</div>
+<p>The function you used above has the form</p>
+<div class="math notranslate nohighlight">
+\[ I = m V + c \]</div>
+<p>where <span class="math notranslate nohighlight">\(m\)</span> is the slope, <span class="math notranslate nohighlight">\(c\)</span> is the intercept, and <span class="math notranslate nohighlight">\(I\)</span> has units of milli-amps.</p>
+<p>Use the results from your fitting function to calculate the value of R and it’s uncertainty. You may have to review the material from the statistics part of the skills unit to remind yourself about how to propagate uncertainties.</p>
+<p>Use a markdown cell to properly format your answer with its uncertainty and units.</p>
+<p><a class="reference internal" href="soln_ohms_law.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Functions are most useful with input and output</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> to fit a line of best fit to your data.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">.format()</span></code> to format text on plots.</p></li>
+<li><p>All results need units and uncertainties. If it doesn’t have these, it’s meaningless.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_plotting_data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plotting data</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_more_fun_with_functions.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Functions and pseudocode</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-functions">Defining functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-functions">Useful functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-plot">Final plot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

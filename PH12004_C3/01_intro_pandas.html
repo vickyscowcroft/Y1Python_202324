@@ -1,0 +1,1191 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Introduction to pandas &#8212; C3 Handling with data with Python and Pandas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01_intro_pandas';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cleaning data with pandas" href="02_cleaning_data.html" />
+    <link rel="prev" title="Handling with data with Python and Pandas" href="00_schedule.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C3 Handling with data with Python and Pandas</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    Handling with data with Python and Pandas
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cleaning_data.html">Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_working_with_data.html">Analysing dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_objects.html">Python objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_further_exercises.html">Further exercises with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/01_intro_pandas.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Introduction to pandas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-pandas">What is <code class="docutils literal notranslate"><span class="pre">pandas</span></code>?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-in-data">Reading in data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-dataframes-and-reproducibility"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframes and reproducibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionaries">Dictionaries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-selection">Conditional selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="introduction-to-pandas">
+<h1>Introduction to <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#introduction-to-pandas" title="Permalink to this heading">#</a></h1>
+<a class="reference internal image-reference" href="_images/panda.jpeg"><img alt="a panda" class="align-center" src="_images/panda.jpeg" style="width: 800px;" /></a>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>What is <code class="docutils literal notranslate"><span class="pre">pandas?</span></code></p></li>
+<li><p>Why don’t I get a real panda?</p></li>
+<li><p>I’m disappointed. I was expecting a panda.</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Read in data from an csv file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pandas</span> <span class="pre">dataframes</span></code></p></li>
+</ul>
+</div>
+</section>
+<section id="what-is-pandas">
+<h2>What is <code class="docutils literal notranslate"><span class="pre">pandas</span></code>?<a class="headerlink" href="#what-is-pandas" title="Permalink to this heading">#</a></h2>
+<p>Unfortunately, this does not mean finding a panda to do our coding for us (although that would be amazing and if anyone knows a panda who could do this please let me know).</p>
+<p>Pandas is the <strong>Python Data Analysis Library</strong>. It can read pretty much anything you throw at it. If you’ve been putting your lab data into an excel spreadsheet, pandas can read it in so you can analyse and plot it. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is used commonly in science and industries such as data science; the skills you’re developing here will be useful well beyond the lab units. More information about <code class="docutils literal notranslate"><span class="pre">pandas</span></code> can be found on the webpage <a class="reference external" href="https://pandas.pydata.org/,%22pandas%22">here</a>.</p>
+</section>
+<section id="reading-in-data">
+<h2>Reading in data<a class="headerlink" href="#reading-in-data" title="Permalink to this heading">#</a></h2>
+<p>In C2 we started using <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to read in data from files. This week we’re going to continue using <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and get stuck in to all the cool things it can do.</p>
+<p>The data we used last week was all formatted nicely and worked well without us having to do much. However, it’s often the case that we have data that <strong>isn’t</strong> perfect. We may be using data that we didn’t take ourselves, from an online database for example. The file could contain missing values that could make our analysis go wrong. We could be looking at a massive file and we might only want a few specific columns out of the hundreds in the file. <code class="docutils literal notranslate"><span class="pre">pandas</span></code> makes dealing with things like this a lot easier.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Download the data</p>
+<p>The data we will be using today is a good example of ‘imperfect’ data. Download the <a class="reference download internal" download="" href="_downloads/a638a0b253686f723578cd4f323358a0/Exoplanet_catalog_2019.csv"><span class="xref download myst">Exoplanet_catalog_2019.csv</span></a> file and save it to your <code class="docutils literal notranslate"><span class="pre">data</span></code> folder.</p>
+</div>
+<section id="pandas-dataframes-and-reproducibility">
+<h3><code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframes and reproducibility<a class="headerlink" href="#pandas-dataframes-and-reproducibility" title="Permalink to this heading">#</a></h3>
+<p>One of the main features of <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is the way it handles data. The main data type for <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is a <strong>dataframe</strong>. You can think of a dataframe like a table or an Excel spreadsheet. All the data is contained inside the dataframe and you can reference individual rows, columns and cells within the dataframe.</p>
+<p>If dataframes are like spreadsheets, why are we using them instead of Excel? Because we want to do <strong>reproducible science</strong>. When you write a lab report and describe your experimental setup and methodology you’re making your work reproducible; another person should be able to take your lab report and reproduce the experiment you did. Historically, while scientists have been good about giving details of their experiments, there has been less emphasis on the reproducibility of the data analysis. However, the tide is turning and there is now much more importance placed on reproducible research and analysis.</p>
+<p><a class="reference external" href="https://simplystatistics.org/2014/06/06/the-real-reason-reproducible-research-is-important/">Here</a> is a nice blog post about why reproducible research is important.</p>
+<p>So why aren’t we doing our analysis in Excel and just making sure that it’s reproducible? Because it’s hard. Excel makes it very easy to get started, typing in your data and perhaps making a quick plot, but it doesn’t keep a record of what you’ve done. It’s very easy to accidently edit your data without realising it, or to make a mistake referencing a cell and completely change your results. This isn’t just a problem for science. In 2012 the bank JPMorgan lost $6.1 billion (yes, 6.1 billion dollars) due to an <a class="reference external" href="https://www.thekeycuts.com/dear-analyst-38-breaking-down-an-excel-error-that-led-to-six-billion-loss-at-jpmorgan-chase/">Excel error</a>.</p>
+<p>The first thing we need to do is <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span></code>. You’ll often see the package name abbreviated to <code class="docutils literal notranslate"><span class="pre">pd</span></code> if you’re looking online, so we’ll stick with that convention.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we can read in the file. We know it’s a <code class="docutils literal notranslate"><span class="pre">csv</span></code> file from the filename, so we can use the <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> function. We assign the result of <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> to the name of our dataframe. I’m going to call our dataframe <code class="docutils literal notranslate"><span class="pre">exo_df</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/Exoplanet_catalog_2019.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now take a look at the dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th># name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>eccentricity</th>
+      <th>discovered</th>
+      <th>detection_type</th>
+      <th>star_name</th>
+      <th>star_distance</th>
+      <th>star_metallicity</th>
+      <th>star_mass</th>
+      <th>star_sp_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>0.23100</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>11 Com</td>
+      <td>110.60</td>
+      <td>-0.35</td>
+      <td>2.70</td>
+      <td>G8 III</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>0.08000</td>
+      <td>2009.0</td>
+      <td>Radial Velocity</td>
+      <td>11 UMi</td>
+      <td>119.50</td>
+      <td>0.04</td>
+      <td>1.80</td>
+      <td>K4III</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>0.00000</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>14 And</td>
+      <td>76.40</td>
+      <td>-0.24</td>
+      <td>2.20</td>
+      <td>K0III</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>0.36900</td>
+      <td>2002.0</td>
+      <td>Radial Velocity</td>
+      <td>14 Her</td>
+      <td>18.10</td>
+      <td>0.43</td>
+      <td>0.90</td>
+      <td>K0 V</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>0.68900</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>16 Cyg B</td>
+      <td>21.41</td>
+      <td>0.08</td>
+      <td>1.01</td>
+      <td>G2.5 V</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>0.03100</td>
+      <td>2004.0</td>
+      <td>Radial Velocity</td>
+      <td>tau Gem</td>
+      <td>98.40</td>
+      <td>0.14</td>
+      <td>2.30</td>
+      <td>K2III</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>0.01186</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>0.24450</td>
+      <td>1999.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>0.31600</td>
+      <td>1999.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>0.00536</td>
+      <td>2010.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+  </tbody>
+</table>
+<p>3832 rows × 11 columns</p>
+</div></div></div>
+</div>
+<p>Oooh, fancy!</p>
+<p>One useful thing to check when you read in a file is what the names of the columns are. We can do this using</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;# name&#39;, &#39;orbital_period&#39;, &#39;semi_major_axis&#39;, &#39;eccentricity&#39;,
+       &#39;discovered&#39;, &#39;detection_type&#39;, &#39;star_name&#39;, &#39;star_distance&#39;,
+       &#39;star_metallicity&#39;, &#39;star_mass&#39;, &#39;star_sp_type&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see above that the first column name looks a bit strange. It has a <code class="docutils literal notranslate"><span class="pre">#</span></code> at the start. This was most likely put there to denote this first line as a header line. Keeping that there is going to make things difficult later on, so we can change the name of this column using <code class="docutils literal notranslate"><span class="pre">rename</span></code>. We pass it the old and new names of the column as a dictionary (i.e. something of the format <code class="docutils literal notranslate"><span class="pre">key:value</span></code>). <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> tells it to edit the existing dataframe. If we didn’t want to edit it we could create a new dataframe using</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">new_df</span> <span class="o">=</span> <span class="n">exo_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# name&#39;</span><span class="p">:</span><span class="s1">&#39;name&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>which would leave the <code class="docutils literal notranslate"><span class="pre">exo_df</span></code> dataframe untouched.</p>
+<p>Once we’ve used <code class="docutils literal notranslate"><span class="pre">rename</span></code> we can check the column names again to make sure it’s worked.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;# name&#39;</span><span class="p">:</span><span class="s1">&#39;name&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;name&#39;, &#39;orbital_period&#39;, &#39;semi_major_axis&#39;, &#39;eccentricity&#39;,
+       &#39;discovered&#39;, &#39;detection_type&#39;, &#39;star_name&#39;, &#39;star_distance&#39;,
+       &#39;star_metallicity&#39;, &#39;star_mass&#39;, &#39;star_sp_type&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dictionaries">
+<h3>Dictionaries<a class="headerlink" href="#dictionaries" title="Permalink to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">dictionary</span></code> is another type of Python variable. They are used to store collections of data in <code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">:</span> <span class="pre">value</span></code> pairs.</p>
+<p>An simple example of a dictionary is</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mydictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;breed&#39;</span> <span class="p">:</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span> <span class="p">:</span> <span class="s1">&#39;Branston&#39;</span><span class="p">,</span> <span class="s1">&#39;mood&#39;</span><span class="p">:</span> <span class="s1">&#39;grumpy&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mydictionary</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;breed&#39;: &#39;dog&#39;, &#39;name&#39;: &#39;Branston&#39;, &#39;mood&#39;: &#39;grumpy&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mydictionary</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Branston&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dictionaries are useful for lots of different things, but the main thing we’ll be using them for is dealing with column names.</p>
+<div class="myinfo admonition">
+<p class="admonition-title">Your data is safe with dataframes</p>
+<p>It might seem counterintuitive to edit the column names in a dataframe when we said at the start that editing data is bad practice. However, all we’re doing here only affects the dataframe. The original csv file hasn’t been touched. If we realise we’ve made a mistake we can always start again from our original data.</p>
+</div>
+<p>Dataframes work similar to how arrays do. We can access rows or columns by indexing and slicing, just as with arrays.</p>
+<p>However, rather than remember which column corresponds to which variable, we can pass the column name. So, if we wanted to select the <code class="docutils literal notranslate"><span class="pre">orbital_period</span></code> column, we just use</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        326.03000
+1        516.22000
+2        185.84000
+3       1773.40000
+4        799.50000
+           ...    
+3827     305.50000
+3828       4.61711
+3829     240.93700
+3830    1281.43900
+3831    3848.86000
+Name: orbital_period, Length: 3832, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can pass several column names if we want to select multiple things. The column names can be in any order, as long as we pass an array of names inside the brackets. Remember that an array is a list enclosed in square brackets, so we’ll need an extra set:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="p">[[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;detection_type&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>orbital_period</th>
+      <th>name</th>
+      <th>detection_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>326.03000</td>
+      <td>11 Com b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>516.22000</td>
+      <td>11 UMi b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>185.84000</td>
+      <td>14 And b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1773.40000</td>
+      <td>14 Her b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>799.50000</td>
+      <td>16 Cyg B b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>305.50000</td>
+      <td>tau Gem b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>4.61711</td>
+      <td>ups And b</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>240.93700</td>
+      <td>ups And c</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>1281.43900</td>
+      <td>ups And d</td>
+      <td>Radial Velocity</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>3848.86000</td>
+      <td>ups And e</td>
+      <td>Radial Velocity</td>
+    </tr>
+  </tbody>
+</table>
+<p>3832 rows × 3 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="conditional-selection">
+<span id="cond-sel"></span><h2>Conditional selection<a class="headerlink" href="#conditional-selection" title="Permalink to this heading">#</a></h2>
+<p>The data we’ve read in contains information about exoplanets. Exoplanets are planets that are orbiting stars other than our Sun. There are a few different ways to detect exoplanets. To see which techniques are included in our data we can use a function called <code class="docutils literal notranslate"><span class="pre">unique()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="o">.</span><span class="n">detection_type</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Radial Velocity&#39;, &#39;Primary Transit&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">unique()</span></code> tells us all the unique values in the column. From this we know that there are two possible values in the <code class="docutils literal notranslate"><span class="pre">detection_type</span></code> column: <code class="docutils literal notranslate"><span class="pre">'Radial</span> <span class="pre">Velocity'</span></code> and <code class="docutils literal notranslate"><span class="pre">'Primary</span> <span class="pre">Transit'</span></code>.</p>
+<p>What if we were only interested in the objects in the table that we detected using the Radial Velocity technique? We should be able to select those rows using the same logical conditions we’ve used in previous worksheets (see worksheet C1 if you want a refresher on how logical conditions work).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0       True
+1       True
+2       True
+3       True
+4       True
+        ... 
+3827    True
+3828    True
+3829    True
+3830    True
+3831    True
+Name: detection_type, Length: 3832, dtype: bool
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is going through the <code class="docutils literal notranslate"><span class="pre">detection_type</span></code> column row by row and evaluating the logical expression, returning <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>. Which is fine, but all that does is tell us which used Radial Velocity and which didn’t.</p>
+<p>If we want to get all the information about the Radial Velocity objects we have to do a similar thing as we did when we wanted to select several columns. Rather than using <code class="docutils literal notranslate"><span class="pre">exo_df[[columns_we_want]]</span></code>, we’re telling it which rows we want using the code from the cell above:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="p">[</span><span class="n">exo_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>eccentricity</th>
+      <th>discovered</th>
+      <th>detection_type</th>
+      <th>star_name</th>
+      <th>star_distance</th>
+      <th>star_metallicity</th>
+      <th>star_mass</th>
+      <th>star_sp_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>0.23100</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>11 Com</td>
+      <td>110.60</td>
+      <td>-0.35</td>
+      <td>2.70</td>
+      <td>G8 III</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>0.08000</td>
+      <td>2009.0</td>
+      <td>Radial Velocity</td>
+      <td>11 UMi</td>
+      <td>119.50</td>
+      <td>0.04</td>
+      <td>1.80</td>
+      <td>K4III</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>0.00000</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>14 And</td>
+      <td>76.40</td>
+      <td>-0.24</td>
+      <td>2.20</td>
+      <td>K0III</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>0.36900</td>
+      <td>2002.0</td>
+      <td>Radial Velocity</td>
+      <td>14 Her</td>
+      <td>18.10</td>
+      <td>0.43</td>
+      <td>0.90</td>
+      <td>K0 V</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>0.68900</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>16 Cyg B</td>
+      <td>21.41</td>
+      <td>0.08</td>
+      <td>1.01</td>
+      <td>G2.5 V</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>0.03100</td>
+      <td>2004.0</td>
+      <td>Radial Velocity</td>
+      <td>tau Gem</td>
+      <td>98.40</td>
+      <td>0.14</td>
+      <td>2.30</td>
+      <td>K2III</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>0.01186</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>0.24450</td>
+      <td>1999.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>0.31600</td>
+      <td>1999.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>0.00536</td>
+      <td>2010.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+  </tbody>
+</table>
+<p>863 rows × 11 columns</p>
+</div></div></div>
+</div>
+<p>Now we have all the data from all of the rows where <code class="docutils literal notranslate"><span class="pre">detection_type</span></code> is Radial Velocity.</p>
+<div class="practice admonition" id="ex-select-data">
+<p class="admonition-title">Exercise: Selecting data</p>
+<p>Select all the objects from the dataframe that have an orbital period longer than 250 days.</p>
+<p>Select all the objects that have an eccentricity below 0.15.</p>
+<p>Finally, select all the objects that have an orbital period longer than 250 days <strong>and</strong> have eccentricity below 0.15.</p>
+<p><strong>Hint</strong> Remember you can use <code class="docutils literal notranslate"><span class="pre">.columns</span></code> to check the names of the columns in your data. Make sure you’re writing the names exactly as they appear in the table.</p>
+<p><a class="reference internal" href="soln_selecting_data.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> package to work with data files such as spreadsheets without editing the original data.</p></li>
+<li><p>Dataframes are similar to arrays. You can access the data within them using the same methods as you use for arrays.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="00_schedule.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Handling with data with Python and Pandas</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02_cleaning_data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-pandas">What is <code class="docutils literal notranslate"><span class="pre">pandas</span></code>?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-in-data">Reading in data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-dataframes-and-reproducibility"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataframes and reproducibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dictionaries">Dictionaries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditional-selection">Conditional selection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

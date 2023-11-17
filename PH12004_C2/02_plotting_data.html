@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Plotting data &#8212; C2 Fun with functions and plotting</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_plotting_data';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functions and line fitting" href="03_functions_and_fitting.html" />
+    <link rel="prev" title="Plotting with matplotlib" href="01_first_plot.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C2 Fun with functions and plotting</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    C2 Fun with functions and plotting
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_first_plot.html">Plotting with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Plotting data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_functions_and_fitting.html">Functions and line fitting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_more_fun_with_functions.html">Functions and pseudocode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_more_exercises.html">Exercises</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c2_thurs_am.html">Additional examples</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_plotting_data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Plotting data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-in-data-with-pandas">Reading in data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-makes-a-good-scientific-plot">What makes a good scientific plot?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-it-fancy">Making it fancy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tick-marks">Tick marks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#font-size">Font size</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">})</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="plotting-data">
+<h1>Plotting data<a class="headerlink" href="#plotting-data" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do I read data from a file?</p></li>
+<li><p>What have pandas got to do with this?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Read in some data</p></li>
+<li><p>Make a <strong>good</strong> plot</p></li>
+</ul>
+</div>
+</section>
+<section id="reading-in-data-with-pandas">
+<h2>Reading in data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#reading-in-data-with-pandas" title="Permalink to this heading">#</a></h2>
+<p>The next new package we’re going to be looking at today is called <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. We’ll cover <code class="docutils literal notranslate"><span class="pre">pandas</span></code> in more detail in the next session; today we’re just going to use it to read in our data file.</p>
+<p>Download the <a class="reference download internal" download="" href="_downloads/5a3c265c60b552ab410204cfde4ff8ae/C2_Ohms_Fitting.csv"><span class="xref download myst">C2_Ohms_Fitting.csv</span></a> file linked here and save it in the <code class="docutils literal notranslate"><span class="pre">data</span></code> folder you created at the start.</p>
+<div class="danger admonition">
+<p class="admonition-title"><strong>Warning: Do not</strong> open this file in Excel!</p>
+<p>Do not double click it to open it. We’ll be reading it in to python in a moment.</p>
+</div>
+<p>You may have spotted that this file does not have <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code> at the end of its name, rather it has <code class="docutils literal notranslate"><span class="pre">.csv</span></code>. This indicates that it contains <strong>comma-separated values</strong>. These files can still be read by Excel, but you could also just open them in a text editor and read what’s inside. You can save your own data as a <code class="docutils literal notranslate"><span class="pre">csv</span></code> file in Excel by selecting it in the File Format menu in the “Save as…” dialogue box.</p>
+<p>Once you have the file saved in the right place, you can read it in with <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<p>The first thing to do is to import the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library. It’s common practice to import it using its short name, <code class="docutils literal notranslate"><span class="pre">pd</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can then read in the file using the <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> function. The data we’re working with here is quite simple, so all we need to pass to <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> is the location of the file we want to read in. We also want to assign the output of <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> to a variable. In this case we’ll call the variable <code class="docutils literal notranslate"><span class="pre">data</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/C2_Ohms_Fitting.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the command above you’ll see we’ve not just given the filename to <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>, but we’ve given the location of the file too. This is called the <strong>path</strong>. The path can be broken down as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">./</span></code>  means “start from the folder I’m currently in”</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data/</span></code> is the name of our data folder</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">C2_Ohms_Fitting.csv</span></code> is the name of our data file.</p></li>
+</ul>
+<p>This is one of the reasons why I had you create a single folder to keep your work in, and a single folder inside that to store your data. It makes your life much simpler when all your data is stored in one place!</p>
+<p>We can look at what’s stored in the <code class="docutils literal notranslate"><span class="pre">data</span></code> variable in the same way we’d look at any other variable. Just type it’s name!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V</th>
+      <th>I_mA</th>
+      <th>I_unc_mA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.5</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>20</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.5</td>
+      <td>20</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.0</td>
+      <td>20</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2.5</td>
+      <td>30</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3.0</td>
+      <td>40</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>3.5</td>
+      <td>30</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>4.0</td>
+      <td>40</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>4.5</td>
+      <td>40</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>5.0</td>
+      <td>50</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>5.5</td>
+      <td>60</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>6.0</td>
+      <td>60</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>6.5</td>
+      <td>70</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>7.0</td>
+      <td>70</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>7.5</td>
+      <td>70</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>8.0</td>
+      <td>80</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>8.5</td>
+      <td>80</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>9.0</td>
+      <td>90</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>9.5</td>
+      <td>90</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>10.0</td>
+      <td>100</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Run</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>in a new cell to see what kind of variable is stored in <code class="docutils literal notranslate"><span class="pre">data</span></code>. Is it what you were expecting?</p>
+<p>If you’ve run everything up to now correctly you should see that <code class="docutils literal notranslate"><span class="pre">type(data)</span></code> returns a type we haven’t come across before. It returns <code class="docutils literal notranslate"><span class="pre">pandas.core.frame.DataFrame</span></code>.</p>
+<p>This is a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> object. These work very similarly to <code class="docutils literal notranslate"><span class="pre">numpy</span></code> arrays, and we can index and slice them in the same way. In the next session we’ll be doing lots of fancy things with DataFrames, but today we’ll stick to the basics.</p>
+<p><code class="docutils literal notranslate"><span class="pre">data</span></code> contains voltage in volts, current in milliamps, and the uncertainty on the current (also in milliamps).</p>
+<p>We’re now going to make a plot of the <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(I\)</span> data stored in <code class="docutils literal notranslate"><span class="pre">data</span></code>. Rather than write everything from scratch, we’ll start from the simple plot code we had above, and edit that.</p>
+<p>But how do we get at the data we want to plot? We just slice our dataframe, but this time we can use the column name to say what we want. To get the <code class="docutils literal notranslate"><span class="pre">V</span></code> column we use</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0      0.0
+1      0.5
+2      1.0
+3      1.5
+4      2.0
+5      2.5
+6      3.0
+7      3.5
+8      4.0
+9      4.5
+10     5.0
+11     5.5
+12     6.0
+13     6.5
+14     7.0
+15     7.5
+16     8.0
+17     8.5
+18     9.0
+19     9.5
+20    10.0
+Name: V, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Columns</p>
+<p>You can check the names of the columns in your dataframe by looking at the <code class="docutils literal notranslate"><span class="pre">columns</span></code> attribute of your dataframe.</p>
+<p>Use</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+<p>to check what the column names are. Once you have them, slice your dataframe to get the current column.</p>
+</div>
+<p>We can now reuse our plotting code from above to plot the <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(I\)</span> data, substituting in <code class="docutils literal notranslate"><span class="pre">data['V']</span></code> for the <span class="math notranslate nohighlight">\(x\)</span> value and the <code class="docutils literal notranslate"><span class="pre">I_mA</span></code> column for the <span class="math notranslate nohighlight">\(y\)</span> value.</p>
+</section>
+<section id="what-makes-a-good-scientific-plot">
+<h2>What makes a good scientific plot?<a class="headerlink" href="#what-makes-a-good-scientific-plot" title="Permalink to this heading">#</a></h2>
+<p>Any plot you make should be clear and informative. There are several things that you <strong>always</strong> need on a plot of your results:</p>
+<ul class="simple">
+<li><p>Error bars</p></li>
+<li><p>Axis labels</p></li>
+<li><p>Units</p></li>
+</ul>
+<p>We can do this pretty easily with <code class="docutils literal notranslate"><span class="pre">plt</span></code>. First we call <code class="docutils literal notranslate"><span class="pre">errorbar</span></code> to plot our points and errorbars.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span>           
+             <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>              
+             <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+             <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>        
+             <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>          
+             <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+             <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>              
+             <span class="p">)</span>
+</pre></div>
+</div>
+<p>Here were’re calling <code class="docutils literal notranslate"><span class="pre">errorbar</span></code>, telling it which column corresponds to the y-axis uncertainties and the size and shape, and colour of our points. <code class="docutils literal notranslate"><span class="pre">linestyle='none'</span></code> is telling it <strong>not</strong> to draw a line joining up all our points. <code class="docutils literal notranslate"><span class="pre">capsize</span></code> sets the size the end bars on the errorbars.
+This command looks pretty long, but we’ll look later at how to set some parameters as defaults.</p>
+<p>Finally, we add the axis labels <strong>including the units</strong> using <code class="docutils literal notranslate"><span class="pre">ax.set_xlabel</span></code> and <code class="docutils literal notranslate"><span class="pre">ax.set_ylabel</span></code> so our plot actually means something.</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> 
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>           
+            <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+            <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>          
+            <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+            <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>              
+            <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/9ff060ba9ee3c77f2217aac73f624ad0628f158b5438c60069aa587fa15c8e86.png"><img alt="_images/9ff060ba9ee3c77f2217aac73f624ad0628f158b5438c60069aa587fa15c8e86.png" src="_images/9ff060ba9ee3c77f2217aac73f624ad0628f158b5438c60069aa587fa15c8e86.png" style="width: 800px;" /></a>
+</figure>
+</section>
+<section id="making-it-fancy">
+<h2>Making it fancy<a class="headerlink" href="#making-it-fancy" title="Permalink to this heading">#</a></h2>
+<p>Now our plot is starting to look good! We can now add in some finishing touches</p>
+<section id="tick-marks">
+<h3>Tick marks<a class="headerlink" href="#tick-marks" title="Permalink to this heading">#</a></h3>
+<p>We can change the tick marks on the axes to go into the graph rather than out towards the numbers. This makes the plot easier to read.</p>
+</section>
+<section id="font-size">
+<h3>Font size<a class="headerlink" href="#font-size" title="Permalink to this heading">#</a></h3>
+<p>The font size should be big enough that it’s easy to read when it’s printed or included in your lab report.</p>
+<p>To change the font size we use <code class="docutils literal notranslate"><span class="pre">plt.rcParams.update</span></code>. This changes the settings for all the text.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">15</span><span class="p">})</span>  
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;V&#39;</span><span class="p">],</span> 
+            <span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_mA&#39;</span><span class="p">],</span>           
+            <span class="n">yerr</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;I_unc_mA&#39;</span><span class="p">],</span>     
+            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>             
+            <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="n">markerfacecolor</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>          
+            <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>       
+            <span class="n">capsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>              
+            <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Voltage (V)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Current (mA)&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d9977657f2f640a3013b57233c204c393b9336e52a13a2a61ab61cacd721c30e.png" src="_images/d9977657f2f640a3013b57233c204c393b9336e52a13a2a61ab61cacd721c30e.png" />
+</div>
+</div>
+<div class="myinfo admonition">
+<p class="admonition-title">One figure = one cell:</p>
+<p>All your <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> commands for a given plot should be in the same cell or you won’t get anything out when you run <code class="docutils literal notranslate"><span class="pre">plt.show()</span></code>.</p>
+</div>
+<div class="practice admonition" id="ex-customise-plot">
+<p class="admonition-title">Exercise: Customise the plot</p>
+<p>The plot above is informative, but it’s not the prettiest.</p>
+<p>Edit the parameters in the code above to change the following:</p>
+<ul class="simple">
+<li><p>Change the colour of the points</p></li>
+<li><p>Change the point (<code class="docutils literal notranslate"><span class="pre">marker</span></code>) shape and size</p></li>
+</ul>
+<p>Information about how to change the colour and shape of the markers can be found <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html#matplotlib.pyplot.plot">here</a></p>
+<p><a class="reference internal" href="soln_customise_plot.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>Once you have a plot you’re happy with, remember to save your plot using <code class="docutils literal notranslate"><span class="pre">savefig()</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;pretty_plot.pdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>All plots should include:</p>
+<ul>
+<li><p>Error bars</p></li>
+<li><p>Axis labels</p></li>
+<li><p>Units</p></li>
+</ul>
+</li>
+<li><p>Save your plot using <code class="docutils literal notranslate"><span class="pre">savefig</span></code></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_first_plot.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plotting with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_functions_and_fitting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Functions and line fitting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-in-data-with-pandas">Reading in data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-makes-a-good-scientific-plot">What makes a good scientific plot?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-it-fancy">Making it fancy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tick-marks">Tick marks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#font-size">Font size</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

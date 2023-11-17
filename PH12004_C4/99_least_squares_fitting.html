@@ -1,0 +1,731 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Fitting a model to data &#8212; C4 More `pandas` and `plt`</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '99_least_squares_fitting';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4 More `pandas` and `plt`</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    More pandas and plt
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_excel_ranting.html">Why you should not open any of these data files in Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_choosing_function.html">Choosing a function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_uncertainties.html">Uncertainties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_multiple_data_sets.html">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_fancy_data_stuff.html">More fun with functions, dataframes and plotting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/99_least_squares_fitting.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Fitting a model to data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-you-fit-a-model-to-data">How do you fit a model to data?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-a-straight-line">Fitting a straight line</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-c">Finding <span class="math notranslate nohighlight">\(c\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-m">Finding <span class="math notranslate nohighlight">\(m\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">15</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="fitting-a-model-to-data">
+<h1>Fitting a model to data<a class="headerlink" href="#fitting-a-model-to-data" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do you fit a model to data?</p></li>
+<li><p>What is least squares fitting?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Use least-squares to fit a line to some data</p></li>
+<li><p>Confirm your results using <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code></p></li>
+</ul>
+</div>
+</section>
+<section id="how-do-you-fit-a-model-to-data">
+<h2>How do you fit a model to data?<a class="headerlink" href="#how-do-you-fit-a-model-to-data" title="Permalink to this heading">#</a></h2>
+<p>What do we mean by “fitting a model to data”? A model is just something that describes your observations. It can be as simple as a straight line fit with just 1 or two unknowns, or as complicated as a cosmological model with many unknown parameters.</p>
+<p>When we’re fitting a model to data we’re using some kind of theory or prediction about how different observed variables are related. A common example is fitting a straight line, <span class="math notranslate nohighlight">\(y=mx + x\)</span>, to some data to try to find a linear relationshp.</p>
+<p>But what’s actually happening when we do this? How are we determining <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span>?</p>
+</section>
+<section id="fitting-a-straight-line">
+<span id="line-fit"></span><h2>Fitting a straight line<a class="headerlink" href="#fitting-a-straight-line" title="Permalink to this heading">#</a></h2>
+<p>We’re going to look at the BoltData again to show how the process works. Find your file and read in the data into a dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bolt_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/BoltData.csv&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="s1">&#39;err_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;err_time&#39;</span><span class="p">),</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As always, have a quick look at the dataframe to make sure it’s read in as expected. <strong>Don’t skip this step!</strong> It will save you a lot of time in the long run to get in the habit of checking that it looks OK right at the start.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bolt_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>distance</th>
+      <th>err_distance</th>
+      <th>time</th>
+      <th>err_time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0.02</td>
+      <td>0.000000</td>
+      <td>1.004810</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>0.02</td>
+      <td>0.923422</td>
+      <td>0.637569</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20</td>
+      <td>0.02</td>
+      <td>2.178145</td>
+      <td>0.382366</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>30</td>
+      <td>0.02</td>
+      <td>2.461897</td>
+      <td>0.911785</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>40</td>
+      <td>0.02</td>
+      <td>3.387051</td>
+      <td>0.198510</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>50</td>
+      <td>0.02</td>
+      <td>5.263879</td>
+      <td>1.152222</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>60</td>
+      <td>0.02</td>
+      <td>6.042705</td>
+      <td>0.161827</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>70</td>
+      <td>0.02</td>
+      <td>7.939192</td>
+      <td>0.732011</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>80</td>
+      <td>0.02</td>
+      <td>8.221779</td>
+      <td>1.267329</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>90</td>
+      <td>0.02</td>
+      <td>8.578128</td>
+      <td>0.590908</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>100</td>
+      <td>0.02</td>
+      <td>9.562874</td>
+      <td>1.022337</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Previously we’ve used <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> to fit a best-fit line to our data. Here we’re going to look at what <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> is actually doing.</p>
+<p>When we worked with this data before we defined a function such as</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">best_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">m</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>corrseponding to
+$<span class="math notranslate nohighlight">\( f(x) = m x + c \)</span>$</p>
+<p>and used <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> to find the best values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> (the slope and intercept). But what is curve fit actually doing? What do we mean by the “best” values?</p>
+<p><code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> uses the <strong>least squares</strong> method to find the best values.</p>
+<p>The figure below illustrates what’s happening:</p>
+<a class="reference internal image-reference" href="_images/delta_plot.png"><img alt="an annotated plot showing how least squares fitting works" class="align-center" src="_images/delta_plot.png" style="width: 800px;" /></a>
+<p>Our data has <span class="math notranslate nohighlight">\(N\)</span> data points with the values <span class="math notranslate nohighlight">\(x_i\)</span>, <span class="math notranslate nohighlight">\(y_i\)</span>. The vertical distance between each point and the line (the red lines on the figure) is
+$<span class="math notranslate nohighlight">\( \Delta_i = y_i - m x - c \)</span>$</p>
+<p>Least squares finds the values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> that <strong>minimises the sum of the distances squared</strong>, i.e. it minimises
+$<span class="math notranslate nohighlight">\( S = \sum_{i=1}^{N} (\Delta_i^2)\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\( S = \sum_{i=1}^{N} (y_i - m x_i - c)^2 \)</span>$</p>
+<p>Why does least squares minimise <span class="math notranslate nohighlight">\(\sum \Delta_i^2\)</span>? Look at the figure above and think about why we want to minimise the squared values rather than just <span class="math notranslate nohighlight">\(\sum \Delta_i\)</span>.</p>
+<p>To find the the values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> that minimise this sum we have to differentiate it with respect to <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> and solve the equations</p>
+<div class="math notranslate nohighlight">
+\[\dfrac{\delta S}{\delta m} = 0\]</div>
+<p>and
+$<span class="math notranslate nohighlight">\(\dfrac{\delta S}{\delta c} = 0 \)</span>$</p>
+<p>For our example of a straight line this is relatively straight forward.</p>
+<section id="finding-c">
+<h3>Finding <span class="math notranslate nohighlight">\(c\)</span><a class="headerlink" href="#finding-c" title="Permalink to this heading">#</a></h3>
+<p>For <span class="math notranslate nohighlight">\(\dfrac{\delta S}{\delta c}=0\)</span> we find</p>
+<div class="math notranslate nohighlight">
+\[ 
+\dfrac{\delta S}{\delta c} = -2 \sum_{i=i}^{N}(y_i - m x_i - c) = 0
+\]</div>
+<p>(from here onwards <span class="math notranslate nohighlight">\(\sum = \sum_{i=1}^{N}\)</span> to make it easier to read)</p>
+<p>Rearranging gives</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\sum y_i - m \sum x_i - Nc = 0 \\\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[
+c = \dfrac{\sum y_i - m \sum x_i}{N}
+\]</div>
+</section>
+<section id="finding-m">
+<h3>Finding <span class="math notranslate nohighlight">\(m\)</span><a class="headerlink" href="#finding-m" title="Permalink to this heading">#</a></h3>
+<p>The same thing is done for  <span class="math notranslate nohighlight">\(\dfrac{\delta S}{\delta m}=0\)</span>, substituting in the expression for <span class="math notranslate nohighlight">\(c\)</span> found above. I haven’t included the all the steps here, but you can work through the maths to convince yourself that it works. You should end up with</p>
+<div class="math notranslate nohighlight">
+\[
+m = \dfrac{N \sum \left(x_i y_i\right) - \sum x_i \sum y_i}{N\sum\left(x_i^2\right) - \left(\sum x_i\right)^2}
+\]</div>
+<p>We can now calculate the best values of <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> by finding all the different summation values that we need. For a straight line fit we need <span class="math notranslate nohighlight">\(\sum x_i\)</span>, <span class="math notranslate nohighlight">\(\sum y_i\)</span>, <span class="math notranslate nohighlight">\(\sum x_i y_i\)</span> and <span class="math notranslate nohighlight">\(\sum (x_i^2)\)</span>. We can find these using the <code class="docutils literal notranslate"><span class="pre">sum</span></code> function from <code class="docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<p><span class="math notranslate nohighlight">\(\sum x_i\)</span> and <span class="math notranslate nohighlight">\(\sum y_i\)</span> are straightforward; they are just the sums of the <span class="math notranslate nohighlight">\(x\)</span> (distance) and <span class="math notranslate nohighlight">\(y\)</span> (time) values in our table. <code class="docutils literal notranslate"><span class="pre">numpy</span></code> can do that for us:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sum_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">bolt_df</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+<span class="n">sum_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">bolt_df</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sum_x</span><span class="p">,</span> <span class="n">sum_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>550 54.559074164
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(\sum (x^2)\)</span> is also easy to do:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sum_x_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">bolt_df</span><span class="o">.</span><span class="n">distance</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sum_x_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>38500
+</pre></div>
+</div>
+</div>
+</div>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Calculate <span class="math notranslate nohighlight">\(\sum x_i y_i\)</span></p>
+<p>Calculate the value of <span class="math notranslate nohighlight">\(\sum x_i y_i\)</span>. Assign it to a variable called <code class="docutils literal notranslate"><span class="pre">sum_x_y</span></code></p>
+</div>
+<div class="cell tag_hide-cell docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell content</span>
+<span class="expanded">Hide code cell content</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sum_x_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">bolt_df</span><span class="o">.</span><span class="n">distance</span> <span class="o">*</span> <span class="n">bolt_df</span><span class="o">.</span><span class="n">time</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sum_x_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3829.69710839
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>Now we can plug these into the expressions we have for <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<div class="practice admonition" id="ex-calc-m-c">
+<p class="admonition-title">Exercise: Calculate <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span></p>
+<p>Use the summation values just calculated to find the best fit values for <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span>. Make a new plot of time against distance showing the data and the best fit line you have just found.</p>
+<p><a class="reference internal" href="soln_calc_m_c.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>Hopefully you’ve ended up with a figure that looks something like this:</p>
+<p><img alt="boltanswer-2.png" src="attachment:boltanswer-2.png" /></p>
+<div class="practice admonition" id="ex-compare-result">
+<p class="admonition-title">Exercise: Check your result</p>
+<p>Now you have your values for <span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> from doing least-squares by hand. Check your results using <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code>. Remember to define your function first.</p>
+<p><a class="reference internal" href="soln_compare_result.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+</section>
+</section>
+<section id="key-points">
+<h2>Key Points:<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> finds the parameters of the functions it’s fitting using <strong>least squares</strong>.</p></li>
+<li><p>Least squares minimises the sum of the squares of the distances between the data and the function.</p></li>
+<li><p>To find the values of the parameters you’re fitting, differentiate your function with respect to each of the unknowns.</p></li>
+<li><p>The example above is for a simple straight line fit. The same method holds for whatever function you choose - just differentiate your function with respect to each unknown parameter.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-you-fit-a-model-to-data">How do you fit a model to data?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-a-straight-line">Fitting a straight line</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-c">Finding <span class="math notranslate nohighlight">\(c\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-m">Finding <span class="math notranslate nohighlight">\(m\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

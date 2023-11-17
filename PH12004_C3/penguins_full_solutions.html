@@ -1,0 +1,1398 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Solutions to the Penguins exercises &#8212; C3 Handling with data with Python and Pandas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'penguins_full_solutions';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Further exercises with pandas" href="05_further_exercises.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C3 Handling with data with Python and Pandas</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    Handling with data with Python and Pandas
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_intro_pandas.html">Introduction to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cleaning_data.html">Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_working_with_data.html">Analysing dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_objects.html">Python objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_further_exercises.html">Further exercises with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Solutions to the Penguins exercises</a></li>
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/penguins_full_solutions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Solutions to the Penguins exercises</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Solutions to the Penguins exercises</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-read-in-your-data">Solution: Read in your data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-penguins-love-histograms">Solution: Penguins love histograms</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-what-a-big-bill-you-have">Solution: What a big bill you have?</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">16</span><span class="p">})</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="solutions-to-the-penguins-exercises">
+<h1>Solutions to the Penguins exercises<a class="headerlink" href="#solutions-to-the-penguins-exercises" title="Permalink to this heading">#</a></h1>
+<p>This notebook contains the full solutions to the Penguins exercises in C3.</p>
+<p>As a change from (astro)physics data, today we’re going to be looking at penguins.</p>
+<a class="reference internal image-reference" href="_images/Emperor_Penguin_Manchot_empereur.jpg"><img alt="a penguin" class="align-center" src="_images/Emperor_Penguin_Manchot_empereur.jpg" style="width: 800px;" /></a>
+<p>To get started, download the <a class="reference download internal" download="" href="_downloads/6a05ea9344ba6d13a71a2ee76dfd48de/penguins_raw.csv"><span class="xref download myst">palmerpenguins dataset</span></a> and save it in the folder you’re using for this weeks work. <strong>Remember</strong>, keeping all your data files and notebooks in one place saves you the hassle of messing about with paths every time.</p>
+<p>Throughout these exercises you should be <strong>writing what you are doing and why you’re doing it</strong> in the markdown cells alongside your code. I know I keep saying this, but it is important. Could I be giving you a clue to what I’m expecting you to do for your coursework? You could say that, but I couldn’t possibly comment.</p>
+<div class="myinfo admonition">
+<p class="admonition-title">Where does this data come from?</p>
+<p>If you want to know more about where the dataset we’re using here comes from, you can check the <a class="reference external" href="https://allisonhorst.github.io/palmerpenguins/index.html">palmerpenguins website</a></p>
+</div>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Read in your data</p>
+<p>First things first. Read the palmerpenguins <span class="xref myst">penguins_raw.csv</span> file into a dataframe.</p>
+<p>Check what it looks like. Do the columns have sensible names? If not, change them.</p>
+<p>Check to see if there are any <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values. <strong>Hint:</strong> There is one column that might have a lot of <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s. We don’t necessarily want to get rid of rows that have <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s only in that column. Look at your dataframe and check which column this is. Should we do anything about it?</p>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="solution-read-in-your-data">
+<h1>Solution: Read in your data<a class="headerlink" href="#solution-read-in-your-data" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/penguins_raw.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>studyName</th>
+      <th>Sample Number</th>
+      <th>Species</th>
+      <th>Region</th>
+      <th>Island</th>
+      <th>Stage</th>
+      <th>Individual ID</th>
+      <th>Clutch Completion</th>
+      <th>Date Egg</th>
+      <th>Culmen Length (mm)</th>
+      <th>Culmen Depth (mm)</th>
+      <th>Flipper Length (mm)</th>
+      <th>Body Mass (g)</th>
+      <th>Sex</th>
+      <th>Delta 15 N (o/oo)</th>
+      <th>Delta 13 C (o/oo)</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PAL0708</td>
+      <td>1</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N1A1</td>
+      <td>Yes</td>
+      <td>2007-11-11</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181.0</td>
+      <td>3750.0</td>
+      <td>MALE</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not enough blood for isotopes.</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PAL0708</td>
+      <td>2</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N1A2</td>
+      <td>Yes</td>
+      <td>2007-11-11</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186.0</td>
+      <td>3800.0</td>
+      <td>FEMALE</td>
+      <td>8.94956</td>
+      <td>-24.69454</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PAL0708</td>
+      <td>3</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N2A1</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195.0</td>
+      <td>3250.0</td>
+      <td>FEMALE</td>
+      <td>8.36821</td>
+      <td>-25.33302</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PAL0708</td>
+      <td>4</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N2A2</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Adult not sampled.</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PAL0708</td>
+      <td>5</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N3A1</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193.0</td>
+      <td>3450.0</td>
+      <td>FEMALE</td>
+      <td>8.76651</td>
+      <td>-25.32426</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="p">[</span><span class="n">penguins_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>studyName</th>
+      <th>Sample Number</th>
+      <th>Species</th>
+      <th>Region</th>
+      <th>Island</th>
+      <th>Stage</th>
+      <th>Individual ID</th>
+      <th>Clutch Completion</th>
+      <th>Date Egg</th>
+      <th>Culmen Length (mm)</th>
+      <th>Culmen Depth (mm)</th>
+      <th>Flipper Length (mm)</th>
+      <th>Body Mass (g)</th>
+      <th>Sex</th>
+      <th>Delta 15 N (o/oo)</th>
+      <th>Delta 13 C (o/oo)</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PAL0708</td>
+      <td>1</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N1A1</td>
+      <td>Yes</td>
+      <td>2007-11-11</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181.0</td>
+      <td>3750.0</td>
+      <td>MALE</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not enough blood for isotopes.</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PAL0708</td>
+      <td>2</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N1A2</td>
+      <td>Yes</td>
+      <td>2007-11-11</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186.0</td>
+      <td>3800.0</td>
+      <td>FEMALE</td>
+      <td>8.94956</td>
+      <td>-24.69454</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PAL0708</td>
+      <td>3</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N2A1</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195.0</td>
+      <td>3250.0</td>
+      <td>FEMALE</td>
+      <td>8.36821</td>
+      <td>-25.33302</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PAL0708</td>
+      <td>4</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N2A2</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Adult not sampled.</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PAL0708</td>
+      <td>5</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N3A1</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193.0</td>
+      <td>3450.0</td>
+      <td>FEMALE</td>
+      <td>8.76651</td>
+      <td>-25.32426</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>337</th>
+      <td>PAL0910</td>
+      <td>62</td>
+      <td>Chinstrap penguin (Pygoscelis antarctica)</td>
+      <td>Anvers</td>
+      <td>Dream</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N96A2</td>
+      <td>Yes</td>
+      <td>2009-11-27</td>
+      <td>46.8</td>
+      <td>16.5</td>
+      <td>189.0</td>
+      <td>3650.0</td>
+      <td>FEMALE</td>
+      <td>9.65061</td>
+      <td>-24.48153</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>338</th>
+      <td>PAL0910</td>
+      <td>63</td>
+      <td>Chinstrap penguin (Pygoscelis antarctica)</td>
+      <td>Anvers</td>
+      <td>Dream</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N98A1</td>
+      <td>Yes</td>
+      <td>2009-11-19</td>
+      <td>45.7</td>
+      <td>17.0</td>
+      <td>195.0</td>
+      <td>3650.0</td>
+      <td>FEMALE</td>
+      <td>9.26715</td>
+      <td>-24.31912</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>339</th>
+      <td>PAL0910</td>
+      <td>64</td>
+      <td>Chinstrap penguin (Pygoscelis antarctica)</td>
+      <td>Anvers</td>
+      <td>Dream</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N98A2</td>
+      <td>Yes</td>
+      <td>2009-11-19</td>
+      <td>55.8</td>
+      <td>19.8</td>
+      <td>207.0</td>
+      <td>4000.0</td>
+      <td>MALE</td>
+      <td>9.70465</td>
+      <td>-24.53494</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>342</th>
+      <td>PAL0910</td>
+      <td>67</td>
+      <td>Chinstrap penguin (Pygoscelis antarctica)</td>
+      <td>Anvers</td>
+      <td>Dream</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N100A1</td>
+      <td>Yes</td>
+      <td>2009-11-21</td>
+      <td>50.8</td>
+      <td>19.0</td>
+      <td>210.0</td>
+      <td>4100.0</td>
+      <td>MALE</td>
+      <td>9.98044</td>
+      <td>-24.68741</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>343</th>
+      <td>PAL0910</td>
+      <td>68</td>
+      <td>Chinstrap penguin (Pygoscelis antarctica)</td>
+      <td>Anvers</td>
+      <td>Dream</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N100A2</td>
+      <td>Yes</td>
+      <td>2009-11-21</td>
+      <td>50.2</td>
+      <td>18.7</td>
+      <td>198.0</td>
+      <td>3775.0</td>
+      <td>FEMALE</td>
+      <td>9.39305</td>
+      <td>-24.25255</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>309 rows × 17 columns</p>
+</div></div></div>
+</div>
+<p>That’s a lot of <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s. But it looks like most of them are in the <code class="docutils literal notranslate"><span class="pre">Comments</span></code> column. We can leave that as it is then.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Penguins love histograms</p>
+<p>It’s time to make some more histograms!</p>
+<p>Make a histogram showing the distribution of body mass for our penguins.</p>
+<p>Your dataframe should have a column called <code class="docutils literal notranslate"><span class="pre">Species</span></code>. Use the <code class="docutils literal notranslate"><span class="pre">unique()</span></code> function on that column to get a list of the different species of penguins in the data. Create a new plot with histograms of body mass for each species of penguin. As always, give your plot sensible axis labels, units, a legend, and experiment to find a good bin size so that the histograms can be compared fairly.</p>
+<p><strong>Hint:</strong> <code class="docutils literal notranslate"><span class="pre">unique()</span></code> works similarly to the <code class="docutils literal notranslate"><span class="pre">min()</span></code> and <code class="docutils literal notranslate"><span class="pre">max()</span></code> functions we used in the <a class="reference internal" href="03_working_with_data.html"><span class="doc std std-doc">previous section</span></a>.</p>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="solution-penguins-love-histograms">
+<h1>Solution: Penguins love histograms<a class="headerlink" href="#solution-penguins-love-histograms" title="Permalink to this heading">#</a></h1>
+<p>First making a histogram of body masses:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6300.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2700.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3600.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Range in mass is 3600g. 36 bins would be bins of 100g. Sounds reasonable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_hist_1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">penguin_hist_1</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;All penguins&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Count&#39;)
+</pre></div>
+</div>
+<img alt="_images/ade68ff94b2721b6f2c1f45c5be324f856c74cb196f1ef2a02f7c654e32c5e66.png" src="_images/ade68ff94b2721b6f2c1f45c5be324f856c74cb196f1ef2a02f7c654e32c5e66.png" />
+</div>
+</div>
+<p>Now we want to look at the body mass distributions for the different species. First we need to check what species are in the table by looking at the unique values in the <code class="docutils literal notranslate"><span class="pre">Species</span></code> column</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([&#39;Adelie Penguin (Pygoscelis adeliae)&#39;,
+       &#39;Gentoo penguin (Pygoscelis papua)&#39;,
+       &#39;Chinstrap penguin (Pygoscelis antarctica)&#39;], dtype=object)
+</pre></div>
+</div>
+</div>
+</div>
+<p>There’s a couple of ways to approach this. We could use the <code class="docutils literal notranslate"><span class="pre">group_by()</span></code> function in <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to create some quick plots. Here we’ll just use <code class="docutils literal notranslate"><span class="pre">where()</span></code>.</p>
+<p>You could put all the <code class="docutils literal notranslate"><span class="pre">where()</span></code> stuff every time you plot a histogram, but that makes things quite messy. To make it easier to see what’s going on, I’ve made three new dataframes, one for each species of penguin:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adelie</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Adelie Penguin (Pygoscelis adeliae)&#39;</span><span class="p">)</span>
+<span class="n">gentoo</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Gentoo penguin (Pygoscelis papua)&#39;</span><span class="p">)</span>
+<span class="n">chinstrap</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Chinstrap penguin (Pygoscelis antarctica)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Setting the same <strong>number</strong> of bins won’t be a fair comparison here. Need to have the exact same bins. Reducing number of bins to 18 as each one will have fewer penguins in it. I’m using the minumum and maximum values of mass for <em>all</em> the penguins, so the bins are the same for all of them.</p>
+<p>Remember, when we do this we’re setting up an array of bin edges, so you need the last number in <code class="docutils literal notranslate"><span class="pre">np.linspace()</span></code> needs to be <code class="docutils literal notranslate"><span class="pre">nbins</span> <span class="pre">+</span> <span class="pre">1</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">19</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguin_hist_2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">penguin_hist_2</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adelie&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;DimGrey&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gentoo&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;DimGrey&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chinstrap&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Gold&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;DimGrey&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b68dc858d953dbada575b8437d42065f00a6df67cdcf358311832db60f748a05.png" src="_images/b68dc858d953dbada575b8437d42065f00a6df67cdcf358311832db60f748a05.png" />
+</div>
+</div>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: What a big bill you have?</p>
+<p>I would like to apologise in advance too all of the penguin enthusiats and/or NatSci students who most likely know a lot more about penguins and biology than I do…</p>
+<p>After some googling, I have discovered that the “culmen” is the ridge on top of a penguin’s bill. We shall now investigate whether there is a relation between the size of a penguin’s bill and its flipper size. Perhaps there is a relation? Perhaps there is not. There’s only one way to find out.</p>
+<ul class="simple">
+<li><p>Plot culmen length and depth as a function of body mass for each species of penguin.</p></li>
+<li><p>Plot flipper length as a function of body mass for each species of penguin.</p></li>
+<li><p>Assume that a penguin’s beak can be approximated as a cylinder of length equal to the culmen length and radius equal to half of the culmen depth. Add a new column to your dataframe corresponding to the volume of the penguins beak.</p></li>
+<li><p>Plot beak volume as a function of body mass for each species. Define a function to relate the two and find the best fit relation. Do heavier penguins have larger beaks?</p></li>
+</ul>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="solution-what-a-big-bill-you-have">
+<h1>Solution: What a big bill you have?<a class="headerlink" href="#solution-what-a-big-bill-you-have" title="Permalink to this heading">#</a></h1>
+<p>First make the plots - culmen length and depth as a function of body mass for each species of penguin.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cul_length</span> <span class="o">=</span>  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">cul_length</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Culmen Length (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adelie&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Culmen Length (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gentoo&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Culmen Length (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Gold&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chinstrap&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Culmen Length (mm)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Culmen Length as a function of body mass&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/cbca3bcc31bc231a85cc88f2a5813b99b81d4bb03213d799c0dddadf44410157.png" src="_images/cbca3bcc31bc231a85cc88f2a5813b99b81d4bb03213d799c0dddadf44410157.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cul_depth</span> <span class="o">=</span>  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">cul_depth</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Culmen Depth (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adelie&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Culmen Depth (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gentoo&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Culmen Depth (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Gold&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chinstrap&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Culmen Depth (mm)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Culmen Depth as a function of body mass&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2740548a9cc6ccc04a61826617c07ee5886a50fae7f803ab06b4f099a50c78ce.png" src="_images/2740548a9cc6ccc04a61826617c07ee5886a50fae7f803ab06b4f099a50c78ce.png" />
+</div>
+</div>
+<p>I wasn’t expecting the pink points to move like that. Interesting!</p>
+<p>On to flipper length</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">flipper_length</span> <span class="o">=</span>  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">flipper_length</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Flipper Length (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adelie&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Flipper Length (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gentoo&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Flipper Length (mm)&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Gold&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chinstrap&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Flipper Length (mm)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Flipper length as a function of body mass&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c843eec74e46ad1c5f0905d79d5ec774930a2da7b4feb3f5294077984f8e0555.png" src="_images/c843eec74e46ad1c5f0905d79d5ec774930a2da7b4feb3f5294077984f8e0555.png" />
+</div>
+</div>
+<p>Now we’re onto approximating our penguins as cylinders - a common technique in physics (much like the <a class="reference external" href="https://en.wikipedia.org/wiki/Spherical_cow">spherical cow</a>).</p>
+<p>The volume of a cylinder is given by:</p>
+<div class="math notranslate nohighlight">
+\[
+V = \pi r^2 h
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(r\)</span> is the radius and <span class="math notranslate nohighlight">\(h\)</span> is the height. Here we’re defining <span class="math notranslate nohighlight">\(h\)</span> as the culmen length and <span class="math notranslate nohighlight">\(r\)</span> as half of the culmen depth.</p>
+<p>Remember the units on these columns though… Both of these measurements are in mm. Physicists like SI units, so lets also convert these to meters so our volume is in m<span class="math notranslate nohighlight">\(^3\)</span> .</p>
+<p>Now add the new column to our dataframe using this equation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Culmen Length (mm)&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-3</span> <span class="o">*</span> <span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Culmen Depth (mm)&#39;</span><span class="p">]</span><span class="o">*</span><span class="mf">1e-3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">penguins_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>studyName</th>
+      <th>Sample Number</th>
+      <th>Species</th>
+      <th>Region</th>
+      <th>Island</th>
+      <th>Stage</th>
+      <th>Individual ID</th>
+      <th>Clutch Completion</th>
+      <th>Date Egg</th>
+      <th>Culmen Length (mm)</th>
+      <th>Culmen Depth (mm)</th>
+      <th>Flipper Length (mm)</th>
+      <th>Body Mass (g)</th>
+      <th>Sex</th>
+      <th>Delta 15 N (o/oo)</th>
+      <th>Delta 13 C (o/oo)</th>
+      <th>Comments</th>
+      <th>Beak_Volume</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>PAL0708</td>
+      <td>1</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N1A1</td>
+      <td>Yes</td>
+      <td>2007-11-11</td>
+      <td>39.1</td>
+      <td>18.7</td>
+      <td>181.0</td>
+      <td>3750.0</td>
+      <td>MALE</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Not enough blood for isotopes.</td>
+      <td>0.000043</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>PAL0708</td>
+      <td>2</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N1A2</td>
+      <td>Yes</td>
+      <td>2007-11-11</td>
+      <td>39.5</td>
+      <td>17.4</td>
+      <td>186.0</td>
+      <td>3800.0</td>
+      <td>FEMALE</td>
+      <td>8.94956</td>
+      <td>-24.69454</td>
+      <td>NaN</td>
+      <td>0.000038</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>PAL0708</td>
+      <td>3</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N2A1</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>40.3</td>
+      <td>18.0</td>
+      <td>195.0</td>
+      <td>3250.0</td>
+      <td>FEMALE</td>
+      <td>8.36821</td>
+      <td>-25.33302</td>
+      <td>NaN</td>
+      <td>0.000041</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>PAL0708</td>
+      <td>4</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N2A2</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Adult not sampled.</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>PAL0708</td>
+      <td>5</td>
+      <td>Adelie Penguin (Pygoscelis adeliae)</td>
+      <td>Anvers</td>
+      <td>Torgersen</td>
+      <td>Adult, 1 Egg Stage</td>
+      <td>N3A1</td>
+      <td>Yes</td>
+      <td>2007-11-16</td>
+      <td>36.7</td>
+      <td>19.3</td>
+      <td>193.0</td>
+      <td>3450.0</td>
+      <td>FEMALE</td>
+      <td>8.76651</td>
+      <td>-25.32426</td>
+      <td>NaN</td>
+      <td>0.000043</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Finally we can get onto the important science question. Do heavier penguins have bigger beaks?</p>
+<p>Redoing the <code class="docutils literal notranslate"><span class="pre">where()</span></code> selection to get the new columns in my species dataframes. I also could have just run the volume calculation above on each on set individually too (or, even better, defined a function!).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adelie</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Adelie Penguin (Pygoscelis adeliae)&#39;</span><span class="p">)</span>
+<span class="n">gentoo</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Gentoo penguin (Pygoscelis papua)&#39;</span><span class="p">)</span>
+<span class="n">chinstrap</span> <span class="o">=</span> <span class="n">penguins_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">penguins_df</span><span class="p">[</span><span class="s1">&#39;Species&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Chinstrap penguin (Pygoscelis antarctica)&#39;</span><span class="p">)</span>
+
+<span class="n">adelie</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">,</span> <span class="s1">&#39;Beak_Volume&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">gentoo</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">,</span> <span class="s1">&#39;Beak_Volume&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">chinstrap</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">,</span> <span class="s1">&#39;Beak_Volume&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">big_beaks</span> <span class="o">=</span>  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">big_beaks</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adelie&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gentoo&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Gold&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chinstrap&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (kg)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Beak volume (10$^{-5}$ m$^3$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Beak volume as a function of body mass&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/21ba3c6c9d88114a2eb838fcb4d656e66761a72cf410a535af0172c96d20fd16.png" src="_images/21ba3c6c9d88114a2eb838fcb4d656e66761a72cf410a535af0172c96d20fd16.png" />
+</div>
+</div>
+<p>Now on to the last bit. Fitting the relation between beak volume and body mass:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">beak_vol_mass</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">beak_vol_mass</span><span class="p">,</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">])</span>
+<span class="n">adelie_slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">adelie_intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">adelie_slope_err</span> <span class="o">=</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">adelie_intercept_err</span> <span class="o">=</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">adelie_slope</span><span class="p">,</span> <span class="n">adelie_intercept</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0222278191160835e-08 3.513754299656589e-06
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">beak_vol_mass</span><span class="p">,</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">])</span>
+<span class="n">gentoo_slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gentoo_intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">gentoo_slope_err</span> <span class="o">=</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gentoo_intercept_err</span> <span class="o">=</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">beak_vol_mass</span><span class="p">,</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">])</span>
+<span class="n">chinstrap_slope</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">chinstrap_intercept</span> <span class="o">=</span> <span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">chinstrap_slope_err</span> <span class="o">=</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">chinstrap_intercept_err</span> <span class="o">=</span> <span class="n">pcov</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">big_beaks</span> <span class="o">=</span>  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">big_beaks</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Adelie&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">beak_vol_mass</span><span class="p">(</span><span class="n">adelie</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">adelie_slope</span><span class="p">,</span> <span class="n">adelie_intercept</span><span class="p">)</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DeepPink&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gentoo&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">beak_vol_mass</span><span class="p">(</span><span class="n">gentoo</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">gentoo_slope</span><span class="p">,</span> <span class="n">gentoo_intercept</span><span class="p">)</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;DodgerBlue&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Beak_Volume&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Gold&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Chinstrap&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">]</span><span class="o">/</span><span class="mf">1e3</span><span class="p">,</span> <span class="n">beak_vol_mass</span><span class="p">(</span><span class="n">chinstrap</span><span class="p">[</span><span class="s1">&#39;Body Mass (g)&#39;</span><span class="p">],</span> <span class="n">chinstrap_slope</span><span class="p">,</span> <span class="n">chinstrap_intercept</span><span class="p">)</span><span class="o">/</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;Orange&#39;</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Body Mass (kg)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Beak volume (10$^{-5}$ m$^3$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Beak volume as a function of body mass&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">big_beaks</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;big_beaks.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9bd0b5633a2ad4cf72f56c8d965de7c7b1ca4fecb7c1e382e207485cc37b5733.png" src="_images/9bd0b5633a2ad4cf72f56c8d965de7c7b1ca4fecb7c1e382e207485cc37b5733.png" />
+</div>
+</div>
+<p>Although beak volume increases with body mass for each of the species, the lower mass penguins (Adelie and Chinstrap) actually have larger beaks!</p>
+<p>I did start to write some logical reasoning here as to why this could be the case, but remembered I am an astronomer, not a biologist and <a class="reference external" href="https://www.theguardian.com/australia-news/2020/mar/30/astrophysicist-gets-magnets-stuck-up-nose-while-inventing-coronavirus-device">bad things happen</a> when astronomers try to do science outside their field. So let’s move on….</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05_further_exercises.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Further exercises with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Solutions to the Penguins exercises</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-read-in-your-data">Solution: Read in your data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-penguins-love-histograms">Solution: Penguins love histograms</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#solution-what-a-big-bill-you-have">Solution: What a big bill you have?</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1899 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Combining datasets with pandas &#8212; C4 More `pandas` and `plt`</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04_multiple_data_sets';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="More fun with functions, dataframes and plotting" href="05_fancy_data_stuff.html" />
+    <link rel="prev" title="Uncertainties" href="03_uncertainties.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4 More `pandas` and `plt`</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    More pandas and plt
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_excel_ranting.html">Why you should not open any of these data files in Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_choosing_function.html">Choosing a function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_uncertainties.html">Uncertainties</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_fancy_data_stuff.html">More fun with functions, dataframes and plotting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/04_multiple_data_sets.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Combining datasets with pandas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-in-the-data">Reading in the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-the-dataframes">Combining the dataframes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-merge"><code class="docutils literal notranslate"><span class="pre">left</span></code> merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-merge"><code class="docutils literal notranslate"><span class="pre">right</span></code> merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-merge"><code class="docutils literal notranslate"><span class="pre">inner</span></code> merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outer-merge"><code class="docutils literal notranslate"><span class="pre">outer</span></code> merge</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-data-to-a-file">Saving the data to a file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;retina&#39;
+<span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span><span class="mi">14</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="combining-datasets-with-pandas">
+<h1>Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#combining-datasets-with-pandas" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do I work with multiple datasets?</p></li>
+<li><p>How do I match tables?</p></li>
+<li><p>How do I save a table?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Combine data from different files into one dataframe</p></li>
+<li><p>Save the combined data to a file</p></li>
+</ul>
+</div>
+<p>This week we’re going to look at how to combine different datasets using <code class="docutils literal notranslate"><span class="pre">pandas</span></code>.</p>
+<p>So far we’ve been lucky that the data we’ve needed for our analyses has all been in a single file. But what about if you have data from different sources? How do you combine your different sources into one dataframe?</p>
+<p>We’re going to be using data on a sample of Cepheid variables. This data is all real astronomical research data. We’ll be using information from the <a class="reference external" href="https://sci.esa.int/web/gaia">European Space Agency’s <em>Gaia</em> mission</a>, <a class="reference external" href="https://www.ipac.caltech.edu">NASA IPAC</a> along with some of my own data from ground-based telescopes.</p>
+</section>
+<section id="reading-in-the-data">
+<h2>Reading in the data<a class="headerlink" href="#reading-in-the-data" title="Permalink to this heading">#</a></h2>
+<p>The first file we’ll be working is <a class="reference download internal" download="" href="_downloads/76f3fc119dd49427b9cbb0dcca37e07c/optical_data.csv"><span class="xref download myst">optical_data.csv</span></a>, which contains <a class="reference external" href="https://en.wikipedia.org/wiki/Photometry_(astronomy)">photometric measurements</a> of a sample of Cepheids in our own galaxy. First, we need to read the data into a dataframe, and take a look at it to see what’s there.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/optical_data.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>RT Aur</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>QZ Nor</td>
+      <td>0.578</td>
+      <td>9.782</td>
+      <td>0.007</td>
+      <td>8.875</td>
+      <td>0.004</td>
+      <td>7.871</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SU Cyg</td>
+      <td>0.585</td>
+      <td>7.493</td>
+      <td>0.015</td>
+      <td>6.890</td>
+      <td>0.011</td>
+      <td>6.208</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Y Lac</td>
+      <td>0.636</td>
+      <td>9.921</td>
+      <td>0.016</td>
+      <td>9.163</td>
+      <td>0.011</td>
+      <td>8.312</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>T Vul</td>
+      <td>0.647</td>
+      <td>6.444</td>
+      <td>0.014</td>
+      <td>5.772</td>
+      <td>0.009</td>
+      <td>5.087</td>
+      <td>0.006</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="myinfo admonition">
+<p class="admonition-title">.head()</p>
+<p>In the cell above I’ve used</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>to display only the first 5 rows of the dataframe rather than the whole thing. You could also use</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>to get the same output.</p>
+<p>You can change the number of rows that <code class="docutils literal notranslate"><span class="pre">head()</span></code> displays by passing the number of rows as an argument, e.g.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The data in this file is:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Star_ID</span></code> - the name of the star (these ones are nearby so they have actual names)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logP</span></code> - <span class="math notranslate nohighlight">\(\log_{10} P\)</span>, where <span class="math notranslate nohighlight">\(P\)</span> is the period of the variable star (in days)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mag_X</span></code> - the apparent magnitude of the star in the <code class="docutils literal notranslate"><span class="pre">B</span></code>, <code class="docutils literal notranslate"><span class="pre">V</span></code> and <code class="docutils literal notranslate"><span class="pre">I</span></code> bands</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">err_X</span></code> - the uncertainty on the apparent magnitude in each band.</p></li>
+</ul>
+<p>Given that I’m not displaying the whole dataframe, it’s worth looking at some of it’s <strong>attributes</strong> so we know how much data there is. <code class="docutils literal notranslate"><span class="pre">shape</span></code> is an attribute of all dataframes, so that’s a good place to start.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(59, 8)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This tells us that <code class="docutils literal notranslate"><span class="pre">optical_df</span></code> has 8 columns and 59 rows.</p>
+<p>Dataframes also have <strong>methods</strong> associated with them (methods were covered in the C3 worksheet if you want a refresher). We’ve already used one method today - <code class="docutils literal notranslate"><span class="pre">head()</span></code>. Another useful method to use here is <code class="docutils literal notranslate"><span class="pre">describe()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>59.000000</td>
+      <td>58.000000</td>
+      <td>58.000000</td>
+      <td>59.000000</td>
+      <td>59.000000</td>
+      <td>57.000000</td>
+      <td>57.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.037034</td>
+      <td>8.600448</td>
+      <td>0.017224</td>
+      <td>7.462017</td>
+      <td>0.011186</td>
+      <td>6.251632</td>
+      <td>0.007211</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.298511</td>
+      <td>2.092962</td>
+      <td>0.004974</td>
+      <td>1.889636</td>
+      <td>0.003355</td>
+      <td>1.662180</td>
+      <td>0.002111</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.571000</td>
+      <td>4.586000</td>
+      <td>0.004000</td>
+      <td>3.749000</td>
+      <td>0.002000</td>
+      <td>2.564000</td>
+      <td>0.002000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.796500</td>
+      <td>7.450250</td>
+      <td>0.014250</td>
+      <td>6.264500</td>
+      <td>0.009000</td>
+      <td>5.204000</td>
+      <td>0.006000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>1.007000</td>
+      <td>8.662000</td>
+      <td>0.017000</td>
+      <td>7.504000</td>
+      <td>0.011000</td>
+      <td>6.301000</td>
+      <td>0.007000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.255500</td>
+      <td>9.915750</td>
+      <td>0.021000</td>
+      <td>8.887500</td>
+      <td>0.014000</td>
+      <td>7.486000</td>
+      <td>0.009000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.653000</td>
+      <td>13.071000</td>
+      <td>0.027000</td>
+      <td>11.728000</td>
+      <td>0.018000</td>
+      <td>10.080000</td>
+      <td>0.011000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">describe()</span></code> gives us a summary of the dataframe. The first row, <code class="docutils literal notranslate"><span class="pre">count</span></code>, tells us the number of rows in each column that contain a value. We can see from this that 2 rows are missing data in the <code class="docutils literal notranslate"><span class="pre">mag_B</span></code> and <code class="docutils literal notranslate"><span class="pre">err_B</span></code> columns, and 3 are missing data in the <code class="docutils literal notranslate"><span class="pre">mag_I</span></code> and <code class="docutils literal notranslate"><span class="pre">err_I</span></code> columns. That’s OK for now, we’ll keep those rows in.</p>
+<div class="practice admonition" id="ex-check-missing-data">
+<p class="admonition-title">Exercise: Checking which stars are missing data</p>
+<p>If you haven’t already, download the <a class="reference download internal" download="" href="_downloads/76f3fc119dd49427b9cbb0dcca37e07c/optical_data.csv"><span class="xref download myst">optical_data.csv</span></a> file and save it in your <code class="docutils literal notranslate"><span class="pre">data</span></code> folder.</p>
+<p>Read the data into a dataframe and use <code class="docutils literal notranslate"><span class="pre">head()</span></code>, <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">describe()</span></code> to check your dataframe.</p>
+<p>Some of the stars are missing some data. Check which stars are missing data in any of the columns. If you need reminding how to check for missing data you can look back at the <a class="reference external" href="https://moodle.bath.ac.uk/pluginfile.php/2458246/mod_resource/content/1/html/02_cleaning_data.html">cleaning data</a> section of C3.</p>
+<p><a class="reference internal" href="soln_c4_missing_data.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>There are two other datafiles we’re going to use: <a class="reference download internal" download="" href="_downloads/60e6f90e17e83cc9f910d988be610197/gaia_distances.csv"><span class="xref download myst">gaia_distances.csv</span></a> and <a class="reference download internal" download="" href="_downloads/0c94de80679a83fcc1ed0d2a4ae83eb5/reddenings.csv"><span class="xref download myst">reddenings.csv</span></a>.</p>
+<p>The <em>Gaia</em> file contains parallax measurements in units of milliarcseconds (mas, or <span class="math notranslate nohighlight">\(10^{-3} \text{ arcseconds}\)</span>), for each star.</p>
+<p>The reddenings file contains the extinction, <span class="math notranslate nohighlight">\(A_V\)</span>, and reddening, <span class="math notranslate nohighlight">\(E(B-V)\)</span>, at the position of each star. These are both given in magnitudes.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Read in the <em>Gaia</em> data and the reddening data</p>
+<p>Download the <a class="reference download internal" download="" href="_downloads/60e6f90e17e83cc9f910d988be610197/gaia_distances.csv"><span class="xref download myst">gaia_distances.csv</span></a> and <a class="reference download internal" download="" href="_downloads/0c94de80679a83fcc1ed0d2a4ae83eb5/reddenings.csv"><span class="xref download myst">reddenings.csv</span></a> files and save them in your <code class="docutils literal notranslate"><span class="pre">data</span></code> folder.</p>
+<p>Read these files into dataframes and use <code class="docutils literal notranslate"><span class="pre">head()</span></code>, <code class="docutils literal notranslate"><span class="pre">shape</span></code> and <code class="docutils literal notranslate"><span class="pre">describe()</span></code> to check your them.</p>
+<p>For each of the three dataframes (optical data, <em>Gaia</em> data, reddenings) write some information about what the file contains (i.e. column names, units, number of objects, any missing data) in a markdown cell.</p>
+</div>
+<p>If everything has worked correctly, your <code class="docutils literal notranslate"><span class="pre">gaia_df</span></code> dataframe should have 2 columns and 67 rows, and your <code class="docutils literal notranslate"><span class="pre">reddenings_df</span></code> dataframe should have 3 columns and 54 rows. Neither should have any <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values. Your three dataframes should look like these:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">optical_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>RT Aur</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>QZ Nor</td>
+      <td>0.578</td>
+      <td>9.782</td>
+      <td>0.007</td>
+      <td>8.875</td>
+      <td>0.004</td>
+      <td>7.871</td>
+      <td>0.003</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SU Cyg</td>
+      <td>0.585</td>
+      <td>7.493</td>
+      <td>0.015</td>
+      <td>6.890</td>
+      <td>0.011</td>
+      <td>6.208</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Y Lac</td>
+      <td>0.636</td>
+      <td>9.921</td>
+      <td>0.016</td>
+      <td>9.163</td>
+      <td>0.011</td>
+      <td>8.312</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>T Vul</td>
+      <td>0.647</td>
+      <td>6.444</td>
+      <td>0.014</td>
+      <td>5.772</td>
+      <td>0.009</td>
+      <td>5.087</td>
+      <td>0.006</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gaia_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reddenings_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>RT Aur</td>
+      <td>0.1844</td>
+      <td>0.5717</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>QZ Nor</td>
+      <td>1.2364</td>
+      <td>3.8329</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SU Cyg</td>
+      <td>0.9989</td>
+      <td>3.0967</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Y Lac</td>
+      <td>0.3880</td>
+      <td>1.2028</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>T Vul</td>
+      <td>0.1702</td>
+      <td>0.5278</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="combining-the-dataframes">
+<h2>Combining the dataframes<a class="headerlink" href="#combining-the-dataframes" title="Permalink to this heading">#</a></h2>
+<p>You may have noticed that while the <code class="docutils literal notranslate"><span class="pre">Star_ID</span></code> column exists in all the dataframes, the stars aren’t in the same order. This is going to make it difficult to, for example, make a plot of <code class="docutils literal notranslate"><span class="pre">parallax</span></code> against <code class="docutils literal notranslate"><span class="pre">mag_V</span></code>. The star in row 1 in <code class="docutils literal notranslate"><span class="pre">gaia_df</span></code> is not the same star as row 1 in <code class="docutils literal notranslate"><span class="pre">optical_df</span></code>. What we need to do is combine all three of our dataframes into one big one.</p>
+<p>We can combine dataframes using <strong><code class="docutils literal notranslate"><span class="pre">pd.merge()</span></code></strong></p>
+<p>We’ll start by combining <code class="docutils literal notranslate"><span class="pre">gaia_df</span></code> and <code class="docutils literal notranslate"><span class="pre">optical_df</span></code> with <code class="docutils literal notranslate"><span class="pre">pd.merge()</span></code>. You can find the documentation for <code class="docutils literal notranslate"><span class="pre">pd.merge()</span></code> <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.merge.html">here</a></p>
+<p><code class="docutils literal notranslate"><span class="pre">merge()</span></code> takes two dataframes as input. One is the <code class="docutils literal notranslate"><span class="pre">left</span></code> dataframe and one is the <code class="docutils literal notranslate"><span class="pre">right</span></code> dataframe. We also need to tell it which column the two dataframes have in common - in this case it’s the <code class="docutils literal notranslate"><span class="pre">Star_ID</span></code> column. This is defined by the <code class="docutils literal notranslate"><span class="pre">on</span></code> keyword The values in this column don’t need to be in the same order, <code class="docutils literal notranslate"><span class="pre">pandas</span></code> can figure that out.</p>
+<p>The final thing we need to provide is how we want the data to be merged. This is the <code class="docutils literal notranslate"><span class="pre">how</span></code> keyword.</p>
+<p>There are several options for <code class="docutils literal notranslate"><span class="pre">how</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code> - Uses the left dataframe as a reference, looking for matches in the right dataframe.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code> - The opposite of <code class="docutils literal notranslate"><span class="pre">left</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outer</span></code> - Keeps all the rows from both dataframes, if it can’t find a match fills with <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inner</span></code> - Keeps the rows where the values in the <code class="docutils literal notranslate"><span class="pre">on</span></code> column appear in both dataframes.</p></li>
+</ul>
+<p>(There is a 5th option - <code class="docutils literal notranslate"><span class="pre">cross</span></code> which gives the “cartesian product” of the two dataframes. You can test this out if you want, but you won’t need it for anything we’re doing here.)</p>
+<p>To see how the different <code class="docutils literal notranslate"><span class="pre">how</span></code> options work we’re going to look quickly at two new dataframes. Copy the following code into a new cell in your notebook to create the <code class="docutils literal notranslate"><span class="pre">df1</span></code> and <code class="docutils literal notranslate"><span class="pre">df2</span></code> dataframes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Clive&#39;</span><span class="p">,</span> <span class="s1">&#39;Doris&#39;</span><span class="p">,],</span>
+                        <span class="s1">&#39;colour&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">]})</span>
+                        
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Ethel&#39;</span><span class="p">,</span> <span class="s1">&#39;Frank&#39;</span><span class="p">,</span> <span class="s1">&#39;Doris&#39;</span><span class="p">,</span> <span class="s1">&#39;Steve&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;animal&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;llama&#39;</span><span class="p">,</span> <span class="s1">&#39;fish&#39;</span><span class="p">]})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Take a look at each dataframe. We’ll use <code class="docutils literal notranslate"><span class="pre">df1</span></code> as the left and <code class="docutils literal notranslate"><span class="pre">df2</span></code> as the right.</p>
+<a class="reference internal image-reference" href="_images/merging_1.png"><img alt="visual representation of the two dataframes" class="align-center" src="_images/merging_1.png" style="width: 800px;" /></a>
+<div class="myinfo admonition">
+<p class="admonition-title">What’s actually happening? </p>
+<p>You’ll see that I’ve included some additional figures in this section that show how the different merge options work. You won’t get the coloured tables or the circles when you run the code. These are included to help you visualise what’s happening in the different types of merge.</p>
+</div>
+<p>Both have a column called <code class="docutils literal notranslate"><span class="pre">name</span></code>, so we’ll match on that column for now.</p>
+<section id="left-merge">
+<h3><code class="docutils literal notranslate"><span class="pre">left</span></code> merge<a class="headerlink" href="#left-merge" title="Permalink to this heading">#</a></h3>
+<p>First we’ll try a <code class="docutils literal notranslate"><span class="pre">left</span></code> merge - where it uses the values in the <code class="docutils literal notranslate"><span class="pre">name</span></code> column in <code class="docutils literal notranslate"><span class="pre">df1</span></code> as a reference and tries to find a match in <code class="docutils literal notranslate"><span class="pre">df2</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>colour</th>
+      <th>animal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice</td>
+      <td>red</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bob</td>
+      <td>orange</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Clive</td>
+      <td>yellow</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Doris</td>
+      <td>green</td>
+      <td>llama</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<a class="reference internal image-reference" href="_images/merging_2.png"><img alt="visual representation of the left merge" class="align-center" src="_images/merging_2.png" style="width: 800px;" /></a>
+<p>We can see that the only one it could find a match for was the last row, where <code class="docutils literal notranslate"><span class="pre">name=='Doris'</span></code>. It’s kept the information from <code class="docutils literal notranslate"><span class="pre">df1</span></code> and filled in <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s in the <code class="docutils literal notranslate"><span class="pre">animal</span></code> column for the rows that didn’t have a match in <code class="docutils literal notranslate"><span class="pre">df2</span></code>.</p>
+</section>
+<section id="right-merge">
+<h3><code class="docutils literal notranslate"><span class="pre">right</span></code> merge<a class="headerlink" href="#right-merge" title="Permalink to this heading">#</a></h3>
+<p>If we switch to <code class="docutils literal notranslate"><span class="pre">how='right'</span></code> we get a different result to the <code class="docutils literal notranslate"><span class="pre">left</span></code> merge:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>colour</th>
+      <th>animal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Ethel</td>
+      <td>NaN</td>
+      <td>dog</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Frank</td>
+      <td>NaN</td>
+      <td>cat</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Doris</td>
+      <td>green</td>
+      <td>llama</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Steve</td>
+      <td>NaN</td>
+      <td>fish</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<a class="reference internal image-reference" href="_images/merging_3.png"><img alt="visual representation of the right merge" class="align-center" src="_images/merging_3.png" style="width: 800px;" /></a>
+<p>Here it’s kept the information from <code class="docutils literal notranslate"><span class="pre">df2</span></code> and filled in <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s in the <code class="docutils literal notranslate"><span class="pre">colour</span></code> column for rows that didn’t have a match.</p>
+<p>The options that are going to be more useful for us are <code class="docutils literal notranslate"><span class="pre">outer</span></code> and <code class="docutils literal notranslate"><span class="pre">inner</span></code>.</p>
+</section>
+<section id="inner-merge">
+<h3><code class="docutils literal notranslate"><span class="pre">inner</span></code> merge<a class="headerlink" href="#inner-merge" title="Permalink to this heading">#</a></h3>
+<p>When we merge <code class="docutils literal notranslate"><span class="pre">df1</span></code> and <code class="docutils literal notranslate"><span class="pre">df2</span></code> with <code class="docutils literal notranslate"><span class="pre">how='inner'</span></code> we only get the rows that occur in <strong>both</strong> dataframes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>colour</th>
+      <th>animal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Doris</td>
+      <td>green</td>
+      <td>llama</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<a class="reference internal image-reference" href="_images/merging_4.png"><img alt="visual representation of the inner merge" class="align-center" src="_images/merging_4.png" style="width: 800px;" /></a>
+<p>The inner merge is useful sometimes - we might only want to keep rows where we have all the data available.</p>
+</section>
+<section id="outer-merge">
+<h3><code class="docutils literal notranslate"><span class="pre">outer</span></code> merge<a class="headerlink" href="#outer-merge" title="Permalink to this heading">#</a></h3>
+<p>The option we’ll be using today is <code class="docutils literal notranslate"><span class="pre">how='outer'</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df2</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>colour</th>
+      <th>animal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice</td>
+      <td>red</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bob</td>
+      <td>orange</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Clive</td>
+      <td>yellow</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Doris</td>
+      <td>green</td>
+      <td>llama</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Ethel</td>
+      <td>NaN</td>
+      <td>dog</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Frank</td>
+      <td>NaN</td>
+      <td>cat</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Steve</td>
+      <td>NaN</td>
+      <td>fish</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<a class="reference internal image-reference" href="_images/merging_5.png"><img alt="visual representation of the outer merge" class="align-center" src="_images/merging_5.png" style="width: 800px;" /></a>
+<p>This keeps <strong>all</strong> the rows, and fills in missing values with <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s. This is what we want.</p>
+<p>Now we know what <code class="docutils literal notranslate"><span class="pre">merge</span></code> is doing we can merge the <code class="docutils literal notranslate"><span class="pre">gaia_df</span></code> and <code class="docutils literal notranslate"><span class="pre">optical_df</span></code> dataframes into one big one. We’ll call the new dataframe <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">gaia_df</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">optical_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Star_ID&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>U Aql</td>
+      <td>1.748</td>
+      <td>0.847</td>
+      <td>7.536</td>
+      <td>0.016</td>
+      <td>6.457</td>
+      <td>0.011</td>
+      <td>5.279</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>eta Aql</td>
+      <td>3.674</td>
+      <td>0.856</td>
+      <td>4.744</td>
+      <td>0.017</td>
+      <td>3.918</td>
+      <td>0.011</td>
+      <td>3.036</td>
+      <td>0.007</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>RT Aur</td>
+      <td>1.841</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>We now have a new dataframe with 67 rows and 9 columns - the same number of rows that we had in the larger of the two dataframes (<code class="docutils literal notranslate"><span class="pre">gaia_df</span></code>) but now with all the columns from both dataframes.</p>
+<p>But <code class="docutils literal notranslate"><span class="pre">optical_df</span></code> only had 59 rows, so there must be some missing data. We should check…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="p">[</span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>V340 Nor</td>
+      <td>0.490</td>
+      <td>1.053</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.407</td>
+      <td>0.005</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>GY Sge</td>
+      <td>0.346</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>DL Cas</td>
+      <td>0.581</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CE Cas B</td>
+      <td>0.331</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>V367 Sct</td>
+      <td>0.470</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>CF Cas</td>
+      <td>0.315</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>CE Cas A</td>
+      <td>0.331</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>S Vul</td>
+      <td>0.231</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>So we’ve still got the two stars that were just missing some of the photometric data in <code class="docutils literal notranslate"><span class="pre">optical_df</span></code> – <code class="docutils literal notranslate"><span class="pre">delta</span> <span class="pre">Cep</span></code> and <code class="docutils literal notranslate"><span class="pre">TW</span> <span class="pre">Nor</span></code>, but now we’ve got some extra stars that don’t have any photometric data. We’ll keep them all in for now and tidy things up once we’ve finished merging.</p>
+<div class="practice admonition" id="ex-merging">
+<p class="admonition-title">Exercise: Add in the reddening columns</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">pd.merge()</span></code> again to add the columns from <code class="docutils literal notranslate"><span class="pre">reddening_df</span></code> to the <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> dataframe. Check what the new dataframe looks like and if there is any missing data.</p>
+<p><strong>Hint:</strong> You can run <code class="docutils literal notranslate"><span class="pre">merge</span></code> so that the resulting dataframe overwrites one of your existing ones. You don’t have to create a new dataframe.</p>
+<p><a class="reference internal" href="soln_merging.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>You should now have a dataframe called <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> that looks something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+      <td>0.5223</td>
+      <td>1.6191</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+      <td>0.5997</td>
+      <td>1.8590</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+      <td>1.4373</td>
+      <td>4.4556</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+      <td>1.2228</td>
+      <td>3.7907</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.4914</td>
+      <td>4.6233</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>U Aql</td>
+      <td>1.748</td>
+      <td>0.847</td>
+      <td>7.536</td>
+      <td>0.016</td>
+      <td>6.457</td>
+      <td>0.011</td>
+      <td>5.279</td>
+      <td>0.007</td>
+      <td>0.3334</td>
+      <td>1.0337</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>eta Aql</td>
+      <td>3.674</td>
+      <td>0.856</td>
+      <td>4.744</td>
+      <td>0.017</td>
+      <td>3.918</td>
+      <td>0.011</td>
+      <td>3.036</td>
+      <td>0.007</td>
+      <td>0.1936</td>
+      <td>0.6001</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>RT Aur</td>
+      <td>1.841</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+      <td>0.1844</td>
+      <td>0.5717</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 11 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="saving-the-data-to-a-file">
+<h2>Saving the data to a file<a class="headerlink" href="#saving-the-data-to-a-file" title="Permalink to this heading">#</a></h2>
+<p>Now we have our nicely matched dataframe, we don’t want to have to do all these steps every time we want to analyse the data. We can save the dataframe to a csv file using <code class="docutils literal notranslate"><span class="pre">pd.to_csv()</span></code>.</p>
+<p>This works in a very similar way to <code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code>. There are a few arguments that we won’t have used for <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> that we’ll want to use now.</p>
+<div class="warning admonition">
+<p class="admonition-title">Slow down!</p>
+<p>The following text is an explanation of the options. Don’t try to run each line separately. We’ll be putting it together at the end.</p>
+</div>
+<p>Firstly, <code class="docutils literal notranslate"><span class="pre">index</span></code>:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">index</span><span class="o">=</span><span class="kc">False</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">index</span></code> is the number you see in bold in the leftmost column when you display a dataframe. It’s handy when you want to select a row while you’re working with the data in <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, but we don’t need to save it to the file. <strong>Note:</strong> There may be times that you <em>do</em> want to write the index to the file, like if you wrote a script that had the index values it needed to use hard-coded, but generally you don’t need them in the output file.</p>
+<p>Second, <code class="docutils literal notranslate"><span class="pre">float_format</span></code>:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+<p>This tells <code class="docutils literal notranslate"><span class="pre">to_csv</span></code> how to format the numbers in the output file. <code class="docutils literal notranslate"><span class="pre">float_format='%.4f'</span></code> means 4 decimal places. If you don’t set anything for <code class="docutils literal notranslate"><span class="pre">float_format</span></code> it will print <em>all</em> the decimal places. Sometimes that’s what you want it to do, but it’s more likely that you want to preserve the precision you have in your dataframe without all the noise that comes from your computer rounding <code class="docutils literal notranslate"><span class="pre">floats</span></code>.</p>
+<p>Next, <code class="docutils literal notranslate"><span class="pre">na_rep</span></code>:</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">na_rep</span> <span class="o">=</span> <span class="s1">&#39;NaN&#39;</span>
+</pre></div>
+</div>
+<p>This tells it to print missing data as <code class="docutils literal notranslate"><span class="pre">NaN</span></code> in the file. If you don’t set it it will just print nothing (which can be OK…) but it’s better to print something so when you come back to the file later you know that it’s actually missing data, not just that you’ve accidentally deleted something from the file.</p>
+<p>Let’s save <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> to a file called <code class="docutils literal notranslate"><span class="pre">big_cepheids_table.csv</span></code>. Save it somewhere sensible! (For example, your <code class="docutils literal notranslate"><span class="pre">data</span></code> folder…)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./data/big_cepheids_table.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">na_rep</span><span class="o">=</span><span class="s1">&#39;NaN&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have our data safe and sound we can go and have a cup of tea and come back to this later.</p>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">pd.merge()</span></code> to combine dataframes</p></li>
+<li><p>There are different ways <code class="docutils literal notranslate"><span class="pre">how</span></code> you can join your dataframes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">outer</span></code> keeps all the rows and fills missing data with <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">inner</span></code> only keeps the rows where the reference value appears in both frames</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code> and <code class="docutils literal notranslate"><span class="pre">right</span></code> keep the rows from the reference frame and fill the missing data with <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s</p></li>
+</ul>
+</li>
+<li><p>Save a dataframe to a file with <code class="docutils literal notranslate"><span class="pre">pd.to_csv()</span></code></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03_uncertainties.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Uncertainties</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05_fancy_data_stuff.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">More fun with functions, dataframes and plotting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-in-the-data">Reading in the data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-the-dataframes">Combining the dataframes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-merge"><code class="docutils literal notranslate"><span class="pre">left</span></code> merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-merge"><code class="docutils literal notranslate"><span class="pre">right</span></code> merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-merge"><code class="docutils literal notranslate"><span class="pre">inner</span></code> merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#outer-merge"><code class="docutils literal notranslate"><span class="pre">outer</span></code> merge</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-data-to-a-file">Saving the data to a file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

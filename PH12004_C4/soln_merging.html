@@ -1,0 +1,937 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Solution: Add in the reddening columns &#8212; C4 More `pandas` and `plt`</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'soln_merging';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4 More `pandas` and `plt`</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    More pandas and plt
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_excel_ranting.html">Why you should not open any of these data files in Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_choosing_function.html">Choosing a function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_uncertainties.html">Uncertainties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_multiple_data_sets.html">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_fancy_data_stuff.html">More fun with functions, dataframes and plotting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/soln_merging.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Solution: Add in the reddening columns</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="solution-add-in-the-reddening-columns">
+<h1>Solution: Add in the reddening columns<a class="headerlink" href="#solution-add-in-the-reddening-columns" title="Permalink to this heading">#</a></h1>
+<p>We want to do the same kind of merge again to add the columns from the reddening dataframe. This time our left frame will be <code class="docutils literal notranslate"><span class="pre">cepheids_df</span></code> and the right will be <code class="docutils literal notranslate"><span class="pre">reddenings_df</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">cepheids_df</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">reddenings_df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;Star_ID&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>XX Cen</td>
+      <td>0.564</td>
+      <td>1.040</td>
+      <td>8.882</td>
+      <td>0.019</td>
+      <td>7.855</td>
+      <td>0.012</td>
+      <td>6.754</td>
+      <td>0.008</td>
+      <td>0.5223</td>
+      <td>1.6191</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>T Mon</td>
+      <td>0.733</td>
+      <td>1.432</td>
+      <td>7.436</td>
+      <td>0.022</td>
+      <td>6.187</td>
+      <td>0.014</td>
+      <td>5.005</td>
+      <td>0.010</td>
+      <td>0.5997</td>
+      <td>1.8590</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>CV Mon</td>
+      <td>0.602</td>
+      <td>0.731</td>
+      <td>11.681</td>
+      <td>0.015</td>
+      <td>10.314</td>
+      <td>0.010</td>
+      <td>8.653</td>
+      <td>0.006</td>
+      <td>1.4373</td>
+      <td>4.4556</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RY Sco</td>
+      <td>0.754</td>
+      <td>1.308</td>
+      <td>9.568</td>
+      <td>0.018</td>
+      <td>8.037</td>
+      <td>0.012</td>
+      <td>6.271</td>
+      <td>0.008</td>
+      <td>1.2228</td>
+      <td>3.7907</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.4914</td>
+      <td>4.6233</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>U Aql</td>
+      <td>1.748</td>
+      <td>0.847</td>
+      <td>7.536</td>
+      <td>0.016</td>
+      <td>6.457</td>
+      <td>0.011</td>
+      <td>5.279</td>
+      <td>0.007</td>
+      <td>0.3334</td>
+      <td>1.0337</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>eta Aql</td>
+      <td>3.674</td>
+      <td>0.856</td>
+      <td>4.744</td>
+      <td>0.017</td>
+      <td>3.918</td>
+      <td>0.011</td>
+      <td>3.036</td>
+      <td>0.007</td>
+      <td>0.1936</td>
+      <td>0.6001</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>RT Aur</td>
+      <td>1.841</td>
+      <td>0.571</td>
+      <td>6.120</td>
+      <td>0.017</td>
+      <td>5.487</td>
+      <td>0.011</td>
+      <td>4.822</td>
+      <td>0.006</td>
+      <td>0.1844</td>
+      <td>0.5717</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 11 columns</p>
+</div></div></div>
+</div>
+<p>We should check for missing data again too:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cepheids_df</span><span class="p">[</span><span class="n">cepheids_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Star_ID</th>
+      <th>parallax_mas</th>
+      <th>logP</th>
+      <th>mag_B</th>
+      <th>err_B</th>
+      <th>mag_V</th>
+      <th>err_V</th>
+      <th>mag_I</th>
+      <th>err_I</th>
+      <th>E_B_V</th>
+      <th>A_V</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>TW Nor</td>
+      <td>0.362</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>V340 Nor</td>
+      <td>0.490</td>
+      <td>1.053</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>8.407</td>
+      <td>0.005</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.2831</td>
+      <td>3.9778</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>GY Sge</td>
+      <td>0.346</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>WZ Car</td>
+      <td>0.281</td>
+      <td>1.362</td>
+      <td>10.614</td>
+      <td>0.027</td>
+      <td>9.343</td>
+      <td>0.018</td>
+      <td>8.002</td>
+      <td>0.011</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>CD Cyg</td>
+      <td>0.393</td>
+      <td>1.232</td>
+      <td>10.422</td>
+      <td>0.025</td>
+      <td>9.023</td>
+      <td>0.016</td>
+      <td>7.525</td>
+      <td>0.010</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>RU Sct</td>
+      <td>0.521</td>
+      <td>1.294</td>
+      <td>11.291</td>
+      <td>0.023</td>
+      <td>9.526</td>
+      <td>0.015</td>
+      <td>7.486</td>
+      <td>0.009</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>DL Cas</td>
+      <td>0.581</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.7936</td>
+      <td>2.4602</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>CE Cas B</td>
+      <td>0.331</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.8207</td>
+      <td>2.5440</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>SV Vul</td>
+      <td>0.405</td>
+      <td>1.653</td>
+      <td>8.810</td>
+      <td>0.018</td>
+      <td>7.267</td>
+      <td>0.012</td>
+      <td>5.719</td>
+      <td>0.009</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>V367 Sct</td>
+      <td>0.470</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>U Nor</td>
+      <td>0.622</td>
+      <td>1.102</td>
+      <td>10.939</td>
+      <td>0.020</td>
+      <td>9.273</td>
+      <td>0.013</td>
+      <td>7.366</td>
+      <td>0.008</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>WZ Sgr</td>
+      <td>0.607</td>
+      <td>1.339</td>
+      <td>9.584</td>
+      <td>0.023</td>
+      <td>8.098</td>
+      <td>0.015</td>
+      <td>6.584</td>
+      <td>0.009</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>CF Cas</td>
+      <td>0.315</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.8207</td>
+      <td>2.5440</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>CE Cas A</td>
+      <td>0.331</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.8207</td>
+      <td>2.5440</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>S Vul</td>
+      <td>0.231</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.9095</td>
+      <td>5.9195</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>X Sgr</td>
+      <td>2.822</td>
+      <td>0.846</td>
+      <td>5.334</td>
+      <td>0.013</td>
+      <td>4.569</td>
+      <td>0.009</td>
+      <td>3.663</td>
+      <td>0.006</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>U Vul</td>
+      <td>1.291</td>
+      <td>0.903</td>
+      <td>8.492</td>
+      <td>0.016</td>
+      <td>7.149</td>
+      <td>0.011</td>
+      <td>5.609</td>
+      <td>0.007</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>U Car</td>
+      <td>0.559</td>
+      <td>1.589</td>
+      <td>7.625</td>
+      <td>0.025</td>
+      <td>6.342</td>
+      <td>0.016</td>
+      <td>5.076</td>
+      <td>0.010</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>delta Cep</td>
+      <td>3.556</td>
+      <td>0.730</td>
+      <td>4.684</td>
+      <td>0.018</td>
+      <td>3.990</td>
+      <td>0.012</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1.4914</td>
+      <td>4.6233</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>SU Cru</td>
+      <td>0.211</td>
+      <td>1.109</td>
+      <td>11.613</td>
+      <td>0.015</td>
+      <td>9.802</td>
+      <td>0.008</td>
+      <td>7.658</td>
+      <td>0.003</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Looks like there are some with missing reddening data too. We’re not going to do anything about it right now, but it’s always important to check so you know what you’re dealing with.</p>
+<p><a class="reference internal" href="04_multiple_data_sets.html#ex-merging"><span class="std std-ref">back to the worksheets</span></a></p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

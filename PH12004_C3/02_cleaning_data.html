@@ -1,0 +1,1521 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Cleaning data with pandas &#8212; C3 Handling with data with Python and Pandas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_cleaning_data';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Analysing dataframes" href="03_working_with_data.html" />
+    <link rel="prev" title="Introduction to pandas" href="01_intro_pandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C3 Handling with data with Python and Pandas</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    Handling with data with Python and Pandas
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_intro_pandas.html">Introduction to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_working_with_data.html">Analysing dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_objects.html">Python objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_further_exercises.html">Further exercises with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_cleaning_data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Cleaning data with pandas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="cleaning-data-with-pandas">
+<h1>Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#cleaning-data-with-pandas" title="Permalink to this heading">#</a></h1>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How can we deal with imperfect data?</p></li>
+<li><p>What is tidy data?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Clean a dataset using <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p></li>
+</ul>
+</div>
+<p>In the previous section we learned how to read data in with <code class="docutils literal notranslate"><span class="pre">pandas</span></code> and how to access the data within a dataframe. Here we will be looking at how to “clean” our data while still staying within the bounds of reproducible science.</p>
+<p>Let’s take a quick look at our data again. One way to do this is with the <code class="docutils literal notranslate"><span class="pre">head()</span></code> function. This lets us display a certain number of rows. <code class="docutils literal notranslate"><span class="pre">head()</span></code> will display the first 10 rows by default, but you can pass it a number in the brackets if you’d like to see more or less. I want to see the first 20 rows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>eccentricity</th>
+      <th>discovered</th>
+      <th>detection_type</th>
+      <th>star_name</th>
+      <th>star_distance</th>
+      <th>star_metallicity</th>
+      <th>star_mass</th>
+      <th>star_sp_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.29000</td>
+      <td>0.2310</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>11 Com</td>
+      <td>110.6000</td>
+      <td>-0.350</td>
+      <td>2.700</td>
+      <td>G8 III</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.54000</td>
+      <td>0.0800</td>
+      <td>2009.0</td>
+      <td>Radial Velocity</td>
+      <td>11 UMi</td>
+      <td>119.5000</td>
+      <td>0.040</td>
+      <td>1.800</td>
+      <td>K4III</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.83000</td>
+      <td>0.0000</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>14 And</td>
+      <td>76.4000</td>
+      <td>-0.240</td>
+      <td>2.200</td>
+      <td>K0III</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.77000</td>
+      <td>0.3690</td>
+      <td>2002.0</td>
+      <td>Radial Velocity</td>
+      <td>14 Her</td>
+      <td>18.1000</td>
+      <td>0.430</td>
+      <td>0.900</td>
+      <td>K0 V</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.68000</td>
+      <td>0.6890</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>16 Cyg B</td>
+      <td>21.4100</td>
+      <td>0.080</td>
+      <td>1.010</td>
+      <td>G2.5 V</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>18 Del b</td>
+      <td>993.30000</td>
+      <td>2.60000</td>
+      <td>0.0800</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>18 Del</td>
+      <td>73.1000</td>
+      <td>-0.052</td>
+      <td>2.300</td>
+      <td>G6III</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1SWASP J1407 b</td>
+      <td>3725.00000</td>
+      <td>3.90000</td>
+      <td>NaN</td>
+      <td>2012.0</td>
+      <td>Primary Transit</td>
+      <td>1SWASP J1407</td>
+      <td>133.0000</td>
+      <td>NaN</td>
+      <td>0.900</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>24 Boo b</td>
+      <td>30.35060</td>
+      <td>0.19000</td>
+      <td>0.0420</td>
+      <td>2018.0</td>
+      <td>Radial Velocity</td>
+      <td>24 Boo</td>
+      <td>100.0000</td>
+      <td>-0.770</td>
+      <td>0.990</td>
+      <td>G3IV</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>24 Sex b</td>
+      <td>452.80000</td>
+      <td>1.33300</td>
+      <td>0.0900</td>
+      <td>2010.0</td>
+      <td>Radial Velocity</td>
+      <td>24 Sex</td>
+      <td>72.2084</td>
+      <td>-0.030</td>
+      <td>1.540</td>
+      <td>G5</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>24 Sex c</td>
+      <td>883.00000</td>
+      <td>2.08000</td>
+      <td>0.2900</td>
+      <td>2010.0</td>
+      <td>Radial Velocity</td>
+      <td>24 Sex</td>
+      <td>72.2084</td>
+      <td>-0.030</td>
+      <td>1.540</td>
+      <td>G5</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30 Ari B b</td>
+      <td>335.10000</td>
+      <td>0.99500</td>
+      <td>0.2890</td>
+      <td>2009.0</td>
+      <td>Radial Velocity</td>
+      <td>30 Ari B</td>
+      <td>39.4000</td>
+      <td>0.120</td>
+      <td>1.220</td>
+      <td>F6V</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>38 Vir b</td>
+      <td>825.90000</td>
+      <td>1.82000</td>
+      <td>0.0300</td>
+      <td>2016.0</td>
+      <td>Primary Transit</td>
+      <td>38 Vir</td>
+      <td>NaN</td>
+      <td>0.070</td>
+      <td>1.180</td>
+      <td>F6 V</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>4 Uma b</td>
+      <td>269.30000</td>
+      <td>0.87000</td>
+      <td>0.4320</td>
+      <td>2007.0</td>
+      <td>Radial Velocity</td>
+      <td>4 Uma</td>
+      <td>78.5000</td>
+      <td>-0.250</td>
+      <td>1.234</td>
+      <td>K1III</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>42 Dra b</td>
+      <td>479.10000</td>
+      <td>1.19000</td>
+      <td>0.3800</td>
+      <td>2009.0</td>
+      <td>Radial Velocity</td>
+      <td>42 Dra</td>
+      <td>97.3000</td>
+      <td>-0.460</td>
+      <td>0.980</td>
+      <td>K1.5III</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>47 Uma b</td>
+      <td>1078.00000</td>
+      <td>2.10000</td>
+      <td>0.0320</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>47 Uma</td>
+      <td>13.9700</td>
+      <td>0.000</td>
+      <td>1.030</td>
+      <td>G0V</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>47 Uma c</td>
+      <td>2391.00000</td>
+      <td>3.60000</td>
+      <td>0.0980</td>
+      <td>2001.0</td>
+      <td>Radial Velocity</td>
+      <td>47 Uma</td>
+      <td>13.9700</td>
+      <td>0.000</td>
+      <td>1.030</td>
+      <td>G0V</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>47 Uma d</td>
+      <td>14002.00000</td>
+      <td>11.60000</td>
+      <td>0.1600</td>
+      <td>2010.0</td>
+      <td>Radial Velocity</td>
+      <td>47 Uma</td>
+      <td>13.9700</td>
+      <td>0.000</td>
+      <td>1.030</td>
+      <td>G0V</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>51 Peg b</td>
+      <td>4.23080</td>
+      <td>0.05200</td>
+      <td>0.0069</td>
+      <td>1995.0</td>
+      <td>Radial Velocity</td>
+      <td>51 Peg</td>
+      <td>14.7000</td>
+      <td>0.200</td>
+      <td>1.110</td>
+      <td>G2 IV</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>55 Cnc b</td>
+      <td>14.65314</td>
+      <td>0.11339</td>
+      <td>0.0023</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>55 Cnc</td>
+      <td>12.3400</td>
+      <td>0.310</td>
+      <td>1.015</td>
+      <td>K0IV-V</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>55 Cnc c</td>
+      <td>44.37300</td>
+      <td>0.23735</td>
+      <td>0.0720</td>
+      <td>2002.0</td>
+      <td>Radial Velocity</td>
+      <td>55 Cnc</td>
+      <td>12.3400</td>
+      <td>0.310</td>
+      <td>1.015</td>
+      <td>K0IV-V</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Take a look at the output from <code class="docutils literal notranslate"><span class="pre">head(20)</span></code> in your notebook. Pay attention to the <code class="docutils literal notranslate"><span class="pre">eccentricity</span></code>, <code class="docutils literal notranslate"><span class="pre">star_distance</span></code>, and <code class="docutils literal notranslate"><span class="pre">star_metallicity</span></code> columns. You’ll see some values are listed as <code class="docutils literal notranslate"><span class="pre">NaN</span></code>. <code class="docutils literal notranslate"><span class="pre">NaN</span></code> stands for ‘Not a Number’ and is the value that <code class="docutils literal notranslate"><span class="pre">pandas</span></code> fills your empty cells with.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">NaN</span></code>’s have appeared because not every object has data available for every variable. This could be a hassle to deal with, but <code class="docutils literal notranslate"><span class="pre">pandas</span></code> can handle it.</p>
+<div class="myinfo admonition">
+<p class="admonition-title">NaN, null, NA…</p>
+<p><code class="docutils literal notranslate"><span class="pre">NaN</span></code> is probably the most common way to show missing data, but you might also come across <code class="docutils literal notranslate"><span class="pre">NA</span></code> or <code class="docutils literal notranslate"><span class="pre">null</span></code>. If you’re using some data where the missing values are represented by something else (for example, <code class="docutils literal notranslate"><span class="pre">99.999</span></code> or <code class="docutils literal notranslate"><span class="pre">----</span></code>) you can use the <code class="docutils literal notranslate"><span class="pre">na_values</span></code> argument in <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> to tell it what corresponds to missing data.</p>
+</div>
+<p>We can select all the rows in a dataframe that contain a <code class="docutils literal notranslate"><span class="pre">NaN</span></code> value using the <code class="docutils literal notranslate"><span class="pre">isna()</span></code> function. This is another logical operation; we’re selecting the rows that have a <code class="docutils literal notranslate"><span class="pre">NaN</span></code> value. Because we want to select all the rows with a <code class="docutils literal notranslate"><span class="pre">NaN</span></code> and don’t care which column it’s in, we use <code class="docutils literal notranslate"><span class="pre">.any(axis=1)</span></code>, where <code class="docutils literal notranslate"><span class="pre">axis=1</span></code> says to do the operation on each row.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="p">[</span><span class="n">exo_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>eccentricity</th>
+      <th>discovered</th>
+      <th>detection_type</th>
+      <th>star_name</th>
+      <th>star_distance</th>
+      <th>star_metallicity</th>
+      <th>star_mass</th>
+      <th>star_sp_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>1SWASP J1407 b</td>
+      <td>3725.000000</td>
+      <td>3.90000</td>
+      <td>NaN</td>
+      <td>2012.0</td>
+      <td>Primary Transit</td>
+      <td>1SWASP J1407</td>
+      <td>133.000</td>
+      <td>NaN</td>
+      <td>0.900</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>38 Vir b</td>
+      <td>825.900000</td>
+      <td>1.82000</td>
+      <td>0.030</td>
+      <td>2016.0</td>
+      <td>Primary Transit</td>
+      <td>38 Vir</td>
+      <td>NaN</td>
+      <td>0.07</td>
+      <td>1.180</td>
+      <td>F6 V</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>75 Cet b</td>
+      <td>691.900000</td>
+      <td>2.10000</td>
+      <td>NaN</td>
+      <td>2012.0</td>
+      <td>Radial Velocity</td>
+      <td>75 Cet</td>
+      <td>81.500</td>
+      <td>0.00</td>
+      <td>2.490</td>
+      <td>G3III</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>AD 3116 b</td>
+      <td>1.982796</td>
+      <td>NaN</td>
+      <td>0.146</td>
+      <td>2017.0</td>
+      <td>Primary Transit</td>
+      <td>AD 3116</td>
+      <td>186.540</td>
+      <td>NaN</td>
+      <td>0.276</td>
+      <td>M3.9</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>AD Leo b</td>
+      <td>2.225990</td>
+      <td>0.02500</td>
+      <td>0.030</td>
+      <td>2019.0</td>
+      <td>Radial Velocity</td>
+      <td>AD Leo</td>
+      <td>4.966</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>M4V</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3794</th>
+      <td>beta Pic c</td>
+      <td>1238.000000</td>
+      <td>2.72000</td>
+      <td>0.248</td>
+      <td>2019.0</td>
+      <td>Radial Velocity</td>
+      <td>beta Pic</td>
+      <td>19.300</td>
+      <td>NaN</td>
+      <td>1.730</td>
+      <td>A6V</td>
+    </tr>
+    <tr>
+      <th>3798</th>
+      <td>eps Ind A b</td>
+      <td>16509.000000</td>
+      <td>11.55000</td>
+      <td>0.260</td>
+      <td>2018.0</td>
+      <td>Radial Velocity</td>
+      <td>eps Ind A</td>
+      <td>3.620</td>
+      <td>NaN</td>
+      <td>0.762</td>
+      <td>K2V</td>
+    </tr>
+    <tr>
+      <th>3807</th>
+      <td>kepler-80 g</td>
+      <td>14.645580</td>
+      <td>0.14000</td>
+      <td>NaN</td>
+      <td>2017.0</td>
+      <td>Primary Transit</td>
+      <td>Kepler-80</td>
+      <td>NaN</td>
+      <td>-0.56</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3818</th>
+      <td>omi UMa b</td>
+      <td>1630.000000</td>
+      <td>3.90000</td>
+      <td>NaN</td>
+      <td>2012.0</td>
+      <td>Radial Velocity</td>
+      <td>omi UMa</td>
+      <td>56.300</td>
+      <td>-0.09</td>
+      <td>3.090</td>
+      <td>G4II-III</td>
+    </tr>
+    <tr>
+      <th>3820</th>
+      <td>pi Men c</td>
+      <td>6.268340</td>
+      <td>0.06702</td>
+      <td>NaN</td>
+      <td>2018.0</td>
+      <td>Primary Transit</td>
+      <td>pi Men</td>
+      <td>18.370</td>
+      <td>0.08</td>
+      <td>1.094</td>
+      <td>G0V</td>
+    </tr>
+  </tbody>
+</table>
+<p>2866 rows × 11 columns</p>
+</div></div></div>
+</div>
+<p>At the bottom of the output we can see the size of the dataframe that’s returned - 2866 rows by 11 columns. Compare that to the original size of our dataframe (display your dataframe to check the number of rows)… that’s a lot of <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s!</p>
+<p>It’s handy to check which rows have missing data, but what if we’re only concerned with those that aren’t missing data? Then we can do the inverse to return only the rows <strong>without</strong> <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values.</p>
+<p>We can get this in almost exactly the same command, just one character different. We change
+<code class="docutils literal notranslate"><span class="pre">exo_df.isna()</span></code> to <code class="docutils literal notranslate"><span class="pre">~exo_df.isna()</span></code>. The <code class="docutils literal notranslate"><span class="pre">~</span></code> is another way of saying <code class="docutils literal notranslate"><span class="pre">not</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="p">[</span><span class="o">~</span><span class="n">exo_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>eccentricity</th>
+      <th>discovered</th>
+      <th>detection_type</th>
+      <th>star_name</th>
+      <th>star_distance</th>
+      <th>star_metallicity</th>
+      <th>star_mass</th>
+      <th>star_sp_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>0.23100</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>11 Com</td>
+      <td>110.60</td>
+      <td>-0.35</td>
+      <td>2.70</td>
+      <td>G8 III</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>0.08000</td>
+      <td>2009.0</td>
+      <td>Radial Velocity</td>
+      <td>11 UMi</td>
+      <td>119.50</td>
+      <td>0.04</td>
+      <td>1.80</td>
+      <td>K4III</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>0.00000</td>
+      <td>2008.0</td>
+      <td>Radial Velocity</td>
+      <td>14 And</td>
+      <td>76.40</td>
+      <td>-0.24</td>
+      <td>2.20</td>
+      <td>K0III</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>0.36900</td>
+      <td>2002.0</td>
+      <td>Radial Velocity</td>
+      <td>14 Her</td>
+      <td>18.10</td>
+      <td>0.43</td>
+      <td>0.90</td>
+      <td>K0 V</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>0.68900</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>16 Cyg B</td>
+      <td>21.41</td>
+      <td>0.08</td>
+      <td>1.01</td>
+      <td>G2.5 V</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>0.03100</td>
+      <td>2004.0</td>
+      <td>Radial Velocity</td>
+      <td>tau Gem</td>
+      <td>98.40</td>
+      <td>0.14</td>
+      <td>2.30</td>
+      <td>K2III</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>0.01186</td>
+      <td>1996.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>0.24450</td>
+      <td>1999.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>0.31600</td>
+      <td>1999.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>0.00536</td>
+      <td>2010.0</td>
+      <td>Radial Velocity</td>
+      <td>ups And</td>
+      <td>13.47</td>
+      <td>0.09</td>
+      <td>1.27</td>
+      <td>F8 V</td>
+    </tr>
+  </tbody>
+</table>
+<p>966 rows × 11 columns</p>
+</div></div></div>
+</div>
+<p>That’s a lot less rows. Oh dear. But what if we don’t care about some of the columns with missing data?</p>
+<p>We’re only interested in the planet name, period, semi-major axis, detection technique and star mass columns. So let’s create a new dataframe that only contains these columns. I’ll call this one <code class="docutils literal notranslate"><span class="pre">planet_df</span></code></p>
+<p>First we need to check the names of the columns we want, then we can make our new dataframe using these names:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exo_df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;name&#39;, &#39;orbital_period&#39;, &#39;semi_major_axis&#39;, &#39;eccentricity&#39;,
+       &#39;discovered&#39;, &#39;detection_type&#39;, &#39;star_name&#39;, &#39;star_distance&#39;,
+       &#39;star_metallicity&#39;, &#39;star_mass&#39;, &#39;star_sp_type&#39;],
+      dtype=&#39;object&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span> <span class="o">=</span> <span class="n">exo_df</span><span class="p">[[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;orbital_period&#39;</span><span class="p">,</span> <span class="s1">&#39;semi_major_axis&#39;</span><span class="p">,</span> <span class="s1">&#39;detection_type&#39;</span><span class="p">,</span> <span class="s1">&#39;star_mass&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>Radial Velocity</td>
+      <td>2.70</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>Radial Velocity</td>
+      <td>1.80</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>Radial Velocity</td>
+      <td>2.20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>Radial Velocity</td>
+      <td>0.90</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>Radial Velocity</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>Radial Velocity</td>
+      <td>2.30</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+  </tbody>
+</table>
+<p>3832 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>Now we can check how many of these rows and columns in <code class="docutils literal notranslate"><span class="pre">planet_df</span></code> contain <code class="docutils literal notranslate"><span class="pre">NaN</span></code> values. Rather than print out the dataframe and read the number underneath, we can use the <code class="docutils literal notranslate"><span class="pre">shape</span></code> attribute.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="n">planet_df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1783, 5)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This dataframe has fewer rows with missing data than the first, but still has a lot. We only care about the rows that don’t have any missing data. We could use the same operation as we did before to return only the complete rows, but an easier way to do it is to use <code class="docutils literal notranslate"><span class="pre">dropna</span></code>. This removes any rows with missing data. If we’d done this on the original dataframe we’d have lost a lot of rows that are perfectly fine for our analysis but have missing data in another column. By using our new dataframe we don’t remove data unnecessarily. Setting <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code> tells Python to edit the dataframe rather than just show us the results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/2d/qnv3dwyd2y7dvqhd9dpck1g40000gp/T/ipykernel_1177/2620898407.py:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  planet_df.dropna(inplace=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="myinfo admonition">
+<p class="admonition-title"><strong>SettingWithCopyWarning</strong></p>
+<p>You may have got a warning when you ran the <code class="docutils literal notranslate"><span class="pre">dropna(inplace=True)</span></code> command. First - don’t panic! This is a warning, not an error. Here the warning is telling us that we’re editing a copy of part of another dataframe, not the original dataframe. That’s exactly what we intended here so it’s not a problem. It becomes more important when you’re doing more complex data analysis (more complex that we’ll reach in this course), but for now we just need to understand what it’s telling us and move on.</p>
+</div>
+<p>Let’s take another look at our <code class="docutils literal notranslate"><span class="pre">planet_df</span></code> dataframe:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>Radial Velocity</td>
+      <td>2.70</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>Radial Velocity</td>
+      <td>1.80</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>Radial Velocity</td>
+      <td>2.20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>Radial Velocity</td>
+      <td>0.90</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>Radial Velocity</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>Radial Velocity</td>
+      <td>2.30</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+  </tbody>
+</table>
+<p>2049 rows × 5 columns</p>
+</div></div></div>
+</div>
+<p>It definately has fewer rows than before, but we should still check that they’re all complete…</p>
+<div class="practice admonition" id="ex-check-data">
+<p class="admonition-title">Exercise: Check your data</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">isna</span></code> function to check that you have properly cleaned the <code class="docutils literal notranslate"><span class="pre">planet_df</span></code> dataframe. Check the shape of the dataframe returned when you use <code class="docutils literal notranslate"><span class="pre">isna</span></code> and its inverse.</p>
+<p><a class="reference internal" href="soln_check_data.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Missing data is represented as <code class="docutils literal notranslate"><span class="pre">NaN</span></code> or ‘Not a Number’</p></li>
+<li><p>You can use the <code class="docutils literal notranslate"><span class="pre">na_values</span></code> argument of <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> to tell <code class="docutils literal notranslate"><span class="pre">pandas</span></code> which values correspond to missing data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isna()</span></code> can be used to find missing data</p></li>
+<li><p>You can use <code class="docutils literal notranslate"><span class="pre">~</span></code> to return the inverse of a logical expression.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_intro_pandas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="03_working_with_data.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Analysing dataframes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

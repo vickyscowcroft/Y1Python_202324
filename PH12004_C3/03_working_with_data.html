@@ -1,0 +1,1617 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Analysing dataframes &#8212; C3 Handling with data with Python and Pandas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03_working_with_data';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python objects" href="04_objects.html" />
+    <link rel="prev" title="Cleaning data with pandas" href="02_cleaning_data.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C3 Handling with data with Python and Pandas</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    Handling with data with Python and Pandas
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_intro_pandas.html">Introduction to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_cleaning_data.html">Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analysing dataframes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_objects.html">Python objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_further_exercises.html">Further exercises with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03_working_with_data.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analysing dataframes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-quick-plots">Making quick plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-and-comparing-datasets">Selecting and comparing datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-data-with-plots">Comparing data with plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kepler-s-3rd-law">Kepler’s 3rd law</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analysing-dataframes">
+<h1>Analysing dataframes<a class="headerlink" href="#analysing-dataframes" title="Permalink to this heading">#</a></h1>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>How do you plot the data in a dataframe?</p></li>
+<li><p>How do you operate on columns?</p></li>
+<li><p>How do you add new data?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Create some histograms of the exoplanet data</p></li>
+<li><p>Add new columns to the dataframe</p></li>
+<li><p>Confirm Kepler’s 3rd law</p></li>
+</ul>
+</div>
+<p>In this section we’ll be analysing the data in the cleaned <code class="docutils literal notranslate"><span class="pre">planet_df</span></code> dataframe.</p>
+<p>If you haven’t already, set up a dataframe called <code class="docutils literal notranslate"><span class="pre">planet_df</span></code> that contains the five columns described in the <a class="reference internal" href="02_cleaning_data.html"><span class="doc std std-doc">previous section</span></a> with rows with missing data removed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>Radial Velocity</td>
+      <td>2.70</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>Radial Velocity</td>
+      <td>1.80</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>Radial Velocity</td>
+      <td>2.20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>Radial Velocity</td>
+      <td>0.90</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>Radial Velocity</td>
+      <td>1.01</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>Radial Velocity</td>
+      <td>2.30</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+    </tr>
+  </tbody>
+</table>
+<p>2049 rows × 5 columns</p>
+</div></div></div>
+</div>
+<section id="making-quick-plots">
+<h2>Making quick plots<a class="headerlink" href="#making-quick-plots" title="Permalink to this heading">#</a></h2>
+<p>First let’s make some histograms. Everyone loves a histogram!</p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> works well with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, so we can make a histogram quite easily. To make a histogram of orbital periods we can just use</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="_images/c8a082332c471fe460c99bf981652a55c1b22878ff418c4e8d82f96cfd78ee2c.png" src="_images/c8a082332c471fe460c99bf981652a55c1b22878ff418c4e8d82f96cfd78ee2c.png" />
+</div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">hist</span></code> function built into dataframes is good for getting a quick look at our data, but it’s not particularly pretty. <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> made much nicer plots. We can make a histogram of the periods in the same way we would with a normal variable; this time we just pass it the dataframe column we’re interested in.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Remember to load matplotlib.pyplot</p>
+<p>If you haven’t already, you’ll need to load the <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code> package to make your plots.</p>
+<p>In the cell right at the top of your notebook, add</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<p>and re-run that cell.</p>
+<p>If the first cell of your notebook doesn’t contain the imports, you can add a new cell above the first one:</p>
+<ol class="arabic simple">
+<li><p>Click on the cell at the top of your notebook</p></li>
+<li><p>Press the Escape key (<code class="docutils literal notranslate"><span class="pre">Esc</span></code>), then press the <code class="docutils literal notranslate"><span class="pre">a</span></code> key. <strong>Don’t press them at the same time</strong>, it should be <code class="docutils literal notranslate"><span class="pre">Esc</span></code> <strong>then</strong> <code class="docutils literal notranslate"><span class="pre">a</span></code>. This adds a cell above the one you’d selected.</p></li>
+</ol>
+<p>If you want to add a new cell below your current cell, you’d press <code class="docutils literal notranslate"><span class="pre">Esc</span></code> then <code class="docutils literal notranslate"><span class="pre">b</span></code></p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Orbital Period (days)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="c1">## set the y-axis to log scale so we can see the details</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/628dde8badeefc4a05d79bf37e717fab0c920d1e3aa56426b946c10e2e2e66e3.png" src="_images/628dde8badeefc4a05d79bf37e717fab0c920d1e3aa56426b946c10e2e2e66e3.png" />
+</div>
+</div>
+</section>
+<section id="selecting-and-comparing-datasets">
+<h2>Selecting and comparing datasets<a class="headerlink" href="#selecting-and-comparing-datasets" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">detection_type</span></code> column in our data tells us the technique that was used to detect the planet. There are two different detection techniques used in this data set: <code class="docutils literal notranslate"><span class="pre">Radial</span> <span class="pre">Velocity</span></code> and <code class="docutils literal notranslate"><span class="pre">Primary</span> <span class="pre">Transit</span></code>.</p>
+<p>In order to compare the results from the two methods, we’re going to make two histograms.</p>
+<p>We’ll use a logical expression on one column</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span>
+</pre></div>
+</div>
+<p>to determine which rows of another column we want to select.</p>
+<p>There are two ways we can use this to select the data. The first is similar to what we did in the <a class="reference internal" href="01_intro_pandas.html#cond-sel"><span class="std std-ref">Conditional Selection</span></a> section in the first part of this notebook:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">][</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        326.03000
+1        516.22000
+2        185.84000
+3       1773.40000
+4        799.50000
+           ...    
+3827     305.50000
+3828       4.61711
+3829     240.93700
+3830    1281.43900
+3831    3848.86000
+Name: orbital_period, Length: 782, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the cell above, we’ve selected all the rows where the <code class="docutils literal notranslate"><span class="pre">detection_type</span></code> is <code class="docutils literal notranslate"><span class="pre">Radial</span> <span class="pre">Velocity</span></code> in the same way as we did in the <a class="reference internal" href="01_intro_pandas.html#cond-sel"><span class="std std-ref">Conditional Selection</span></a> section, then we’ve selected the <code class="docutils literal notranslate"><span class="pre">orbital_period</span></code>.</p>
+<p>The other way we can do this is using the <code class="docutils literal notranslate"><span class="pre">where</span></code> function built into <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. This does the same selection as above but the output is slightly different.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0        326.03000
+1        516.22000
+2        185.84000
+3       1773.40000
+4        799.50000
+           ...    
+3827     305.50000
+3828       4.61711
+3829     240.93700
+3830    1281.43900
+3831    3848.86000
+Name: orbital_period, Length: 2049, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Look at the length of the output in both cases. For the first one, it’s returned 782 rows - it’s only returned the rows that match the conditional selection. When we used <code class="docutils literal notranslate"><span class="pre">where()</span></code> it’s returned 2049 rows. In this case it returns all the rows but will fill <code class="docutils literal notranslate"><span class="pre">NaN</span></code>s into the rows that don’t match the selection. You can see this more clearly by missing out the column selection and using <code class="docutils literal notranslate"><span class="pre">head(20)</span></code> to look at the first 20 rows again:</p>
+<p><strong>Using <code class="docutils literal notranslate"><span class="pre">where()</span></code></strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.29000</td>
+      <td>Radial Velocity</td>
+      <td>2.700</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.54000</td>
+      <td>Radial Velocity</td>
+      <td>1.800</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.83000</td>
+      <td>Radial Velocity</td>
+      <td>2.200</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.77000</td>
+      <td>Radial Velocity</td>
+      <td>0.900</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.68000</td>
+      <td>Radial Velocity</td>
+      <td>1.010</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>18 Del b</td>
+      <td>993.30000</td>
+      <td>2.60000</td>
+      <td>Radial Velocity</td>
+      <td>2.300</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>24 Boo b</td>
+      <td>30.35060</td>
+      <td>0.19000</td>
+      <td>Radial Velocity</td>
+      <td>0.990</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>24 Sex b</td>
+      <td>452.80000</td>
+      <td>1.33300</td>
+      <td>Radial Velocity</td>
+      <td>1.540</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>24 Sex c</td>
+      <td>883.00000</td>
+      <td>2.08000</td>
+      <td>Radial Velocity</td>
+      <td>1.540</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30 Ari B b</td>
+      <td>335.10000</td>
+      <td>0.99500</td>
+      <td>Radial Velocity</td>
+      <td>1.220</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>4 Uma b</td>
+      <td>269.30000</td>
+      <td>0.87000</td>
+      <td>Radial Velocity</td>
+      <td>1.234</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>42 Dra b</td>
+      <td>479.10000</td>
+      <td>1.19000</td>
+      <td>Radial Velocity</td>
+      <td>0.980</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>47 Uma b</td>
+      <td>1078.00000</td>
+      <td>2.10000</td>
+      <td>Radial Velocity</td>
+      <td>1.030</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>47 Uma c</td>
+      <td>2391.00000</td>
+      <td>3.60000</td>
+      <td>Radial Velocity</td>
+      <td>1.030</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>47 Uma d</td>
+      <td>14002.00000</td>
+      <td>11.60000</td>
+      <td>Radial Velocity</td>
+      <td>1.030</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>51 Peg b</td>
+      <td>4.23080</td>
+      <td>0.05200</td>
+      <td>Radial Velocity</td>
+      <td>1.110</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>55 Cnc b</td>
+      <td>14.65314</td>
+      <td>0.11339</td>
+      <td>Radial Velocity</td>
+      <td>1.015</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>55 Cnc c</td>
+      <td>44.37300</td>
+      <td>0.23735</td>
+      <td>Radial Velocity</td>
+      <td>1.015</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><strong>Not using <code class="docutils literal notranslate"><span class="pre">where()</span></code></strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.29000</td>
+      <td>Radial Velocity</td>
+      <td>2.700</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.54000</td>
+      <td>Radial Velocity</td>
+      <td>1.800</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.83000</td>
+      <td>Radial Velocity</td>
+      <td>2.200</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.77000</td>
+      <td>Radial Velocity</td>
+      <td>0.900</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.68000</td>
+      <td>Radial Velocity</td>
+      <td>1.010</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>18 Del b</td>
+      <td>993.30000</td>
+      <td>2.60000</td>
+      <td>Radial Velocity</td>
+      <td>2.300</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>24 Boo b</td>
+      <td>30.35060</td>
+      <td>0.19000</td>
+      <td>Radial Velocity</td>
+      <td>0.990</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>24 Sex b</td>
+      <td>452.80000</td>
+      <td>1.33300</td>
+      <td>Radial Velocity</td>
+      <td>1.540</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>24 Sex c</td>
+      <td>883.00000</td>
+      <td>2.08000</td>
+      <td>Radial Velocity</td>
+      <td>1.540</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>30 Ari B b</td>
+      <td>335.10000</td>
+      <td>0.99500</td>
+      <td>Radial Velocity</td>
+      <td>1.220</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>4 Uma b</td>
+      <td>269.30000</td>
+      <td>0.87000</td>
+      <td>Radial Velocity</td>
+      <td>1.234</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>42 Dra b</td>
+      <td>479.10000</td>
+      <td>1.19000</td>
+      <td>Radial Velocity</td>
+      <td>0.980</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>47 Uma b</td>
+      <td>1078.00000</td>
+      <td>2.10000</td>
+      <td>Radial Velocity</td>
+      <td>1.030</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>47 Uma c</td>
+      <td>2391.00000</td>
+      <td>3.60000</td>
+      <td>Radial Velocity</td>
+      <td>1.030</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>47 Uma d</td>
+      <td>14002.00000</td>
+      <td>11.60000</td>
+      <td>Radial Velocity</td>
+      <td>1.030</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>51 Peg b</td>
+      <td>4.23080</td>
+      <td>0.05200</td>
+      <td>Radial Velocity</td>
+      <td>1.110</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>55 Cnc b</td>
+      <td>14.65314</td>
+      <td>0.11339</td>
+      <td>Radial Velocity</td>
+      <td>1.015</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>55 Cnc c</td>
+      <td>44.37300</td>
+      <td>0.23735</td>
+      <td>Radial Velocity</td>
+      <td>1.015</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>55 Cnc d</td>
+      <td>4867.00000</td>
+      <td>5.44600</td>
+      <td>Radial Velocity</td>
+      <td>1.015</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>55 Cnc f</td>
+      <td>260.91000</td>
+      <td>0.77330</td>
+      <td>Radial Velocity</td>
+      <td>1.015</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="comparing-data-with-plots">
+<h2>Comparing data with plots<a class="headerlink" href="#comparing-data-with-plots" title="Permalink to this heading">#</a></h2>
+<p>Now we can make two histograms to compare the period distribtions from the different techniques.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Primary Transit&#39;</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Primary Transit&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Orbital Period (days)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="c1">## set the y-axis to log scale so we can see the details</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/bca183f4639970de0159fab5a3eb0fb5fff74b715e1394b680c37064cdf95f25.png" src="_images/bca183f4639970de0159fab5a3eb0fb5fff74b715e1394b680c37064cdf95f25.png" />
+</div>
+</div>
+<p>This is sort of OK, but notice the width of the bins in the orange histogram compared to the blue histogram. We’ve used 20 bins for each set of data, but the period range for the transit data looks to be much smaller than for the radial velocity data.</p>
+<p>To do a meaningful comparison we should make sure the histogram bins are the same for the two plots.</p>
+<p>We can check the minimum and maxmimum values of the period using the <code class="docutils literal notranslate"><span class="pre">min()</span></code> and <code class="docutils literal notranslate"><span class="pre">max()</span></code> functions</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.07943002
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>27400.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>A (very) approximate guideline is the number of bins in a histogram is roughly <span class="math notranslate nohighlight">\(\sqrt{N}\)</span>. We can check how many objects we have in each dataset using <code class="docutils literal notranslate"><span class="pre">len()</span></code>, then use that to get an estimate of the number of bins needed.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_rad_vel</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">])</span>
+<span class="n">sqrt_rad_vel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_rad_vel</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Radial velocity: n = </span><span class="si">{</span><span class="n">n_rad_vel</span><span class="si">}</span><span class="s1">, sqrt = </span><span class="si">{</span><span class="n">sqrt_rad_vel</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Radial velocity: n = 782, sqrt = 27.96
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_transit</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Primary Transit&#39;</span><span class="p">])</span>
+<span class="n">sqrt_transit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_transit</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Primary transit: n = </span><span class="si">{</span><span class="n">n_transit</span><span class="si">}</span><span class="s1">, sqrt = </span><span class="si">{</span><span class="n">sqrt_transit</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Primary transit: n = 1267, sqrt = 35.59
+</pre></div>
+</div>
+</div>
+</div>
+<p>As <span class="math notranslate nohighlight">\(\sqrt{N_{RV}} \sim 28\)</span> and <span class="math notranslate nohighlight">\(\sqrt{N_{T}} \sim 36\)</span>, I’m going to pick something in the middle and use 30 bins. I’ll make an array for my bin edges that goes from 0 to the maxmimum value and has <code class="docutils literal notranslate"><span class="pre">nbins+1</span></code> elements. Then I can use that for the <code class="docutils literal notranslate"><span class="pre">bins</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">plt.hist</span></code>.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: <strong>np.linspace</strong> and <strong>np.arange</strong></p>
+<p>In previous sessions we’ve been using <code class="docutils literal notranslate"><span class="pre">np.arange</span></code> to get a list of numbers. An alternative function is <code class="docutils literal notranslate"><span class="pre">np.linspace</span></code>. Try out the following commands</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to see the difference. Write some notes in a markdown cell that explain the difference between the two functions.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Radial Velocity&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">planet_df</span><span class="p">[</span><span class="s1">&#39;detection_type&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Primary Transit&#39;</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">bins</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Primary Transit&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Orbital Period (days)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span> <span class="c1">## set the y-axis to log scale so we can see the details</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/24979f8f8674b6ffe314210638060b4b619dcacd5f697c80deaf029a7e2d8da7.png" src="_images/24979f8f8674b6ffe314210638060b4b619dcacd5f697c80deaf029a7e2d8da7.png" />
+</div>
+</div>
+<p>With the bins having the same width for each dataset we can be confident that there really are more planets in the first bin that were detected with the transit technique than for the radial velocity technique.</p>
+<p>The other change I made to this plot was to make the bars semi-transparent. When you plot multiple datasets on the same plot with <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> it plots them in the order you write.  This means that the second dataset is plotted over the top of the first. However, that means that some data will be hidden on the plot. If we didn’t change the transparency we wouldn’t be able to see how many radial velocity detections were in the first bin; all we’d know was that there must be less than (or equal to) the number of transit detections.</p>
+<p>The transparency is controlled by the <code class="docutils literal notranslate"><span class="pre">alpha</span></code> argument in the plotting function, where <code class="docutils literal notranslate"><span class="pre">alpha=1</span></code> corresponds to completely opaque (the default value) and <code class="docutils literal notranslate"><span class="pre">alpha=0</span></code> is completely transparent. You can play around with these values to until you have something that looks right.</p>
+<p>Remember, the point of plots is to <strong>tell a convincing story that supports your conclusions</strong>. You can’t tell a convincing story if your data can’t be seen (or if your plot doesn’t have axis labels, or units, or various other things that I will rant about over the next 3-4 years of your degree course…)</p>
+<div class="practice admonition" id="ex-mass-hist">
+<p class="admonition-title">Exercise: Mass histograms</p>
+<p>Create histograms showing the number of planets detected as a function of star mass for each detection method for stars with masses below the mass of the Sun (i.e. <span class="math notranslate nohighlight">\(M &lt;= 1 M_\odot\)</span>). Both detection methods should be shown on the same plot. Your plot should have axis labels, units, a legend and a sensible title. In a markdown cell directly below your plot, write a caption summarising the key point that a reader should take away from your figure.</p>
+<p>Repeat this (all of it, including the caption) for stars with masses between 1 <span class="math notranslate nohighlight">\(M_\odot\)</span> and 5 <span class="math notranslate nohighlight">\(M_\odot\)</span>.</p>
+<p><strong>Hint:</strong> Remember you can create a new dataframe by selecting rows/columns from an existing dataframe.</p>
+<p><a class="reference internal" href="soln_mass_hist.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+</section>
+<section id="kepler-s-3rd-law">
+<h2>Kepler’s 3rd law<a class="headerlink" href="#kepler-s-3rd-law" title="Permalink to this heading">#</a></h2>
+<p>Let’s calculate something from all this data!</p>
+<p>Kepler’s 3rd law is</p>
+<div class="math notranslate nohighlight">
+\[
+T^2 = \dfrac{4 \pi^2}{G} \dfrac{a^3}{M_*}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(T\)</span> is the orbital period, <span class="math notranslate nohighlight">\(G\)</span> is the gravitational constant, <span class="math notranslate nohighlight">\(a\)</span> is the semi-major axis and <span class="math notranslate nohighlight">\(M_*\)</span> is the mass of the host star.</p>
+<p>We’re going to make a plot of <span class="math notranslate nohighlight">\(T^2\)</span> as a function of <span class="math notranslate nohighlight">\(\dfrac{a^3}{M_*}\)</span> and do a least-squares fit to find <span class="math notranslate nohighlight">\(G\)</span>. We only want to look at objects with periods below 10,000 days and host star masses above 0.7 <span class="math notranslate nohighlight">\(M_\odot\)</span>.</p>
+<div class="practice admonition" id="ex-clean-data">
+<p class="admonition-title">Exercise: Clean your data</p>
+<p>Starting from the <code class="docutils literal notranslate"><span class="pre">planet_df</span></code> dataframe, make a new dataframe with objects with periods greater than 10,000 days or host star masses below 0.7 <span class="math notranslate nohighlight">\(M_\odot\)</span> removed. You can call the dataframe whatever you like; I’ll call mine <code class="docutils literal notranslate"><span class="pre">kepler_df</span></code>.</p>
+<p><a class="reference internal" href="soln_clean_data.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>For the next step, plotting <span class="math notranslate nohighlight">\(T^2\)</span> as a function of <span class="math notranslate nohighlight">\(\dfrac{a^3}{M_*}\)</span> and doing a least-squares fit, we could just use the dataframe as it is. But writing all that out would get complicated. Instead, we can add some new columns to our dataframe to contain the <span class="math notranslate nohighlight">\(T^2\)</span> and <span class="math notranslate nohighlight">\(\dfrac{a^3}{M_*}\)</span> values. Creating a new column is straightforward.</p>
+<p>For the <span class="math notranslate nohighlight">\(T^2\)</span> column we just set the new column <code class="docutils literal notranslate"><span class="pre">kepler_df['T_sq']</span></code> to be the <code class="docutils literal notranslate"><span class="pre">orbital_period</span></code> column squared. Again, the same process we would use if we wanted to create an array called <code class="docutils literal notranslate"><span class="pre">T_sq</span></code> that was the square of an <code class="docutils literal notranslate"><span class="pre">orbital_period</span></code> array.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kepler_df</span><span class="p">[</span><span class="s1">&#39;T_sq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kepler_df</span><span class="p">[</span><span class="s1">&#39;orbital_period&#39;</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kepler_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+      <th>T_sq</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>Radial Velocity</td>
+      <td>2.70</td>
+      <td>1.062956e+05</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>Radial Velocity</td>
+      <td>1.80</td>
+      <td>2.664831e+05</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>Radial Velocity</td>
+      <td>2.20</td>
+      <td>3.453651e+04</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>Radial Velocity</td>
+      <td>0.90</td>
+      <td>3.144948e+06</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>Radial Velocity</td>
+      <td>1.01</td>
+      <td>6.392002e+05</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>Radial Velocity</td>
+      <td>2.30</td>
+      <td>9.333025e+04</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>2.131770e+01</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>5.805064e+04</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>1.642086e+06</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>1.481372e+07</td>
+    </tr>
+  </tbody>
+</table>
+<p>1719 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="practice admonition" id="ex-add-column">
+<p class="admonition-title">Exercise: Add another column</p>
+<p>Add another new column to your <code class="docutils literal notranslate"><span class="pre">kepler_df</span></code> dataframe containing the values of <span class="math notranslate nohighlight">\(\dfrac{a^3}{M_*}\)</span>. Give the new column a sensible name. I’ll call this column <code class="docutils literal notranslate"><span class="pre">a_3_m</span></code>.</p>
+<p><a class="reference internal" href="soln_add_column.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>You should now have a dataframe that looks something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kepler_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>orbital_period</th>
+      <th>semi_major_axis</th>
+      <th>detection_type</th>
+      <th>star_mass</th>
+      <th>T_sq</th>
+      <th>a_3_m</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11 Com b</td>
+      <td>326.03000</td>
+      <td>1.2900</td>
+      <td>Radial Velocity</td>
+      <td>2.70</td>
+      <td>1.062956e+05</td>
+      <td>0.795070</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11 UMi b</td>
+      <td>516.22000</td>
+      <td>1.5400</td>
+      <td>Radial Velocity</td>
+      <td>1.80</td>
+      <td>2.664831e+05</td>
+      <td>2.029036</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>14 And b</td>
+      <td>185.84000</td>
+      <td>0.8300</td>
+      <td>Radial Velocity</td>
+      <td>2.20</td>
+      <td>3.453651e+04</td>
+      <td>0.259903</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>14 Her b</td>
+      <td>1773.40000</td>
+      <td>2.7700</td>
+      <td>Radial Velocity</td>
+      <td>0.90</td>
+      <td>3.144948e+06</td>
+      <td>23.615481</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>16 Cyg B b</td>
+      <td>799.50000</td>
+      <td>1.6800</td>
+      <td>Radial Velocity</td>
+      <td>1.01</td>
+      <td>6.392002e+05</td>
+      <td>4.694685</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3827</th>
+      <td>tau Gem b</td>
+      <td>305.50000</td>
+      <td>1.1700</td>
+      <td>Radial Velocity</td>
+      <td>2.30</td>
+      <td>9.333025e+04</td>
+      <td>0.696353</td>
+    </tr>
+    <tr>
+      <th>3828</th>
+      <td>ups And b</td>
+      <td>4.61711</td>
+      <td>0.0590</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>2.131770e+01</td>
+      <td>0.000162</td>
+    </tr>
+    <tr>
+      <th>3829</th>
+      <td>ups And c</td>
+      <td>240.93700</td>
+      <td>0.8610</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>5.805064e+04</td>
+      <td>0.502581</td>
+    </tr>
+    <tr>
+      <th>3830</th>
+      <td>ups And d</td>
+      <td>1281.43900</td>
+      <td>2.5500</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>1.642086e+06</td>
+      <td>13.056201</td>
+    </tr>
+    <tr>
+      <th>3831</th>
+      <td>ups And e</td>
+      <td>3848.86000</td>
+      <td>5.2456</td>
+      <td>Radial Velocity</td>
+      <td>1.27</td>
+      <td>1.481372e+07</td>
+      <td>113.653232</td>
+    </tr>
+  </tbody>
+</table>
+<p>1719 rows × 7 columns</p>
+</div></div></div>
+</div>
+<p>Again, this is where the markdown cells come in handy. <code class="docutils literal notranslate"><span class="pre">a_3_m</span></code> makes perfect sense to me now, but will I remember what that column corresponds to a couple of months (or hours…) from now? Probably not. So add a markdown cell with the details of what you’re doing and why when you’re adding new columns.</p>
+<p>We can now make the <span class="math notranslate nohighlight">\(T^2\)</span> vs <span class="math notranslate nohighlight">\(\dfrac{a^3}{M_*}\)</span> plot very simply using our two new columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kepler_df</span><span class="p">[</span><span class="s1">&#39;a_3_m&#39;</span><span class="p">],</span> <span class="n">kepler_df</span><span class="p">[</span><span class="s1">&#39;T_sq&#39;</span><span class="p">],</span> <span class="s1">&#39;k.&#39;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$T^2$ (days$^2$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$a^3 / M_*$ (AU$^3$ $M_{\odot}^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c8bd8d9abfcd7d75a8ec05f0c2b32211c4f096b3e2c49b64787d2cef04d96db4.png" src="_images/c8bd8d9abfcd7d75a8ec05f0c2b32211c4f096b3e2c49b64787d2cef04d96db4.png" />
+</div>
+</div>
+<p>This looks kind of how we would expect. But the units are horrible and we still need to do a least-squares fit. Let’s add some new columns to the dataframe with sensible units. We’ll need to convert the semi-major axis to m, the masses to kg and the periods to seconds. We could probably just convert the new columns we’ve just made, but doing this step by step will save your sanity in the long run.</p>
+<p>The conversions we need are:</p>
+<ul class="simple">
+<li><p>1 AU = <span class="math notranslate nohighlight">\(1.496 \times 10^{11}\)</span> m</p></li>
+<li><p>1 <span class="math notranslate nohighlight">\(M_\odot = 1.989 \times 10^{30}\)</span> kg</p></li>
+<li><p>1 d = ….. s (this is an exercise for the reader)</p></li>
+</ul>
+<div class="practice admonition" id="ex-unit-conversion">
+<p class="admonition-title">Exercise: Convert to sensible units</p>
+<p>Create three new columns for <code class="docutils literal notranslate"><span class="pre">orbital_period_sec</span></code>, <code class="docutils literal notranslate"><span class="pre">a_metres</span></code> and <code class="docutils literal notranslate"><span class="pre">mass_kg</span></code>. Use these columns to recalculate the <code class="docutils literal notranslate"><span class="pre">T_sq</span></code> and <code class="docutils literal notranslate"><span class="pre">a_3_m</span></code> columns. Replot these new columns, updating your figure to have the correct units on the axis labels.</p>
+<p><a class="reference internal" href="soln_unit_conversion.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>If everything worked correctly you should end up with a figure that looks something like this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kepler_df</span><span class="p">[</span><span class="s1">&#39;a_3_m&#39;</span><span class="p">],</span> <span class="n">kepler_df</span><span class="p">[</span><span class="s1">&#39;T_sq&#39;</span><span class="p">],</span> <span class="s1">&#39;k.&#39;</span><span class="p">,</span><span class="n">ls</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Data&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$T^2$ (s$^2$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$a^3 / M_*$ (m$^3$ kg$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ab4c7e89a61b91832e9f9c706e5e75fe91ccb399b162aaf9f3efb506f1259c2a.png" src="_images/ab4c7e89a61b91832e9f9c706e5e75fe91ccb399b162aaf9f3efb506f1259c2a.png" />
+</div>
+</div>
+<p>The last thing to do is the least-squares fit to estimate <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<div class="practice admonition" id="ex-estimate-g">
+<p class="admonition-title">Exercise: Estimate <span class="math notranslate nohighlight">\(G \pm \sigma_G\)</span></p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> to find an estimate of <span class="math notranslate nohighlight">\(G\)</span> and its uncertainty. Add the best-fit line to your plot (and your legend). Add your value for <span class="math notranslate nohighlight">\(G \pm \sigma_G\)</span> to the plot title. Tidy up your plot and write a caption in a markdown cell next to it.</p>
+<p><strong>Hint:</strong> The first time you try this you might get a really weird answer for <span class="math notranslate nohighlight">\(G\)</span>. That’s expected - you might need to give <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> a bit of help by giving it an initial guess for what the answer should be. Have a look at the <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> documentation <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">here</a> and see if there’s a way to give it an initial guess.</p>
+<p><a class="reference internal" href="soln_estimate_g.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<p>You should end up with something that looks like this:</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="_images/c57f009072784eebaf6447a6e86afc327bd59c20606748dc861afa5b2544e033.png" src="_images/c57f009072784eebaf6447a6e86afc327bd59c20606748dc861afa5b2544e033.png" />
+</div>
+</div>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>It’s <strong>essential</strong> to look at your data once you’ve read it in!</p></li>
+<li><p>Check for missing data by looking for <code class="docutils literal notranslate"><span class="pre">nan</span></code> values</p></li>
+<li><p>Keep good notes on any steps you take in the markdown cells.</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_cleaning_data.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Cleaning data with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_objects.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Python objects</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-quick-plots">Making quick plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-and-comparing-datasets">Selecting and comparing datasets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-data-with-plots">Comparing data with plots</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kepler-s-3rd-law">Kepler’s 3rd law</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

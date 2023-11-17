@@ -1,0 +1,529 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Uncertainties &#8212; C4 More `pandas` and `plt`</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '03_uncertainties';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Combining datasets with pandas" href="04_multiple_data_sets.html" />
+    <link rel="prev" title="Choosing a function" href="02_choosing_function.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="00_schedule.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">C4 More `pandas` and `plt`</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="00_schedule.html">
+                    More pandas and plt
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_excel_ranting.html">Why you should not open any of these data files in Excel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_choosing_function.html">Choosing a function</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Uncertainties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_multiple_data_sets.html">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_fancy_data_stuff.html">More fun with functions, dataframes and plotting</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/03_uncertainties.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Uncertainties</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainties-are-important">Uncertainties are important!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-uncertainties">Gaussian uncertainties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="uncertainties">
+<h1>Uncertainties<a class="headerlink" href="#uncertainties" title="Permalink to this heading">#</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<div class="questions admonition">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>Why are we talking about uncertainties again?</p></li>
+<li><p>Will Vicky ever stop talking about uncertainties?</p></li>
+</ul>
+</div>
+<div class="objectives admonition">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Find the best fit parameters and their uncertainties for the Cepheid data</p></li>
+</ul>
+</div>
+<p>In an unusual turn of events, I haven’t been hammering on about the importance of uncertainties yet in this lesson. We’re going to look at them in more detail here.</p>
+</section>
+<section id="uncertainties-are-important">
+<h2>Uncertainties are important!<a class="headerlink" href="#uncertainties-are-important" title="Permalink to this heading">#</a></h2>
+<p>Without an estimate of uncertainty, a scientific result is basically meaningless. I could tell you that the length of my dog is 2 meters. That sounds unlikely. But if I told you the length of my dog was <span class="math notranslate nohighlight">\(2 \pm 1\)</span> meters because I tried to measure him while he was moving, you’d now know how reliable my measurement was.</p>
+<p>For reference, this is the dog in question. He is not 2 m long.</p>
+<a class="reference internal image-reference" href="_images/branston_pickle.jpg"><img alt="Photo of a dog doing python" class="align-center" src="_images/branston_pickle.jpg" style="width: 400px;" /></a>
+<p>While knowing the uncertainty on the length of my dog may not be the most important thing, uncertainties are the most important thing.</p>
+<p>One example of this is measurements of the Hubble constant (the expansion rate of the Universe). There are several ways of measuring this value, each of which has its own pro’s and con’s, and it’s own uncertainties. Right now, the two main ways of measuring it (using supernovae and the cosmic microwave background) give different answers. The techniques have improved so much in the last few years that the uncertainties on each of these techniques are now very small. So small that we can confidently say that the results don’t agree with each other.</p>
+<p>The figure below shows the results from different techniques as a function of publication date. The important ones are the pink points (measured using supernovae) and the green points (the most recent measurements from the cosmic microwave background). They don’t agree!</p>
+<a class="reference internal image-reference" href="_images/cep_cmb_planck_stfc.jpg"><img alt="measurements of the Hubble constant from different experiments as a function of time" class="align-center" src="_images/cep_cmb_planck_stfc.jpg" style="width: 800px;" /></a>
+<p>There are several teams working on repeating the measurements and taking new measurements to try to resolve the problem. One reason for the difference could be that one of the measurements is wrong - there could have been a mistake in the analysis for example. But the other reason is more exciting; we can make the measurements agree if we change some of the physics that goes into the model we use to fit the data. We could have discovered something completely unexpected about how the universe evolves! <strong>BUT</strong>. Before we can claim that we’ve found some new physics, we have to be really sure that the results and their uncertainties are correct.</p>
+<p>If you want to know more about what’s happening with the Hubble constant there’s a nice article <a class="reference external" href="https://www.scientificamerican.com/article/hubble-tension-headache-clashing-measurements-make-the-universes-expansion-a-lingering-mystery/">here</a></p>
+</section>
+<section id="gaussian-uncertainties">
+<h2>Gaussian uncertainties<a class="headerlink" href="#gaussian-uncertainties" title="Permalink to this heading">#</a></h2>
+<p>We usually assume that the uncertainties follow a <strong>Gaussian distribution</strong>. For a Gaussian distribution, the probability of measuring a value <span class="math notranslate nohighlight">\(x\)</span> when the true value is <span class="math notranslate nohighlight">\(\langle x \rangle\)</span> with an uncertainty <span class="math notranslate nohighlight">\(\sigma\)</span> is shown in the figure below:</p>
+<a class="reference internal image-reference" href="_images/normal-curve.png"><img alt="A gaussian distribution with the probablities of 1, 2, and 3 sigma indicated." class="align-center" src="_images/normal-curve.png" style="width: 800px;" /></a>
+<p>What this shows is that (statistically speaking) it’s quite likely for us to measure a value that is 1.25 <span class="math notranslate nohighlight">\(\sigma\)</span> away from the “true” value. There’s approximately a 21% chance of measuring a difference greater than <span class="math notranslate nohighlight">\(\pm\)</span> 1.25 <span class="math notranslate nohighlight">\(\sigma\)</span>. <strong>Note:</strong> If you want to calculate the probability of measuring a give <span class="math notranslate nohighlight">\(\sigma\)</span> deviation you can use a statistical table, such as <a class="reference external" href="https://en.wikipedia.org/wiki/Standard_normal_table#Complementary_cumulative">this one</a>.</p>
+<p>So when is the difference significant? When would we say that the values don’t agree? It’s common in astronomy to use 3 <span class="math notranslate nohighlight">\(\sigma\)</span> as the limit for statistical significance. As the figure shows, there’s only a 0.3% chance of a measurement that is more than 3 <span class="math notranslate nohighlight">\(\sigma\)</span> away from the mean occurring by chance. So we say that a measurement is consistent if it is within 3 <span class="math notranslate nohighlight">\(\sigma\)</span> of the expected value, and discrepant if if lies further than 3 <span class="math notranslate nohighlight">\(\sigma\)</span> from the expected value.</p>
+<p>So when you’re comparing measurements you make in the lab to the “true” values, you can check if your measurement agrees statistically with the published value by checking how many <span class="math notranslate nohighlight">\(\sigma\)</span>’s away it is.</p>
+<div class="practice admonition">
+<p class="admonition-title">Exercise: Find the uncertainties on the Cepheid data</p>
+<p>Using the LMC cepheid data, fit relations between <span class="math notranslate nohighlight">\(\log_{10} P\)</span> and magnitude for both wavelengths (<code class="docutils literal notranslate"><span class="pre">mag_1</span></code> and <code class="docutils literal notranslate"><span class="pre">mag_2</span></code>).</p>
+<div class="math notranslate nohighlight">
+\[ m = a \log_{10} P + b \]</div>
+<p>Find the best fit values of <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> and their uncertainties for each wavelength. Comment on how the results compare to each other.</p>
+<p><strong>Hint:</strong> If you need a refresher on how to calculate the uncertainties in your fitted parameters, take a look at the C2 worksheet.</p>
+</div>
+<div class="practice admonition" id="ex-subplots">
+<p class="admonition-title">Exercise: Subplots</p>
+<p>We’ve been using subplots throughout these notebooks but generally only had one plot. Now we want two!</p>
+<p>Make plots of the LMC data for each wavelength. Add lines of best fit to each plot. Change the options in <code class="docutils literal notranslate"><span class="pre">subplot</span></code> to make two plots next to each other.</p>
+<p><a class="reference internal" href="soln_subplots.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+<div class="practice admonition" id="ex-lightcurve">
+<p class="admonition-title">Exercise: Fit a lightcurve</p>
+<p>Here you’re going to be looking at some of the original data on the LMC Cepheids. <a class="reference download internal" download="" href="_downloads/7f3e7de8329eb1f08321a24a43031f2a/HV00872_phot.csv"><span class="xref download myst">HV00872_phot.csv</span></a> contains the original measurements of the first Cepheid in the LMC table.</p>
+<p>In this file <code class="docutils literal notranslate"><span class="pre">phase</span></code> corresponds to the Cepheid’s pulsation phase (between 0 and 1), and the <code class="docutils literal notranslate"><span class="pre">mag</span></code> and <code class="docutils literal notranslate"><span class="pre">err</span></code> columns are now the magnitude and uncertainties at different points in the pulsation cycle.</p>
+<p>Read in the data to a dataframe. Plot magnitude as a function of phase for each wavelength.</p>
+<p>Define and fit function of the form</p>
+<div class="math notranslate nohighlight">
+\[ m = m_0 + A \sin\left(2 \pi \phi + \delta\right)\]</div>
+<p>to the data, where <span class="math notranslate nohighlight">\(m\)</span> is the magnitude, <span class="math notranslate nohighlight">\(m_0\)</span> is the average magnitude, <span class="math notranslate nohighlight">\(A\)</span> is the amplitude, <span class="math notranslate nohighlight">\(\phi\)</span> is the phase and <span class="math notranslate nohighlight">\(\delta\)</span> is a phase shift.</p>
+<p>Find the best values of <span class="math notranslate nohighlight">\(m_0\)</span> (and their uncertainties) for each wavelength. How do they compare with the values given in the LMC Cepheid table? Do they agree?</p>
+<p><strong>Note</strong>: This may appear to be a more challenging exercise at first glance, but don’t panic! You will be using the same techniques as you have for all the other fitting you’ve done, the thing that’s changing is the function you want to fit.
+<a class="reference internal" href="soln_fit_lightcurve.html"><span class="doc std std-doc">solution</span></a></p>
+</div>
+</section>
+<section id="key-points">
+<h2>Key Points<a class="headerlink" href="#key-points" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Uncertainties are important!</p></li>
+<li><p>Uncertainties tell you how believable your data is.</p></li>
+<li><p>A measurement without an uncertainty is meaningless!</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="02_choosing_function.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Choosing a function</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04_multiple_data_sets.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Combining datasets with <code class="docutils literal notranslate"><span class="pre">pandas</span></code></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uncertainties-are-important">Uncertainties are important!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-uncertainties">Gaussian uncertainties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-points">Key Points</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Vicky Scowcroft
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
